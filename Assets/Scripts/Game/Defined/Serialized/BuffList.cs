@@ -11,14 +11,27 @@ using UnityEngine;
 
 namespace Scripts.Game.Defined.Serialized.Buffs {
 
-    public class FishShook : Buff {
-        private const float ANTI_FISH_MULTIPLIER = 2;
+    public class LifeSteal : Buff {
+        private const float DEFAULT_LIFE_STEAL = 0.2f;
+        private float lifeSteal;
 
-        public FishShook()
-            : base(Util.GetSprite("fish"),
-                  "Fish-Shook",
+        public LifeSteal(float lifeSteal, bool dispellable)
+            : base(Util.GetSprite("water-drop"),
+                  "Life Steal",
                   string.Format(
-                      "Basic <color=yellow>attacks</color> against fishy targets deal {0} times damage. However, damage against non-fishy targets is reduced by the same factor.", ANTI_FISH_MULTIPLIER), false) {
+                      "Basic <color=yellow>attacks</color> restore healt by {0}% of damage dealt", lifeSteal * 100), dispellable) {
+            this.lifeSteal = lifeSteal;
+        }
+
+        public LifeSteal(float lifeSteal) : this(lifeSteal, false) {
+        }
+
+        public LifeSteal() : this(DEFAULT_LIFE_STEAL) {
+
+        }
+
+        public void SetLifeSteal(float percent) {
+            lifeSteal = percent;
         }
 
         public override bool IsReact(Spell spellToReactTo, Stats owner) {
@@ -26,7 +39,43 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
         }
 
         protected override void ReactHelper(Spell spellToReactTo, Stats owner) {
-            float localDmgMult = ANTI_FISH_MULTIPLIER;
+            SpellEffect healthDamage = null;
+            for (int i = 0; (i < spellToReactTo.Result.Effects.Count) && (healthDamage == null); i++) {
+                SpellEffect se = spellToReactTo.Result.Effects[i];
+                AddToModStat addToModStat = se as AddToModStat;
+                if (addToModStat != null && addToModStat.AffectedStat == StatType.HEALTH && addToModStat.Value < 0) {
+                    healthDamage = addToModStat;
+                }
+            }
+            if (healthDamage != null) {
+                new AddToModStat(owner, StatType.HEALTH, (int)Math.Floor(healthDamage.Value * lifeSteal));
+            }
+        }
+    }
+
+    public class FishShook : Buff {
+        private const float DEFAULT_FISH_MULT = 2;
+        private float antiFishMult;
+
+        public FishShook(float antiFishMult, bool dispellable)
+            : base(Util.GetSprite("fish"),
+                  "Fish-Shook",
+                  string.Format(
+                      "Basic <color=yellow>attacks</color> against fishy targets deal {0} times damage. However, damage against non-fishy targets is reduced by the same factor.", antiFishMult), dispellable) {
+        }
+
+        public FishShook(float antiFishMult) : this(antiFishMult, false) {
+        }
+
+        public FishShook() : this(DEFAULT_FISH_MULT) {
+        }
+
+        public override bool IsReact(Spell spellToReactTo, Stats owner) {
+            return spellToReactTo.Book is Attack && spellToReactTo.Caster.Stats == owner;
+        }
+
+        protected override void ReactHelper(Spell spellToReactTo, Stats owner) {
+            float localDmgMult = antiFishMult;
             if (spellToReactTo.Target.Look.Breed != Characters.Breed.FISH) {
                 localDmgMult = 1 / localDmgMult;
             }
@@ -40,21 +89,27 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
                 }
             }
             if (healthDamage != null) {
-                Debug.Log("Damage reduced from " + healthDamage.Value);
                 healthDamage.Value = (int)Math.Floor(healthDamage.Value * localDmgMult);
-                Debug.Log("To " + healthDamage.Value);
             }
         }
     }
 
     public class DamageResist : Buff {
-        private const float DAMAGE_MULTIPLIER = 0.7f;
+        private const float DEFAULT_DAMAGE_MULT = 0.7f;
+        private float damageMult;
 
-        public DamageResist()
+        public DamageResist(float damageMult, bool dispellable)
             : base(Util.GetSprite("round-shield"),
                   "Damage Resist",
                   String.Format("Reduces incident damage from basic attacks by {0}%.",
-                      (1 - DAMAGE_MULTIPLIER) * 100), false) { }
+                      (1 - damageMult) * 100), dispellable) {
+        }
+
+        public DamageResist(float damageMult) : this(damageMult, false){
+        }
+
+        public DamageResist() : this(DEFAULT_DAMAGE_MULT) {
+        }
 
         protected override void ReactHelper(Spell spellToReactTo, Stats owner) {
             SpellEffect healthDamage = null;
@@ -67,7 +122,7 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
             }
             if (healthDamage != null) {
                 int tempValue = healthDamage.Value;
-                healthDamage.Value = (int)Math.Floor(healthDamage.Value * DAMAGE_MULTIPLIER);
+                healthDamage.Value = (int)Math.Floor(healthDamage.Value * damageMult);
             }
         }
 

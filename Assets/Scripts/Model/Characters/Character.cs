@@ -116,7 +116,7 @@ namespace Scripts.Model.Characters {
         /// <param name="equipment">Equipment to use for this character</param>
         public Character(Stats stats, Look look, Brain brain, SpellBooks spells, Inventory inventory, Equipment equipment) {
             this.Stats = stats;
-            this.Buffs = new Buffs();
+            this.Buffs = new Buffs(stats);
             this.Brain = brain;
             this.Look = look;
             this.Spells = spells;
@@ -129,8 +129,8 @@ namespace Scripts.Model.Characters {
             Equipment.AddBuff = b => Buffs.AddBuff(b);
             Equipment.RemoveBuff = b => Buffs.RemoveBuff(RemovalType.TIMED_OUT, b);
             Stats.InitializeResources();
-            Stats.GetEquipmentBonus = f => Equipment.GetBonus(f);
-            Buffs.Stats = Stats;
+            Stats.GetFlatEquipmentBonus = f => Equipment.GetFlatStatBonus(f);
+            stats.GetMultiplicativeBuffBonus = m => Buffs.GetMultiplicativeStatBonus(m);
             this.id = idCounter++;
 
             this.effectsQueue = new Queue<GameObject>();
@@ -190,6 +190,10 @@ namespace Scripts.Model.Characters {
 
         public RectTransform RectTransform {
             get {
+                // Can't return the Func because it has to be a rectTransform
+                if (getIconRectFunc == null) {
+                    return null;
+                }
                 return getIconRectFunc();
             }
         }

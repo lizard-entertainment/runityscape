@@ -183,7 +183,7 @@ namespace Scripts.Model.Spells {
                     this.Name,
                     string.Format("{0}{1}{2}",
                         Priority == 0 ? string.Empty : string.Format("{0} priority\n", Priority.GetDescription()),
-                        Costs.Count == 0 ? string.Empty : string.Format("Costs {0}\n\n", GetCommaSeparatedCosts()),
+                        Costs.Count == 0 ? string.Empty : string.Format("Costs {0}\n", GetCommaSeparatedCosts()),
                         CreateDescriptionHelper()
                         )
                     );
@@ -219,8 +219,8 @@ namespace Scripts.Model.Spells {
         public string CreateDescription(Character caster) {
             return string.Format("{0}{1}{2}{3}",
                 CasterHasResources(caster.Stats) ? string.Empty : Util.ColorString("Insufficient resource.\n", Color.red),
-                Priority == 0 ? string.Empty : string.Format("{0} priority", Priority.GetDescription()),
-                Costs.Count == 0 ? string.Empty : string.Format("\nCosts {0}\n\n", GetCommaSeparatedCosts(caster.Stats)),
+                Priority == 0 ? string.Empty : string.Format("{0} priority\n", Priority.GetDescription()),
+                Costs.Count == 0 ? string.Empty : string.Format("Costs {0}\n", GetCommaSeparatedCosts(caster.Stats)),
                 CreateDescriptionHelper()
                 );
         }

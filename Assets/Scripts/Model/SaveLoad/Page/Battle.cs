@@ -153,7 +153,7 @@ namespace Scripts.Model.Pages {
         }
 
         public static void DoPageTransition(Page destination) {
-            Main.Instance.Title.Play(destination.Sprite, string.Format("{0}", destination.Location), () => destination.Invoke());
+            Main.Instance.Title.Play(destination.Sprite, string.Format("{0}", destination.Location.Replace(" - ", "\n")), () => destination.Invoke());
             Main.Instance.Sound.PlaySound("Steps_0");
         }
 

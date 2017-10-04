@@ -13,6 +13,7 @@ namespace Scripts.Model.Items {
     /// </summary>
     /// <seealso cref="Scripts.Model.Items.Item" />
     public abstract class UseableItem : Item {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UseableItem"/> class.
         /// </summary>
@@ -26,6 +27,4 @@ namespace Scripts.Model.Items {
             flags.Add(Flag.OCCUPIES_SPACE);
         }
     }
-
 }
-

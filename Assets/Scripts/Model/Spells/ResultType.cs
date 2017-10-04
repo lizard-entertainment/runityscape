@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 
 namespace Scripts.Model.Spells {
+
     /// <summary>
     /// Various types of results associated with a spell
     /// </summary>
     public sealed class ResultType {
+
         /// <summary>
         /// The text
         /// </summary>
@@ -22,18 +24,22 @@ namespace Scripts.Model.Spells {
         /// The hit
         /// </summary>
         public static readonly ResultType HIT = new ResultType("");
+
         /// <summary>
         /// The critical
         /// </summary>
-        public static readonly ResultType CRITICAL = new ResultType("\nA critical strike!");
+        public static readonly ResultType CRITICAL = new ResultType("\nIt's a critical!");
+
         /// <summary>
         /// The miss
         /// </summary>
         public static readonly ResultType MISS = new ResultType("\nBut it misses!");
+
         /// <summary>
         /// The failed
         /// </summary>
-        public static readonly ResultType FAILED = new ResultType("\nBut it failed!");
+        public static readonly ResultType FAILED = new ResultType("\nBut it fails!");
+
         /// <summary>
         /// The successful results
         /// </summary>

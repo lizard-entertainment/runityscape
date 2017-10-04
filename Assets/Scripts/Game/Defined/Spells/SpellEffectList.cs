@@ -127,6 +127,20 @@ namespace Scripts.Game.Defined.Spells {
         }
     }
 
+    public class LearnSpellEffect : SpellEffect {
+        private SpellBook spellToLearn;
+        private SpellBooks learner;
+
+        public LearnSpellEffect(SpellBooks learner, SpellBook spellToLearn) : base(1) {
+            this.spellToLearn = spellToLearn;
+            this.learner = learner;
+        }
+
+        public override void CauseEffect() {
+            learner.AddSpellBook(spellToLearn);
+        }
+    }
+
     /// <summary>
     /// Equips an item
     /// </summary>
@@ -382,6 +396,28 @@ namespace Scripts.Game.Defined.Spells {
                 clone.AddFlag(Model.Characters.Flag.IS_CLONE);
                 currentPage.AddCharacters(side, clone);
             }
+        }
+    }
+
+    /// <summary>
+    /// Increases inventory capacity.
+    /// </summary>
+    /// <seealso cref="Scripts.Model.Spells.SpellEffect" />
+    public class IncreaseInventoryCapacityEffect : SpellEffect {
+        private Inventory target;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IncreaseInventoryCapacityEffect"/> class.
+        /// </summary>
+        /// <param name="target">The target inventory to increases.</param>
+        /// <param name="amountToIncreaseInventoryBy">The amount to increase inventory by.</param>
+        public IncreaseInventoryCapacityEffect(Inventory target, int amountToIncreaseInventoryBy)
+            : base(amountToIncreaseInventoryBy) {
+            this.target = target;
+        }
+
+        public override void CauseEffect() {
+            target.Capacity += Value;
         }
     }
 

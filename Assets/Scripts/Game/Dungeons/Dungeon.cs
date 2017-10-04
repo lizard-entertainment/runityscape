@@ -95,7 +95,7 @@ namespace Scripts.Game.Dungeons {
                 if (i == 0) {
                     location = Root.Location;
                 } else {
-                    location = string.Format("{0}\n{1}", Root.Location, i);
+                    location = string.Format("{0} - {1}", Root.Location, i);
                 }
 
                 Battle battle = new Battle(
@@ -125,7 +125,7 @@ namespace Scripts.Game.Dungeons {
         /// <param name="battles">The battles in the dungeon to track.</param>
         /// <returns></returns>
         private Page GetResults(Page destination, Battle[] battles) {
-            Page results = new Page(string.Format("{0}\n{1}", Root.Location, "Results"));
+            Page results = new Page(string.Format("{0} - {1}", Root.Location, "Cleared"));
             results.Actions = new IButtonable[] { new Process("Return", () => Battle.DoPageTransition(destination)) };
             results.OnEnter = () => {
                 results.AddText(new TextBox(string.Format(

@@ -12,21 +12,30 @@ using UnityEngine;
 
 namespace Scripts.Game.Defined.Characters {
 
-    public static class FieldNPCs {
+    public static class RuinsNPCs {
 
-        public static Shop AppleDealer(Page previous, Flags flags, Party party) {
+        public static Shop RuinsShop(Page previous, Flags flags, Party party) {
             return new Shop(
                 previous,
-                "Apples",
+                "Desecrated Shop",
                 flags,
                 party,
                 0.5f,
                 1f,
                 Villager())
-                .AddTalks(new Talk("Test", "<a>Buy some apples."))
                 .AddTalks(new Talk("Shield", "<a>A fine wooden shield, complete with a steel band around the rim."))
                 .AddTalks(new Talk("Test", "<a>A sturdy fish hook, best for fighting fish."))
-                .AddBuys(new Buy(new Apple()), new Buy(new Shield()), new Buy(new FishHook()), new Buy(new RegenerationArmor()));
+                .AddBuys(
+                    new Apple(),
+                    new IdentifyScroll(),
+                    new RevivalSeed(),
+                    new CrushingBlowTome(),
+                    new HealTome(),
+                    new DefendTome(),
+                    new RegenArmor()
+                    )
+                .AddBuys(new Buy(new Inventory1x6())
+                .AddPitch("The 6Pack series of backpack expanders can increase your inventory size up to 6! A perfect option for the packrat in your life."));
         }
 
         public static Character Villager() {
@@ -69,20 +78,6 @@ namespace Scripts.Game.Defined.Characters {
                 .AddSpells(new SetupCounter());
         }
 
-        public static Character BlackShuck() {
-            return CharacterUtil.StandardEnemy(
-                new Stats(3, 10, 2, 2, 10),
-                new Look(
-                    "Black Shuck",
-                    "spectre",
-                    "Its growl sends a shiver down your spine",
-                    Breed.BEAST
-                    ),
-                new BlackShuck())
-                .AddStats(new Skill())
-                .AddSpells(new SetupCounter());
-        }
-
         public static Character Wizard() {
             return CharacterUtil.StandardEnemy(
                 new Stats(3, 1, 1, 2, 3),
@@ -109,15 +104,15 @@ namespace Scripts.Game.Defined.Characters {
                     ),
                 new Healer())
                 .AddItem(new Money(), Util.RandomRange(5, 15))
-                .AddSpells(new Heal());
+                .AddSpells(new EnemyHeal());
         }
 
         public static Character Illusionist() {
             return CharacterUtil.StandardEnemy(
-                new Stats(3, 2, 3, 8, 15),
+                new Stats(3, 4, 10, 8, 20),
                 new Look(
                     "Illusionist",
-                    "spectre",
+                    "illusionist",
                     "A wicked master of illusions.",
                     Breed.SPIRIT
                     ),
@@ -127,7 +122,7 @@ namespace Scripts.Game.Defined.Characters {
 
         public static Look ReplicantLook() {
             return new Look(
-                    "Xirdneth",
+                    "Xird'neth",
                     "replicant",
                     "Its form is incomprehensible.",
                     Breed.UNKNOWN,
@@ -147,25 +142,12 @@ namespace Scripts.Game.Defined.Characters {
 
         public static Character Replicant() {
             return CharacterUtil.StandardEnemy(
-                new Stats(10, 2, 5, 10, 30),
+                new Stats(5, 5, 5, 10, 30),
                 ReplicantDisguisedLook(),
                 new Replicant()
                 )
             .AddFlags(Model.Characters.Flag.PERSISTS_AFTER_DEFEAT)
             .AddSpells(new ReflectiveClone(), new RevealTrueForm());
-        }
-
-        public static Character SharkPirate() {
-            return CharacterUtil.StandardEnemy(
-                new Stats(12, 1, 6, 8, 35),
-                new Look(
-                    "Cap'n Shark",
-                    "pirate-shark",
-                    "Fierce captain of shark crew",
-                    Breed.FISH
-                    ),
-                new Attacker())
-                .AddItem(new Money(), Util.RandomRange(5, 15));
         }
     }
 }

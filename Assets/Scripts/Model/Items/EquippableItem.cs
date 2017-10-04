@@ -28,7 +28,7 @@ namespace Scripts.Model.Items {
         /// <summary>
         /// The stat bonuses of this item.
         /// </summary>
-        private readonly IDictionary<StatType, int> statBonuses;
+        private readonly IDictionary<StatType, int> flatStatBonuses;
 
         private readonly SpellBook book;
 
@@ -43,7 +43,7 @@ namespace Scripts.Model.Items {
         public EquippableItem(Sprite sprite, EquipType type, int basePrice, string name, string description)
             : base(sprite, basePrice, TargetType.SINGLE_ALLY, name, description) {
             this.Type = type;
-            this.statBonuses = new SortedDictionary<StatType, int>();
+            this.flatStatBonuses = new SortedDictionary<StatType, int>();
             this.book = new CastEquipItem(this);
         }
 
@@ -59,19 +59,26 @@ namespace Scripts.Model.Items {
 
         public ReadOnlyDictionary<StatType, int> StatBonuses {
             get {
-                return new ReadOnlyDictionary<StatType, int>(statBonuses);
+                return new ReadOnlyDictionary<StatType, int>(flatStatBonuses);
             }
         }
 
         protected sealed override string DescriptionHelper {
             get {
-                string[] arr = new string[statBonuses.Count];
+                string[] arr = new string[flatStatBonuses.Count];
 
                 int index = 0;
-                foreach (KeyValuePair<StatType, int> pair in statBonuses) {
+                foreach (KeyValuePair<StatType, int> pair in flatStatBonuses) {
                     arr[index++] = string.Format("{0} {1}", StatUtil.ShowSigns(pair.Value), pair.Key.ColoredName);
                 }
-                return string.Format("{0}\n{1}\n{2}", Type.Name, string.Join("\n", arr), Util.ColorString(Flavor, Color.grey));
+
+                Buff possibleBuff = CreateBuff();
+
+                return string.Format("{0}\n{1}\n{2}{3}",
+                    Type.Name,
+                    string.Join("\n", arr),
+                    possibleBuff == null ? string.Empty : string.Format("<color=lime>On equip:</color> {0}\n", possibleBuff.Description),
+                    Util.ColorString(Flavor, Color.grey));
             }
         }
 
@@ -108,10 +115,11 @@ namespace Scripts.Model.Items {
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="amount">The amount.</param>
-        protected void AddStatBonus(StatType type, int amount) {
+        protected void AddFlatStatBonus(StatType type, int amount) {
             Util.Assert(StatType.ASSIGNABLES.Contains(type), "StatType must be assignable.");
+            Util.Assert(!flatStatBonuses.ContainsKey(type), "Type already included.");
             Util.Assert(amount != 0, "Amount must be nonzero.");
-            statBonuses[type] = amount;
+            flatStatBonuses[type] = amount;
         }
 
         /// <summary>

@@ -142,6 +142,10 @@ namespace Scripts.Model.Items {
             this.inventory = inventory;
         }
 
+        protected override bool IsMeetOtherCastRequirements(Character caster, Character target) {
+            return true;
+        }
+
         protected override bool IsMeetItemCastRequirements(Character caster, Character target) {
             return caster.Inventory.HasItem(item);
         }

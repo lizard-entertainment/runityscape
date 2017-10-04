@@ -73,7 +73,7 @@ namespace Scripts.Model.Items {
         ///   <c>true</c> if caster can use the item on target; otherwise, <c>false</c>.
         /// </returns>
         protected override bool IsMeetOtherRequirements(Character caster, Character target) {
-            return true;
+            return target.Stats.State == State.ALIVE;
         }
 
         protected sealed override string DescriptionHelper {

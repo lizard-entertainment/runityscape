@@ -40,7 +40,7 @@ namespace Scripts.Model.Spells {
         }
 
         protected sealed override string CreateDescriptionHelper() {
-            return CreateBuffDescription(dummy);
+            return CreateBuffDescription(this.TargetType, dummy);
         }
 
         /// <summary>
@@ -48,9 +48,10 @@ namespace Scripts.Model.Spells {
         /// </summary>
         /// <param name="buff">Buff to create a description for.</param>
         /// <returns>Descriptive buff tooltip</returns>
-        public static string CreateBuffDescription(Buff buff) {
+        public static string CreateBuffDescription(TargetType target, Buff buff) {
             return string.Format(
-                "Target is affected by\n\n<color=cyan>{0}</color>\n{1}\nLasts {2} turns.",
+                "{0} is affected by <color=cyan>{1}</color>.\n{2}\nLasts {3} turns.",
+                target.Name,
                 buff.Name,
                 buff.Description,
                 buff.DurationText

@@ -68,7 +68,7 @@ namespace Scripts.Model.Stats {
                                                                     "Mana",
                                                                     "water-drop",
                                                                     "Magical resources.",
-                                                                    Color.blue);
+                                                                    Color.cyan);
 
         public static readonly StatType CHARGE = new StatType(BoundType.RESOURCE,
                                                                       "Charge",
@@ -187,6 +187,10 @@ namespace Scripts.Model.Stats {
 
         public int CompareTo(StatType other) {
             return this.order.CompareTo(other.order);
+        }
+
+        public int Clamp(int amountToBeClamped) {
+            return Mathf.Clamp(amountToBeClamped, Bounds.Low, Bounds.High);
         }
 
         public StatTypeSave GetSaveObject() {

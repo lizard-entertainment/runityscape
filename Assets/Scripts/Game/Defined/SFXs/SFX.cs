@@ -112,7 +112,10 @@ namespace Scripts.Game.Defined.SFXs {
         public static IEnumerator DoSteamEffect(IPortraitable portrait, Color color) {
             ExplosionView ev = ObjectPoolManager.Instance.Get(EffectsManager.Instance.SteamBurst);
             ev.Play();
+            ev.Color = color;
             portrait.ParentToEffects(ev.gameObject);
+            yield return new WaitUntil(() => portrait.RectTransform != null);
+            Main.Instance.StartCoroutine(Shake(portrait.RectTransform, 100, 0.5f));
             yield return new WaitUntil(() => ev.IsDone);
             ObjectPoolManager.Instance.Return(ev);
         }

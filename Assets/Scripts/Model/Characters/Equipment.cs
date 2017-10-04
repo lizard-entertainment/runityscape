@@ -95,6 +95,7 @@ namespace Scripts.Model.Characters {
             foreach (KeyValuePair<StatType, int> pair in equippableItem.StatBonuses) {
                 Util.Assert(StatType.ASSIGNABLES.Contains(pair.Key), "Invalid stat type on equipment.");
                 this.statBonuses[pair.Key] += pair.Value;
+                AddSplat(new SplatDetails(pair.Key, pair.Value));
             }
         }
 
@@ -118,7 +119,9 @@ namespace Scripts.Model.Characters {
 
             foreach (KeyValuePair<StatType, int> pair in itemToRemove.StatBonuses) {
                 Util.Assert(StatType.ASSIGNABLES.Contains(pair.Key), "Invalid stat type on equipment.");
-                this.statBonuses[pair.Key] -= pair.Value;
+                int amountToRestore = -pair.Value;
+                this.statBonuses[pair.Key] += amountToRestore;
+                AddSplat(new SplatDetails(pair.Key, amountToRestore));
             }
         }
 
@@ -136,7 +139,7 @@ namespace Scripts.Model.Characters {
         /// </summary>
         /// <param name="type">The type of stat to get the bonus for.</param>
         /// <returns>The equipment bonus for type</returns>
-        public int GetBonus(StatType type) {
+        public int GetFlatStatBonus(StatType type) {
             return statBonuses.ContainsKey(type) ? statBonuses[type] : 0;
         }
 

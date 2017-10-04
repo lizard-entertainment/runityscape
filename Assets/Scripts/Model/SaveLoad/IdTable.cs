@@ -101,12 +101,14 @@ namespace Scripts.Model.SaveLoad {
             Add<InflictPoison>("inflictpoison");
             Add<Check>("checkSpell");
             Add<SetupCounter>("setupCounter");
-            Add<Heal>("heal");
+            Add<EnemyHeal>("heal");
             Add<ReflectiveClone>("reflectiveClone");
             Add<Blackout>("blackout");
             Add<RevealTrueForm>("revealTrueForm");
             Add<Ignite>("ignite");
             Add<CrushingBlow>("crushingBlow");
+            Add<PlayerHeal>("playerHeal");
+            Add<SetupDefend>("setupDefend");
         }
 
         private void Items() {
@@ -116,8 +118,17 @@ namespace Scripts.Model.SaveLoad {
             Add<GhostArmor>("ghostArmor");
             Add<BrokenSword>("ghostSword");
             Add<Shield>("shield");
-            Add<RegenerationArmor>("regenArmor");
+            Add<RegenArmor>("regenArmor");
             Add<FishHook>("fishHook");
+            Add<SilverBoot>("silverBoot");
+            Add<Wand>("wand");
+            Add<MadnessStaff>("madnessStaff");
+            Add<IdentifyScroll>("identifyScroll");
+            Add<RevivalSeed>("revivalSeed");
+            Add<CheckTome>("checkTome");
+            Add<CrushingBlowTome>("crushTome");
+            Add<HealTome>("healTome");
+            Add<DefendTome>("defendTome");
         }
 
         private void Buffs() {
@@ -131,8 +142,11 @@ namespace Scripts.Model.SaveLoad {
             Add<DamageResist>("damageResist");
             Add<Ignited>("ignitedDebuff");
             Add<Insight>("insight");
-            Add<Restore>("restore");
+            Add<RegenerateHealth>("restore");
+            Add<StrengthBoost>("strengthBoost");
             Add<FishShook>("fishShook");
+            Add<Defend>("defend");
+            Add<RegenerateMana>("regenMana");
         }
 
         private void Brains() {

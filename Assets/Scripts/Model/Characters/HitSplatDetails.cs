@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Scripts.Model.Stats;
+using UnityEngine;
 
 namespace Scripts.Model.Characters {
 
@@ -20,6 +21,20 @@ namespace Scripts.Model.Characters {
             this.Color = color;
             this.Text = text;
             this.Sprite = sprite;
+        }
+
+        public SplatDetails(StatType type, int amount) {
+            Color color = Color.grey;
+            if (amount < 0) {
+                color = Color.red;
+            } else if (amount > 0) {
+                color = Color.green;
+            } else {
+                color = Color.grey;
+            }
+            this.Color = color;
+            this.Sprite = type.Sprite;
+            this.Text = Util.Sign(amount);
         }
     }
 }

@@ -203,6 +203,11 @@ namespace Scripts.Model.SaveLoad.SaveObjects {
         public List<StatBonusSave> EquipmentBonuses;
 
         /// <summary>
+        /// The buff bonuses, also used for spoofing.
+        /// </summary>
+        public List<StatBonusSave> BuffBonuses;
+
+        /// <summary>
         /// The level
         /// </summary>
         public int Level;
@@ -226,10 +231,17 @@ namespace Scripts.Model.SaveLoad.SaveObjects {
         /// <param name="baseStats">The stats.</param>
         /// <param name="buffBonus">The stat bonus.</param>
         /// <param name="equipmentBonuses">The equipment bonuses.</param>
-        public CharacterStatsSave(int resourceVisibility, int level, int unassignedStatPoints, List<StatSave> baseStats, List<StatBonusSave> equipmentBonuses) {
+        public CharacterStatsSave(
+            int resourceVisibility,
+            int level,
+            int unassignedStatPoints,
+            List<StatSave> baseStats,
+            List<StatBonusSave> equipmentBonuses,
+            List<StatBonusSave> buffBonuses) {
             this.ResourceVisibility = resourceVisibility;
             this.BaseStats = baseStats;
             this.EquipmentBonuses = equipmentBonuses;
+            this.BuffBonuses = buffBonuses;
             this.Level = level;
             this.UnassignedStatPoints = unassignedStatPoints;
         }
@@ -658,11 +670,17 @@ namespace Scripts.Model.SaveLoad.SaveObjects {
         public List<BuffSave> BuffSaves;
 
         /// <summary>
+        /// The stat bonus saves
+        /// </summary>
+        public List<StatBonusSave> StatBonusSaves;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CharacterBuffsSave"/> class.
         /// </summary>
         /// <param name="buffSaves">The buff saves.</param>
-        public CharacterBuffsSave(List<BuffSave> buffSaves) {
+        public CharacterBuffsSave(List<BuffSave> buffSaves, List<StatBonusSave> statBonusSaves) {
             this.BuffSaves = buffSaves;
+            this.StatBonusSaves = statBonusSaves;
         }
 
         /// <summary>

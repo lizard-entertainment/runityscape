@@ -1,4 +1,5 @@
 ﻿using Scripts.Game.Defined.Characters;
+using Scripts.Game.Defined.Serialized.Buffs;
 using Scripts.Game.Defined.Serialized.Spells;
 using Scripts.Model.Characters;
 using Scripts.Model.Spells;
@@ -22,7 +23,7 @@ namespace Scripts.Game.Serialized.Brains {
 
     public class Healer : PriorityBrain {
         public static readonly Attack ATTACK = new Attack();
-        public static readonly Heal HEAL = new Heal();
+        public static readonly EnemyHeal HEAL = new EnemyHeal();
 
         protected override IList<Func<IPlayable>> SetupPriorityPlays() {
             return new Func<IPlayable>[] {
@@ -56,37 +57,20 @@ namespace Scripts.Game.Serialized.Brains {
 
         public override string StartOfRoundDialogue() {
             if (currentBattle.TurnCount == 0) {
-                return "Stand and deliver!";
-            }
-            return string.Empty;
-        }
-    }
-
-    public class BlackShuck : PriorityBrain {
-        public static readonly SetupCounter COUNTER = new SetupCounter();
-        public static readonly Attack ATTACK = new Attack();
-
-        protected override IList<Func<IPlayable>> SetupPriorityPlays() {
-            return new Func<IPlayable>[] {
-                    CastOnRandom(COUNTER),
-                    CastOnRandom(ATTACK)
-                };
-        }
-
-        public override string StartOfRoundDialogue() {
-            if (currentBattle.TurnCount == 0) {
-                return "It barks menacingly at you";
+                return Util.PickRandom("Stand and deliver!/You will go further!/Stop right there!");
             }
             return string.Empty;
         }
     }
 
     public class Illusionist : PriorityBrain {
+        public static readonly Attack ATTACK = new Attack();
         public static readonly Blackout BLACKOUT = new Blackout();
 
         protected override IList<Func<IPlayable>> SetupPriorityPlays() {
             return new Func<IPlayable>[] {
-                    CastOnRandom(BLACKOUT)
+                    CastOnTargetMeetingCondition(BLACKOUT, c => !c.Buffs.HasBuff<BlackedOut>()),
+                    CastOnRandom(ATTACK)
                 };
         }
     }

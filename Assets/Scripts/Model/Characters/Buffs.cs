@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Collections;
 using Scripts.Model.SaveLoad.SaveObjects;
 using Scripts.Model.SaveLoad;
+using Scripts.Model.Stats;
 
 namespace Scripts.Model.Characters {
 
@@ -23,11 +24,6 @@ namespace Scripts.Model.Characters {
     public class Buffs : IEnumerable<Buff>, ISaveable<CharacterBuffsSave> {
 
         /// <summary>
-        /// Set in character.
-        /// </summary>
-        public Stats Stats;
-
-        /// <summary>
         /// Adds a splat detailing something about the buff.
         /// </summary>
         public Action<SplatDetails> AddSplat;
@@ -37,12 +33,25 @@ namespace Scripts.Model.Characters {
         /// </summary>
         private HashSet<Buff> set;
 
+        /// <summary>
+        /// Stats of the owner character.
+        /// </summary>
+        private Stats ownerStats;
+
+        /// <summary>
+        /// The percentage stat bonuses. Int is used to avoid rounding errors.
+        /// 1 = 1% multiplier, -1 = 99% multiplier.
+        /// </summary>
+        private IDictionary<StatType, int> percentageStatBonuses;
+
         // Temporary fields used in serializable, will be null otherwise
         private List<Character> partyMembers;
 
         private bool isSetupTempFieldsBefore;
 
-        public Buffs() {
+        public Buffs(Stats ownerStats) {
+            this.ownerStats = ownerStats;
+            SetupStatBonusDict();
             set = new HashSet<Buff>(new IdNumberEqualityComparer<Buff>());
             this.AddSplat = (a => { });
         }
@@ -63,8 +72,12 @@ namespace Scripts.Model.Characters {
         /// <param name="buff">Buff to add.</param>
         public void AddBuff(Buff buff) {
             Util.Assert(buff.BuffCaster != null, "Buff's caster is null.");
-            buff.OnApply(Stats);
+            buff.OnApply(ownerStats);
             set.Add(buff);
+            foreach (KeyValuePair<StatType, int> statBonus in buff) {
+                AddStatBonus(statBonus.Key, statBonus.Value);
+                AddSplat(new SplatDetails(statBonus.Key, statBonus.Value));
+            }
             AddSplat(new SplatDetails(Color.green, string.Format("+"), buff.Sprite));
         }
 
@@ -76,11 +89,11 @@ namespace Scripts.Model.Characters {
         public void RemoveBuff(RemovalType type, Buff buff) {
             switch (type) {
                 case RemovalType.TIMED_OUT:
-                    buff.OnTimeOut(Stats);
+                    buff.OnTimeOut(ownerStats);
                     break;
 
                 case RemovalType.DISPEL:
-                    buff.OnDispell(Stats);
+                    buff.OnDispell(ownerStats);
                     break;
 
                 default:
@@ -90,6 +103,11 @@ namespace Scripts.Model.Characters {
 
             // Remove if possible
             if (buff.IsDispellable || type == RemovalType.TIMED_OUT) {
+                foreach (KeyValuePair<StatType, int> statBonus in buff) {
+                    int amountToRecover = -statBonus.Value;
+                    AddStatBonus(statBonus.Key, amountToRecover);
+                    AddSplat(new SplatDetails(statBonus.Key, amountToRecover));
+                }
                 set.Remove(buff);
                 AddSplat(new SplatDetails(Color.red, string.Format("-"), buff.Sprite));
             }
@@ -127,14 +145,17 @@ namespace Scripts.Model.Characters {
         /// </summary>
         /// <returns>Serializable object with all the buffs being held.</returns>
         public CharacterBuffsSave GetSaveObject() {
-            return new CharacterBuffsSave(set.Select(b => b.GetSaveObject()).ToList());
+            return new CharacterBuffsSave(
+                set.Select(b => b.GetSaveObject()).ToList(),
+                percentageStatBonuses.Select(statBonus => new StatBonusSave(statBonus.Key.GetSaveObject(), statBonus.Value)).ToList()
+                );
         }
 
         /// <summary>
         /// Check set equality
         /// </summary>
         /// <param name="obj">Object to check</param>
-        /// <returns>True if sets have equal buffs.</returns>
+        /// <returns>True if sets have equal buffs and stats.</returns>
         public override bool Equals(object obj) {
             var item = obj as Buffs;
 
@@ -142,7 +163,9 @@ namespace Scripts.Model.Characters {
                 return false;
             }
 
-            return new HashSet<Buff>(set).SetEquals(new HashSet<Buff>(item.set));
+            return
+                new HashSet<Buff>(set).SetEquals(new HashSet<Buff>(item.set))
+                && Util.IsDictionariesEqual<StatType, int>(percentageStatBonuses, item.percentageStatBonuses);
         }
 
         /// <summary>
@@ -161,7 +184,28 @@ namespace Scripts.Model.Characters {
             foreach (BuffSave bs in saveObject.BuffSaves) {
                 set.Add(CharacterBuffsSave.SetupBuffCasterFromSave(bs, partyMembers));
             }
+            foreach (StatBonusSave statSave in saveObject.StatBonusSaves) {
+                percentageStatBonuses[statSave.StatType.Restore()] = statSave.Bonus;
+            }
             partyMembers = null;
+        }
+
+        /// <summary>
+        /// Gets the stat multiplier.
+        /// </summary>
+        /// <param name="type">The type of stat to get.</param>
+        /// <returns>
+        /// Gets the stat multiplier as an int to avoid rounding issues.
+        ///
+        /// Stat should be affected as follows:
+        /// Stat * (100 + MultiplicativeBonus) / 100
+        /// </returns>
+        public int GetMultiplicativeStatBonus(StatType type) {
+            int amount = 0;
+            if (percentageStatBonuses.ContainsKey(type)) {
+                amount = percentageStatBonuses[type];
+            }
+            return amount;
         }
 
         /// <summary>
@@ -172,6 +216,19 @@ namespace Scripts.Model.Characters {
             Util.Assert(!isSetupTempFieldsBefore, "This function is only callable once when the object is being loaded.");
             this.partyMembers = partyMembers;
             isSetupTempFieldsBefore = true;
+        }
+
+        private void SetupStatBonusDict() {
+            this.percentageStatBonuses = new Dictionary<StatType, int>();
+            foreach (StatType assignable in StatType.ASSIGNABLES) {
+                percentageStatBonuses[assignable] = 0;
+            }
+        }
+
+        private void AddStatBonus(StatType type, int amount) {
+            Util.Assert(percentageStatBonuses.ContainsKey(type), "Non-assignable type: " + type);
+            Util.Assert(amount != 0, "Must add a non-zero amount.");
+            percentageStatBonuses[type] += amount;
         }
     }
 }

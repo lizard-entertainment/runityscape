@@ -99,7 +99,7 @@ namespace Scripts.Model.Items {
         ///   <c>true</c> if the item is usable; otherwise, <c>false</c>.
         /// </returns>
         public bool IsUsable(Character caster, Character target) {
-            return caster.Stats.State == Characters.State.ALIVE;
+            return caster.Stats.State == Characters.State.ALIVE && IsMeetOtherRequirements(caster, target);
         }
 
         /// <summary>

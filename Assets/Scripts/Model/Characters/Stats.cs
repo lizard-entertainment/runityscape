@@ -2,7 +2,6 @@
 using Scripts.Model.SaveLoad;
 using Scripts.Model.SaveLoad.SaveObjects;
 using Scripts.Model.Stats;
-using Scripts.Presenter;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -67,9 +66,14 @@ namespace Scripts.Model.Characters {
         private const int MINIMUM_RESTORE_AMOUNT = 1;
 
         /// <summary>
-        /// Gets the equipment bonus of a stat from the equipment.
+        /// Gets the FLAT stat bonus from the equipment.
         /// </summary>
-        public Func<StatType, int> GetEquipmentBonus;
+        public Func<StatType, int> GetFlatEquipmentBonus;
+
+        /// <summary>
+        /// Gets the MULTIPLICATIVE stat bonus from the buffs.
+        /// </summary>
+        public Func<StatType, int> GetMultiplicativeBuffBonus;
 
         /// <summary>
         /// Add a splat function
@@ -116,7 +120,8 @@ namespace Scripts.Model.Characters {
             this.AddSplat = (a => { });
             SetDefaultStats();
             SetDefaultResources();
-            GetEquipmentBonus = (st) => 0;
+            GetFlatEquipmentBonus = (st) => 0;
+            GetMultiplicativeBuffBonus = (st) => 0;
         }
 
         /// <summary>
@@ -190,11 +195,12 @@ namespace Scripts.Model.Characters {
                 List<string> resources = new List<string>();
                 List<string> other = new List<string>();
                 foreach (KeyValuePair<StatType, Stat> pair in baseStats) {
-                    string s = string.Format("{0} {1}/{2} {3}",
+                    string s = string.Format("{0} {1}/{2} {3} {4}",
                         pair.Key.ColoredName,
                         pair.Value.Mod,
                         pair.Value.Max,
-                        StatType.ASSIGNABLES.Contains(pair.Key) ? string.Format("({0})", Util.Sign(GetEquipmentBonus(pair.Key))) : string.Empty
+                        GetFlatEquipmentBonus(pair.Key) == 0 ? string.Empty : Util.Sign(GetFlatEquipmentBonus(pair.Key)),
+                        GetMultiplicativeBuffBonus(pair.Key) == 0 ? string.Empty : Util.Sign(GetMultiplicativeBuffBonus(pair.Key)) + "%"
                         );
                     if (StatType.ASSIGNABLES.Contains(pair.Key)) {
                         assignables.Add(s);
@@ -350,19 +356,6 @@ namespace Scripts.Model.Characters {
         }
 
         /// <summary>
-        /// Gets the stat percentage.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns></returns>
-        public float GetStatPercentage(StatType type) {
-            if (HasStat(type) && GetStatCount(Get.MAX, type) > 0) {
-                return ((float)GetStatCount(Get.MOD, type)) / GetStatCount(Get.MAX, type);
-            } else {
-                return 0;
-            }
-        }
-
-        /// <summary>
         /// Gets the stat count.
         /// </summary>
         /// <param name="type">The type.</param>
@@ -375,13 +368,17 @@ namespace Scripts.Model.Characters {
                 if (HasStat(st)) {
                     Stat stat;
                     baseStats.TryGetValue(st, out stat);
+
+                    int amountToAddToSum = 0;
                     if (type == Get.MOD) {
-                        sum += stat.Mod;
+                        amountToAddToSum += stat.Mod;
                     } else if (type == Get.TOTAL) {
-                        sum += (stat.Mod + GetEquipmentBonus(st));
+                        amountToAddToSum += (int)((stat.Mod + GetFlatEquipmentBonus(st)) * GetStatMultiplierFromBuffs(st));
                     } else if (type == Get.MAX) {
-                        sum += stat.Max;
+                        amountToAddToSum += stat.Max;
                     }
+
+                    sum += st.Clamp(amountToAddToSum);
                 }
             }
             return sum;
@@ -416,7 +413,9 @@ namespace Scripts.Model.Characters {
                 Util.IsDictionariesEqual<StatType, Stat>(this.baseStats, item.baseStats)
                 && this.resourceVisibility.Equals(item.resourceVisibility)
                 && this.Level.Equals(item.Level)
-                && this.UnassignedStatPoints.Equals(item.UnassignedStatPoints);
+                && this.UnassignedStatPoints.Equals(item.UnassignedStatPoints)
+                && StatType.ASSIGNABLES.All(st => this.GetFlatEquipmentBonus(st) == item.GetFlatEquipmentBonus(st))
+                && StatType.ASSIGNABLES.All(st => this.GetMultiplicativeBuffBonus(st) == item.GetMultiplicativeBuffBonus(st));
         }
 
         /// <summary>
@@ -463,8 +462,8 @@ namespace Scripts.Model.Characters {
         /// <param name="missingPercentage">The missing percentage.</param>
         public void RestoreResourcesByMissingPercentage(float missingPercentage) {
             foreach (StatType type in StatType.RESTORED) {
-                int missing = (int)((GetStatCount(Stats.Get.MAX, type) - GetStatCount(Stats.Get.MOD, type)) * missingPercentage);
-                int restoreAmount = Mathf.Max(missing, MINIMUM_RESTORE_AMOUNT);
+                int missing = (GetStatCount(Stats.Get.MAX, type) - GetStatCount(Stats.Get.MOD, type));
+                int restoreAmount = Mathf.Max((int)(missing * missingPercentage), MINIMUM_RESTORE_AMOUNT);
                 if (missing > 0) {
                     AddToStat(type, Stats.Set.MOD, restoreAmount);
                 }
@@ -498,6 +497,10 @@ namespace Scripts.Model.Characters {
             this.AddStat(new Health(0, 0));
         }
 
+        private float GetStatMultiplierFromBuffs(StatType type) {
+            return (100f + GetMultiplicativeBuffBonus(type)) / 100f;
+        }
+
         /// <summary>
         /// Gets the enumerator.
         /// </summary>
@@ -528,9 +531,15 @@ namespace Scripts.Model.Characters {
 
             List<StatBonusSave> equipmentBonuses = new List<StatBonusSave>();
             foreach (StatType st in StatType.AllTypes) {
-                equipmentBonuses.Add(new StatBonusSave(st.GetSaveObject(), GetEquipmentBonus(st)));
+                equipmentBonuses.Add(new StatBonusSave(st.GetSaveObject(), GetFlatEquipmentBonus(st)));
             }
-            return new CharacterStatsSave(this.resourceVisibility, this.Level, this.UnassignedStatPoints, baseStatistics, equipmentBonuses);
+
+            List<StatBonusSave> buffBonuses = new List<StatBonusSave>();
+            foreach (StatType st in StatType.AllTypes) {
+                buffBonuses.Add(new StatBonusSave(st.GetSaveObject(), GetMultiplicativeBuffBonus(st)));
+            }
+
+            return new CharacterStatsSave(this.resourceVisibility, this.Level, this.UnassignedStatPoints, baseStatistics, equipmentBonuses, buffBonuses);
         }
 
         /// <summary>
@@ -548,17 +557,25 @@ namespace Scripts.Model.Characters {
             }
 
             /**
-             * If we're spoofing the stats for a nonparty member, we want to include the equipment bonuses too,
-             * Otherwise buffs that scale off of mod + equip will have the equip portion be 0
-             * Example: DOT that deals damage based on caster's strength. Caster has a +10 strength sword and casts it on a party member
+             * If we're spoofing the stats for a nonparty member, we want to include the equipment and buff bonuses too,
+             * Otherwise buffs that scale off of mod + equip will have the bonus portion be 0
+             * Example: DOT that deals damage based on caster's strength. Caster has a +10 strength sword, +10 strength from buffs and casts it on a party member
              * After a save, we want to maintain the strength bonus.
              */
             if (isSpoofed) {
+                // Spoof equipment bonuses
                 IDictionary<StatType, int> spoofedEquipment = new Dictionary<StatType, int>();
                 foreach (StatBonusSave save in saveObject.EquipmentBonuses) {
                     spoofedEquipment.Add(save.StatType.Restore(), save.Bonus);
                 }
-                GetEquipmentBonus = (st => spoofedEquipment[st]);
+                GetFlatEquipmentBonus = (st => spoofedEquipment[st]);
+
+                // Spoof buff bonuses
+                IDictionary<StatType, int> spoofedBuffs = new Dictionary<StatType, int>();
+                foreach (StatBonusSave save in saveObject.BuffBonuses) {
+                    spoofedBuffs.Add(save.StatType.Restore(), save.Bonus);
+                }
+                GetMultiplicativeBuffBonus = (st => spoofedBuffs[st]);
             }
             isDoneIniting = true;
         }

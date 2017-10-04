@@ -147,6 +147,7 @@ namespace Scripts.Model.SaveLoad {
             Add<FishShook>("fishShook");
             Add<Defend>("defend");
             Add<RegenerateMana>("regenMana");
+            Add<LifeSteal>("lifeSteal");
         }
 
         private void Brains() {

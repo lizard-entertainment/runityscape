@@ -32,7 +32,7 @@ namespace Scripts.Game.Defined.Serialized.Items {
 
     public class SilverBoot : EquippableItem {
 
-        public SilverBoot() : base(EquipType.WEAPON, 50, "Silver Boot", "A boot made of silver. Makes for a poor weapon.") {
+        public SilverBoot() : base(EquipType.WEAPON, 50, "Silver Boot", "I'm not really sure why you'd use it as a weapon, but I guess you can.") {
             AddFlatStatBonus(StatType.STRENGTH, 1);
             AddFlatStatBonus(StatType.AGILITY, -10);
         }

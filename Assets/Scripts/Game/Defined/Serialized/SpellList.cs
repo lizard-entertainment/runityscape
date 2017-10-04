@@ -125,9 +125,14 @@ namespace Scripts.Game.Defined.Serialized.Spells {
     }
 
     public class EnemyHeal : BasicSpellbook {
-        private const int HEALING_AMOUNT = 10;
+        private const int DEFAULT_HEAL_AMT = 10;
+        private int healingAmount;
 
-        public EnemyHeal() : base("Heal", Util.GetSprite("health-normal"), TargetType.SINGLE_ALLY, SpellType.BOOST, PriorityType.HIGH) {
+        public EnemyHeal(int healAmt) : base("Heal", Util.GetSprite("health-normal"), TargetType.SINGLE_ALLY, SpellType.BOOST, PriorityType.HIGH) {
+            healingAmount = healAmt;
+        }
+
+        public EnemyHeal() : this(DEFAULT_HEAL_AMT) {
         }
 
         protected override string CreateDescriptionHelper() {
@@ -136,7 +141,7 @@ namespace Scripts.Game.Defined.Serialized.Spells {
 
         protected override IList<SpellEffect> GetHitEffects(Page page, Character caster, Character target) {
             return new SpellEffect[] {
-                new AddToModStat(target.Stats, StatType.HEALTH, HEALING_AMOUNT)
+                new AddToModStat(target.Stats, StatType.HEALTH, healingAmount)
             };
         }
 

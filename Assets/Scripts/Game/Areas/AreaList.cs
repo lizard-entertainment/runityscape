@@ -100,6 +100,17 @@ namespace Scripts.Game.Areas {
                             () => new Encounter[] {
                                 new Encounter(OceanNPCs.SharkPirate())
                             }),
+                        new BattleStage(
+                            "Pupper!",
+                            () => new Encounter[] {
+                                new Encounter(OceanNPCs.BlackShuck()),
+                                new Encounter(OceanNPCs.SharkPirate(), OceanNPCs.BlackShuck())
+                            }),
+                        new BattleStage(
+                            "Time to get smart",
+                            () => new Encounter[] {
+                                new Encounter(OceanNPCs.Fishy(), OceanNPCs.Fishy(), OceanNPCs.Fishy(), OceanNPCs.Fishy(), OceanNPCs.Fishy())
+                            }),
                     },
                     new PageGroup[] { RuinsNPCs.RuinsShop(camp, flags, party) }
                 );

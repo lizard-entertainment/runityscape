@@ -15,19 +15,12 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
         private const float DEFAULT_LIFE_STEAL = 0.2f;
         private float lifeSteal;
 
-        public LifeSteal(float lifeSteal, bool dispellable)
+        public LifeSteal()
             : base(Util.GetSprite("water-drop"),
                   "Life Steal",
                   string.Format(
-                      "Basic <color=yellow>attacks</color> restore healt by {0}% of damage dealt", lifeSteal * 100), dispellable) {
-            this.lifeSteal = lifeSteal;
-        }
-
-        public LifeSteal(float lifeSteal) : this(lifeSteal, false) {
-        }
-
-        public LifeSteal() : this(DEFAULT_LIFE_STEAL) {
-
+                      "Basic <color=yellow>attacks</color> restore healt by {0}% of damage dealt", DEFAULT_LIFE_STEAL * 100), false) {
+            this.lifeSteal = DEFAULT_LIFE_STEAL;
         }
 
         public void SetLifeSteal(float percent) {
@@ -57,19 +50,14 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
         private const float DEFAULT_FISH_MULT = 2;
         private float antiFishMult;
 
-        public FishShook(float antiFishMult, bool dispellable)
+        public FishShook()
             : base(Util.GetSprite("fish"),
                   "Fish-Shook",
                   string.Format(
-                      "Basic <color=yellow>attacks</color> against fishy targets deal {0} times damage. However, damage against non-fishy targets is reduced by the same factor.", antiFishMult), dispellable) {
+                      "Basic <color=yellow>attacks</color> against fishy targets deal {0} times damage. However, damage against non-fishy targets is reduced by the same factor.", DEFAULT_FISH_MULT), false) {
+            antiFishMult = DEFAULT_FISH_MULT;
         }
-
-        public FishShook(float antiFishMult) : this(antiFishMult, false) {
-        }
-
-        public FishShook() : this(DEFAULT_FISH_MULT) {
-        }
-
+        
         public override bool IsReact(Spell spellToReactTo, Stats owner) {
             return spellToReactTo.Book is Attack && spellToReactTo.Caster.Stats == owner;
         }
@@ -98,17 +86,12 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
         private const float DEFAULT_DAMAGE_MULT = 0.7f;
         private float damageMult;
 
-        public DamageResist(float damageMult, bool dispellable)
+        public DamageResist()
             : base(Util.GetSprite("round-shield"),
                   "Damage Resist",
                   String.Format("Reduces incident damage from basic attacks by {0}%.",
-                      (1 - damageMult) * 100), dispellable) {
-        }
-
-        public DamageResist(float damageMult) : this(damageMult, false){
-        }
-
-        public DamageResist() : this(DEFAULT_DAMAGE_MULT) {
+                      (1 - DEFAULT_DAMAGE_MULT) * 100), false) {
+            damageMult = DEFAULT_DAMAGE_MULT;
         }
 
         protected override void ReactHelper(Spell spellToReactTo, Stats owner) {

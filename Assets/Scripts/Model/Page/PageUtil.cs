@@ -325,9 +325,11 @@ namespace Scripts.Model.Pages {
             Item item = spellable as Item;
             if (item != null && item.HasFlag(Items.Flag.OCCUPIES_SPACE)) {
                 SpellBook tossItem = new TossItem(item, caster.Inventory);
+                Util.Log(tossItem.Name + tossItem.HasFlag(Spells.Flag.USABLE_OUT_OF_COMBAT));
+                Util.Log("isInBattle? " + current.IsInBattle);
                 grid.List.Add(
                     new Process(
-                        string.Format("Drop"),
+                        string.Format("Toss"),
                         string.Format("Throw away {0}.", item.Name),
                         () => {
                             spellHandler(

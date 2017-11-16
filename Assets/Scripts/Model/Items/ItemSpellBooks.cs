@@ -151,5 +151,9 @@ namespace Scripts.Model.Items {
         protected override bool IsMeetItemCastRequirements(Character caster, Character target) {
             return caster.Inventory.HasItem(item);
         }
+
+        protected sealed override bool IsOverride() {
+            return true;
+        }
     }
 }

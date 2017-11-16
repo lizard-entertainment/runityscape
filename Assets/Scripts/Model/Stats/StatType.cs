@@ -213,7 +213,7 @@ namespace Scripts.Model.Stats {
 
         public void DeductCostFromCharacter(int amount, Character unitToDeductFrom) {
             Util.Assert(CanAfford(amount, unitToDeductFrom));
-            unitToDeductFrom.Stats.AddToStat(this, Characters.Stats.Set.MOD, amount);
+            unitToDeductFrom.Stats.AddToStat(this, Characters.Stats.Set.MOD, -amount);
         }
 
         public string GetName() {

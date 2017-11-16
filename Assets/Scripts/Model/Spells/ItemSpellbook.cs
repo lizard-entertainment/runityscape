@@ -56,9 +56,8 @@ namespace Scripts.Model.Spells {
         /// </returns>
         protected override sealed bool IsMeetOtherCastRequirements(IPage current, Character caster, Character target) {
             return
-                (item.IsUsable(caster, target)
-                && IsMeetItemCastRequirements(caster, target))
-                || IsOverride();
+                (item.IsUsable(caster, target) || IsOverride())
+                && IsMeetItemCastRequirements(caster, target);
         }
 
         /// <summary>

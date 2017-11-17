@@ -153,7 +153,7 @@ namespace Scripts.Game.Pages {
                     Music.RUINS,
                     "Battle Tutorial",
                     new Character[] { CharacterList.Hero(name) },
-                    new Character[] { CharacterList.TrainingDummy() },
+                    new Character[] { Other.TrainingDummy() },
                     true,
                     false
                 );

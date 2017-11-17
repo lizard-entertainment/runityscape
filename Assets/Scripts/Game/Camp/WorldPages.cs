@@ -23,8 +23,8 @@ namespace Scripts.Game.Pages {
         /// <param name="previous">The previous.</param>
         /// <param name="flags">The flags.</param>
         /// <param name="party">The party.</param>
-        public WorldPages(Page previous, Flags flags, Party party) : base(new Page("Areas")) {
-            Root.Body = "Which area would you like to go to?";
+        public WorldPages(Page previous, Flags flags, Party party) : base(new Page("Worlds")) {
+            Root.Body = "Which world would you like to go to?";
             Root.Icon = Util.GetSprite("journey");
             Root.Condition = PageUtil.GetVisitProcessCondition(flags, party);
             IList<IButtonable> buttons = new List<IButtonable>();

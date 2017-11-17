@@ -48,10 +48,10 @@ namespace Scripts.Game.Shopkeeper {
                 maxCapacityThatCanBeUpgradedTo),
                 () => {
                     inventory.Capacity += INVENTORY_UPGRADE_AMOUNT;
-                    current.AddText(string.Format("Inventory capacity upgraded to {0}.\n{1}", inventory.Capacity, inventory.WealthText));
                     if (!Util.IS_DEBUG) {
                         inventory.Remove(new Money(), pricePerUpgrade);
                     }
+                    current.AddText(string.Format("Inventory capacity upgraded to {0}.\n{1}", inventory.Capacity, inventory.WealthText));
                 },
                 () => IsInventoryUpgradable(inventory.Capacity) && (Util.IS_DEBUG || inventory.HasItem(new Money(), pricePerUpgrade))
                 );

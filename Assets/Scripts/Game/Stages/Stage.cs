@@ -65,7 +65,6 @@ namespace Scripts.Game.Stages {
                 } else if (!IsLastStageInTheGame(stageIndex, areaTotalStageCount, type)) {
                     AreaType[] types = Util.EnumAsArray<AreaType>();
                     AreaType nextArea = types[((int)type + 1) % types.Length];
-                    flags.CurrentArea = nextArea;
                     flags.LastClearedArea = type;
                     flags.LastClearedStage = Flags.NO_STAGES_CLEARED;
                 }

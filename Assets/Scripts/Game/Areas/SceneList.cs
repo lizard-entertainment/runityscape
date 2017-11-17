@@ -7,7 +7,7 @@ namespace Scripts.Game.Stages {
     // SceneStages go here to avoid gunking up AreaList.
     public static class SceneList {
 
-        public static SceneStage Example(Party party) {
+        public static SceneStage RuinsIntro(Party party) {
             Page page = new Page("Example Location");
             page.AddCharacters(Side.LEFT, party); // Party members on the left
             return new SceneStage(page, "Stage Name",

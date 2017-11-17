@@ -56,7 +56,7 @@ namespace Scripts.Game.Defined.Characters {
                     new Stats(20, 8, 5, 1, 50),
                     new Look("Spectre",
                              "villager lab",
-                             "A not-so-innocent villager.",
+                             "A villager who fights for the collective.",
                              Breed.SPIRIT),
                     new Attacker()
                     )
@@ -68,7 +68,7 @@ namespace Scripts.Game.Defined.Characters {
                     new Stats(12, 12, 8, 5, 75),
                     new Look("Enforcer",
                              "knight lab",
-                             "Augmented knight.",
+                             "A knight who trained in judo throws. Not because they left their sword at home or anything.",
                              Breed.SPIRIT),
                     new LabKnight()
                     )
@@ -79,7 +79,7 @@ namespace Scripts.Game.Defined.Characters {
             public static Character Darkener() {
                 return CharacterUtil.StandardEnemy(
                     new Stats(12, 5, 20, 15, 50),
-                    new Look("Darkener", "illusionist lab", "Powerful illusionist.", Breed.SPIRIT),
+                    new Look("Darkener", "illusionist lab", "Still sleeps with a night light.", Breed.SPIRIT),
                     new Illusionist()
                     )
                     .AddSpells(new Blackout())
@@ -99,7 +99,7 @@ namespace Scripts.Game.Defined.Characters {
                         new Stats(12, 4, 20, 20, 80),
                         new Look("Warlock",
                                  "wizard lab",
-                                 "Magical madman.",
+                                 "Conjures catnip for stray cats on their days off.",
                                  Breed.SPIRIT),
                         new Warlock()
                     ).AddSpells(new Inferno())
@@ -110,9 +110,9 @@ namespace Scripts.Game.Defined.Characters {
             public static Character Cleric() {
                 return CharacterUtil.StandardEnemy(
                         new Stats(12, 4, 20, 20, 40),
-                        new Look("Cultist",
+                        new Look("Cleric",
                                  "white-mage lab",
-                                 "Healer from Hell.",
+                                 "Secretly really likes Satan (not to be confused with seitan).",
                                  Breed.SPIRIT),
                         new Cleric()
                     ).AddSpells(new SetupDefend(), new PlayerHeal())
@@ -125,8 +125,8 @@ namespace Scripts.Game.Defined.Characters {
                     new Stats(15, 15, 10, 10, 120),
                     new Look(
                         name,
-                        sprite,
-                        "One of a pair of knights known for their determination.",
+                        sprite
+                        "One of a pair of knights filled with DETERMINATION",
                         Breed.SPIRIT
                         ),
                     new LabBigKnight()
@@ -174,7 +174,7 @@ namespace Scripts.Game.Defined.Characters {
                         new Look(
                             "Lasher",
                             "tentacle lab",
-                            "Tentacle belonging to a Leviathan.",
+                            "Hugging instrument belonging to a Leviathan.",
                             Breed.FISH
                             ),
                         new Attacker()
@@ -194,7 +194,7 @@ namespace Scripts.Game.Defined.Characters {
                         new Look(
                             "Leviathan",
                             "kraken lab",
-                            "Even bigger squid thing.",
+                            "It's lonely; It really just wants a hug.",
                             Breed.FISH
                             ),
                         new Kraken()
@@ -212,7 +212,7 @@ namespace Scripts.Game.Defined.Characters {
                     new Look(
                         "Hellemental",
                         "elemental lab",
-                        "Sea elemental.",
+                        "A heroic sea elemental.",
                         Breed.FISH
                         ),
                     new Elemental())
@@ -228,7 +228,7 @@ namespace Scripts.Game.Defined.Characters {
                         new Look(
                             "Hellhound",
                             "shuck lab",
-                            "Cursed lab canine.",
+                            "Its tune is actually pretty catchy.",
                             Breed.BEAST
                             ),
                         new DreadSinger())
@@ -244,7 +244,7 @@ namespace Scripts.Game.Defined.Characters {
                     new Look(
                         "Myriad",
                         "swarm lab",
-                        "Questionable member of the sea that travels in schools.",
+                        "Just trying to get an eduation.",
                         Breed.FISH
                         ),
                     new Swarm())

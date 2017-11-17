@@ -127,7 +127,7 @@ namespace Scripts.Game.Serialized.Brains {
     }
 
     public class Kraken : PriorityBrain {
-        private const int TURNS_BETWEEN_TENTACLE_SUMMONS = 8;
+        private const int TURNS_BETWEEN_TENTACLE_SUMMONS = 6;
         private const float LOW_HEALTH_PERCENTAGE = 0.50f;
 
         protected override IList<Spell> GetPriorityPlays() {

@@ -12,8 +12,6 @@ namespace Scripts.View.Sounds {
     public class SoundView : MonoBehaviour {
         private const string MUSIC_PREFIX = "Music/";
         private const string SOUND_PREFIX = "Sounds/";
-        private const float SOUND_VOLUME = 0.50f;
-        private const float MUSIC_VOLUME = 0.30f;
 
         public IDictionary<string, AudioClip> Sound { get; private set; }
 
@@ -47,7 +45,7 @@ namespace Scripts.View.Sounds {
             loopHolder.StopAllSounds();
             ClipView clip = ObjectPoolManager.Instance.Get<ClipView>(clipPrefab);
             clip.Clip = Sound[resourceLocation];
-            clip.Volume = MUSIC_VOLUME;
+            clip.Volume = PlayerPrefs.GetFloat(VolumeControl.MUSIC_VOLUME_KEY, VolumeControl.DEFAULT_MUSIC_VOLUME);
             loopHolder.Add(clip);
         }
 
@@ -87,7 +85,7 @@ namespace Scripts.View.Sounds {
         private IEnumerator PlayThenDestroy(string resourceLocation) {
             ClipView clip = ObjectPoolManager.Instance.Get<ClipView>(clipPrefab);
             clip.Clip = Sound[resourceLocation];
-            clip.Volume = SOUND_VOLUME;
+            clip.Volume = PlayerPrefs.GetFloat(VolumeControl.SFX_VOLUME_KEY, VolumeControl.DEFAULT_SFX_VOLUME);
             oneShotHolder.Add(clip);
             while (clip.IsPlaying) {
                 yield return null;

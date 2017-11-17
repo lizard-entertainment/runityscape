@@ -189,6 +189,12 @@ namespace Scripts.Game.Defined.Characters {
                 .AddStats(new Skill());
             return c;
         }
+    }
+}
+
+namespace Scripts.Game.Undefined.Characters {
+
+    public static class Other {
 
         public static Character TrainingDummy() {
             return CharacterUtil.StandardEnemy(
@@ -204,9 +210,6 @@ namespace Scripts.Game.Defined.Characters {
                 .AddSpells(new SelfDestruct());
         }
     }
-}
-
-namespace Scripts.Game.Undefined.Characters {
 
     public class CreditsDummy : Character {
 

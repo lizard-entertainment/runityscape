@@ -52,7 +52,6 @@ namespace Scripts.Game.Areas {
             return new Area(
                 AreaType.RUINS,
                     new Stage[] {
-                        SceneList.JavaCrypt1(party),
                         new BattleStage(
                             "Start of adventure",
                             () => new Encounter[] {
@@ -76,7 +75,6 @@ namespace Scripts.Game.Areas {
                             () => new Encounter[] {
                                 new Encounter(Music.BOSS, RuinsNPCs.Healer(), RuinsNPCs.BigKnight(), RuinsNPCs.Healer())
                             }),
-                        SceneList.JavaCrypt2(party),
                         new BattleStage(
                             "Ancient Magicks",
                             () => new Encounter[] {
@@ -104,8 +102,7 @@ namespace Scripts.Game.Areas {
                             "The Replicant",
                             () => new Encounter[] {
                                 new Encounter(Music.CREEPY, RuinsNPCs.Healer(), RuinsNPCs.Replicant(), RuinsNPCs.Healer())
-                            }),
-                        SceneList.JavaCrypt3(party),
+                            })
                     },
                     new PageGroup[] { RuinsNPCs.RuinsShop(camp, flags, party), RuinsNPCs.RuinsTrainer(camp, party), RuinsNPCs.RuinsMaster(camp, party) }
                 );
@@ -115,7 +112,6 @@ namespace Scripts.Game.Areas {
             return new Area(
                     AreaType.SEA_WORLD,
                     new Stage[] {
-                        SceneList.ObjectiveSea1(party),
                         new BattleStage(
                             "Welcome to the ocean",
                             () => new Encounter[] {
@@ -164,7 +160,6 @@ namespace Scripts.Game.Areas {
                             () => new Encounter[] {
                                 new Encounter(Music.BOSS, OceanNPCs.SharkPirate())
                             }),
-                        SceneList.ObjectiveSea2(party)
                     },
                     new PageGroup[] { OceanNPCs.OceanShop(camp, flags, party), OceanNPCs.OceanTrainer(camp, party), OceanNPCs.OceanMaster(camp, party) }
                 );
@@ -173,7 +168,6 @@ namespace Scripts.Game.Areas {
         private static Area EvilLabs(Flags flags, Party party, Page camp, Page quests) {
             return new Area(AreaType.LAB,
                 new Stage[] {
-                    SceneList.Labs1(party),
                     new BattleStage(
                         "Adventure's End",
                         () => new Encounter[] {
@@ -229,7 +223,6 @@ namespace Scripts.Game.Areas {
                             new Encounter(LabNPCs.Ocean.Shark(), LabNPCs.Ocean.Shark(), LabNPCs.Ocean.Shark(), LabNPCs.Ocean.Swarm(), LabNPCs.Ocean.Swarm(), LabNPCs.Ocean.Swarm()),
                             new Encounter(LabNPCs.Ocean.Siren(), LabNPCs.Ocean.Siren(), LabNPCs.Ocean.DreadSinger(), LabNPCs.Ocean.Elemental())
                         }),
-                    SceneList.Labs2(party),
                     new BattleStage(
                         "System's Exit",
                         () => new Encounter[] {
@@ -237,7 +230,6 @@ namespace Scripts.Game.Areas {
                             new Encounter(Music.FINAL_STAGE, LabNPCs.Final.PartnerClone()),
                             new Encounter(Music.FINAL_BOSS, LabNPCs.Final.HeroClone(), LabNPCs.Final.PartnerClone())
                         }),
-                    SceneList.Labs3(party),
                     Ending()
                 },
                 new PageGroup[] { LabNPCs.Trainer(camp, party) }
@@ -248,8 +240,8 @@ namespace Scripts.Game.Areas {
             Page ending = new Page("An Ending");
             SceneStage stage = new SceneStage(ending, "Ending",
                 new TextAct("Wow really, this is the ending?"),
-                new TextAct("Umm, okay. Here's the credits."),
-                new PageChangeAct(new CreditsPages(new Menus().Root).Root)
+                new TextAct("Umm, okay. Here's the credits. Just kidding, I know that you didn't save."),
+                new TextAct("Just go to the credits on your own time, OK?")
                 );
             return stage;
         }

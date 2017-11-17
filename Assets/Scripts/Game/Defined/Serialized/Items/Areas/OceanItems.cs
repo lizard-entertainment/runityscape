@@ -59,7 +59,7 @@ namespace Scripts.Game.Defined.Serialized.Items {
 
     public class ShellArmor : EquippableItem {
 
-        public ShellArmor() : base("turtle-shell", EquipType.OFFHAND, 200, "Shell Armor", "Shell from an endangered species.") {
+        public ShellArmor() : base("turtle-shell", EquipType.OFFHAND, 500, "Shell Armor", "Shell from an endangered species.") {
             AddFlatStatBonus(StatType.VITALITY, 10);
         }
 

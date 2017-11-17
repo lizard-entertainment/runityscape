@@ -87,7 +87,10 @@ namespace Scripts.Model.Spells {
                     SpellEffect se = mySE;
                     se.CauseEffect();
                 }
-                possibleCharacterDialogue = Battle.CharacterDialogue(current, this.target, this.target.Brain.ReactToSpell(this));
+                IList<string> possibleDialogue = new List<string>();
+                if (caster != target) { // Avoid self reactions
+                    possibleCharacterDialogue = Battle.CharacterDialogue(current, this.target, this.target.Brain.ReactToSpell(this));
+                }
             } else {
                 // Unplayable due to cast requirements becoming failed AFTER target selection due to a spellcast before this one
                 // e.g the target died

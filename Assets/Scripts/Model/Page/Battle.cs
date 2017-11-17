@@ -82,7 +82,7 @@ namespace Scripts.Model.Pages {
         /// <param name="location">Location of the battle</param>
         /// <param name="left">Characters on the left in battle</param>
         /// <param name="right">Characters on the right in battle</param>
-        public Battle(Page defeat, Page victory, Music music, string location, IEnumerable<Character> left, IEnumerable<Character> right, bool isUseTransition = false) : base(location) {
+        public Battle(Page defeat, Page victory, Music music, string location, IEnumerable<Character> left, IEnumerable<Character> right, bool isUseTransition = false, bool isFleeable = true) : base(location) {
             this.wasExperienceGiven = false;
             this.loot = new Dictionary<Item, int>();
             this.leftGraveyard = new HashSet<Character>(new IdentityEqualityComparer<Character>());
@@ -99,9 +99,14 @@ namespace Scripts.Model.Pages {
             foreach (Character c in right) {
                 Right.Add(c);
             }
-            SetupTempSpells();
+            if (isFleeable) {
+                SetupTempSpells();
+            }
             this.charactersChargingSpells = new Dictionary<Character, Spell>(new IdNumberEqualityComparer<Character>());
             OnEnter += () => {
+                if (!isFleeable) {
+                    AddText("Can't flee this battle!");
+                }
                 if (!IsResolved) {
                     Presenter.Main.Instance.StartCoroutine(startBattle());
                 } else {

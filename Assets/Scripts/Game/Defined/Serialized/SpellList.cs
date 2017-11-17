@@ -411,6 +411,22 @@ namespace Scripts.Game.Defined.Serialized.Spells {
 /// </summary>
 namespace Scripts.Game.Defined.Unserialized.Spells {
 
+    public class SelfDestruct : BasicSpellbook {
+
+        public SelfDestruct() : base("Self Destruct", Util.GetSprite("skull-crack"), TargetType.SELF, SpellType.OFFENSE) {
+        }
+
+        protected override string CreateDescriptionHelper() {
+            return "End your existence.";
+        }
+
+        protected override IList<SpellEffect> GetHitEffects(Page page, Character caster, Character target) {
+            return new SpellEffect[] {
+                new AddToModStat(target.Stats, StatType.HEALTH, -target.Stats.GetStatCount(Stats.Get.TOTAL, StatType.HEALTH))
+            };
+        }
+    }
+
     public class SetupCounter : BuffAdder<Counter> {
 
         public SetupCounter() : base(TargetType.SELF, SpellType.DEFENSE, "Counter", PriorityType.LOW) {

@@ -110,7 +110,7 @@ namespace Scripts.Game.Pages {
                 "Confirm",
                 () => {
                     this.name = Get(NEW_GAME).Input;
-                    TutorialPage(name);
+                    UITutorialPage(name);
                     Get(UI_TUTORIAL).Invoke();
                 },
                 () => 2 <= Get(NEW_GAME).Input.Length && Get(NEW_GAME).Input.Length <= 10)
@@ -120,7 +120,7 @@ namespace Scripts.Game.Pages {
             page.HasInputField = true;
         }
 
-        private void TutorialPage(string name) {
+        private void UITutorialPage(string name) {
             Page hotkeys = Get(UI_TUTORIAL);
             hotkeys.HasInputField = true;
             hotkeys.Body = "BUTTON INPUT\nUse the mouse or keyboard to interact with buttons! You will see a character near the bottom right of a button if you can use hotkeys.\n\nTOOLTIPS\nJust about everything you can see in this game has a tooltip (including some textboxes)! Hover your mouse over an element to learn more about the element.";
@@ -135,7 +135,7 @@ namespace Scripts.Game.Pages {
                 new Process("Advance!",
                     "This button will become enabled when you type the password into the input field. Did you check the textbox?",
                     () => {
-                            new IntroPages(name).Invoke();
+                            BattleTutorial(name).Invoke();
                         },
                     () => hotkeys.Input.Equals(SECRET_PASSWORD)),
                 new Process("Back",
@@ -143,6 +143,22 @@ namespace Scripts.Game.Pages {
                             Get(NEW_GAME).Invoke();
                     })
             };
+        }
+
+        private Battle BattleTutorial(string name) {
+            IntroPages destination = new IntroPages(name);
+            Battle battle = new Battle(
+                    destination.Root,
+                    destination.Root,
+                    Music.RUINS,
+                    "Battle Tutorial",
+                    new Character[] { CharacterList.Hero(name) },
+                    new Character[] { CharacterList.TrainingDummy() },
+                    true,
+                    false
+                );
+            battle.Icon = Util.GetSprite("white-book");
+            return battle;
         }
     }
 }

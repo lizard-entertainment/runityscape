@@ -13,6 +13,15 @@ namespace Scripts.Model.Pages {
         [Description("Pixel River")]
         NORMAL,
 
+        [Description("Pixel River")]
+        RUINS,
+
+        [Description("Drowned Settlement")]
+        WATER,
+
+        [Description("at the end of hope")]
+        LAB,
+
         [Description("enchanted tiki 86")]
         BOSS,
 

@@ -99,7 +99,7 @@ namespace Scripts.Model.Acts {
         /// <param name="postActions">Actions to do after the acts are done playing.</param>
         /// <returns></returns>
         public static IEnumerator SetupSceneRoutine(Act[] acts, Action[] postActions) {
-            Grid grid = new Grid(string.Empty);
+            SubGrid grid = new SubGrid(string.Empty);
             Main.Instance.PagePresenter.Override = grid;
 
             bool isSkipAll = false;
@@ -428,8 +428,8 @@ namespace Scripts.Model.Acts {
             input.gameObject.SetActive(true);
             input.Request = text;
             bool isInputConfirmed = false;
-            Grid inputGrid = new Grid("input");
-            Grid oldGrid = Main.Instance.PagePresenter.Override;
+            SubGrid inputGrid = new SubGrid("input");
+            SubGrid oldGrid = Main.Instance.PagePresenter.Override;
 
             Main.Instance.PagePresenter.Override = inputGrid;
 

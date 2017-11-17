@@ -36,6 +36,8 @@ namespace Scripts.Game.Serialized {
     /// <seealso cref="Scripts.Model.SaveLoad.ISaveable{Scripts.Model.SaveLoad.SaveObjects.FlagsSave}" />
     [Serializable]
     public class Flags : ISaveable<FlagsSave> {
+        public const int NO_STAGES_CLEARED = -1;
+
         public TimeOfDay Time;
         public int DayCount;
         public AreaType CurrentArea;
@@ -49,6 +51,7 @@ namespace Scripts.Game.Serialized {
         public Flags() {
             this.LastClearedArea = AreaType.NONE;
             this.CurrentArea = AreaType.RUINS;
+            this.LastClearedStage = NO_STAGES_CLEARED;
         }
 
         /// <summary>
@@ -68,7 +71,7 @@ namespace Scripts.Game.Serialized {
         ///   <c>true</c> if the particular stage index of area is cleared.; otherwise, <c>false</c>.
         /// </returns>
         public bool IsStageCleared(int stageIndex, AreaType type) {
-            return this.LastClearedArea >= type || this.LastClearedStage > stageIndex || Util.IS_DEBUG;
+            return this.LastClearedArea >= type || this.LastClearedStage >= stageIndex || Util.IS_DEBUG;
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using Scripts.Game.Defined.Characters;
+﻿using Scripts.Game.Areas;
+using Scripts.Game.Defined.Characters;
 using Scripts.Game.Serialized;
 using Scripts.Model.Characters;
 using Scripts.Model.Interfaces;
@@ -32,6 +33,8 @@ namespace Scripts.Game.Dungeons {
         /// </summary>
         private readonly Action onClear;
 
+        private readonly Music defaultMusic;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PageGroup" /> class.
         /// </summary>
@@ -45,6 +48,7 @@ namespace Scripts.Game.Dungeons {
         /// <param name="onClear">The on clear.</param>
         public Dungeon(
                     IEnumerable<Character> party,
+                    Music defaultMusic,
                     Page defeat,
                     Page previous,
                     Page destination,
@@ -52,6 +56,7 @@ namespace Scripts.Game.Dungeons {
                     string description,
                     Func<Encounter[]> encounterGenerator,
                     Action onClear) : base(new Page(name)) {
+            this.defaultMusic = defaultMusic;
             Root.Body = description;
             this.encounterGenerator = encounterGenerator;
             this.onClear = onClear;
@@ -98,10 +103,15 @@ namespace Scripts.Game.Dungeons {
                     location = string.Format("{0} - {1}", Root.Location, i);
                 }
 
+                Music battleMusic = encounter.Music;
+                if (encounter.Music == Music.NORMAL) {
+                    battleMusic = defaultMusic;
+                }
+
                 Battle battle = new Battle(
                         defeat,
                         victoryDestination,
-                        encounter.Music,
+                        battleMusic,
                         location,
                         party,
                         encounter.Enemies,
@@ -127,7 +137,7 @@ namespace Scripts.Game.Dungeons {
         private Page GetResults(Page destination, Battle[] battles) {
             Page results = new Page(string.Format("{0} - {1}", Root.Location, "Cleared"));
             results.Icon = Util.GetSprite("dungeon-gate");
-            results.Actions = new IButtonable[] { new Process("Return", () => Battle.DoPageTransition(destination)) };
+            results.Actions = new IButtonable[] { new Process("Return", () => destination.Invoke()) };
             results.OnEnter = () => {
                 results.AddText(new TextBox(string.Format(
                     "{0} was cleared in {1} turns.\nTotal experience gained: {1}.",

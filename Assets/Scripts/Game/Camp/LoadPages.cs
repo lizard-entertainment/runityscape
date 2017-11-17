@@ -97,7 +97,7 @@ namespace Scripts.Game.Pages {
             world.InitFromSaveObject(save);
             party = world.Party;
             camp = new Camp(party, world.Flags);
-            saveName = SaveLoad.GetSaveFileDisplay(world.Flags.LastClearedArea.GetDescription(), world.Flags.LastClearedStage);
+            saveName = world.FileName;
         }
 
         /// <summary>

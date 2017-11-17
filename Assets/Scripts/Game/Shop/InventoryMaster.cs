@@ -32,6 +32,7 @@ namespace Scripts.Game.Shopkeeper {
             };
             Root.OnEnter = () => {
                 Root.AddText(party.Shared.WealthText);
+                Root.AddText(string.Format("Inventory capacity: {0}.", party.Shared.Capacity));
             };
         }
 
@@ -39,9 +40,8 @@ namespace Scripts.Game.Shopkeeper {
             return new Process(
                 "Upgrade",
                 Util.GetSprite("upgrade"),
-                string.Format("Upgrade inventory capacity from {0} to {1}.\nCosts {2} {3}s.\nRequires at least {4} capacity.\nInventory cannot be upgraded past {5} capacity.",
-                inventory.Capacity,
-                inventory.Capacity + INVENTORY_UPGRADE_AMOUNT,
+                string.Format("Increase inventory capacity by {0}.\nCosts {1} {2}s.\nRequires at least {3} capacity.\nInventory cannot be upgraded past {4} capacity.",
+                INVENTORY_UPGRADE_AMOUNT,
                 pricePerUpgrade,
                 Money.NAME,
                 minCapacityNeededToUpgrade,

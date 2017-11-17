@@ -105,6 +105,9 @@ namespace Scripts.Model.Characters {
         /// </summary>
         private Queue<GameObject> effectsQueue;
 
+        private Vector2 originalPosition;
+        private bool isOriginalPositionSet;
+
         /// <summary>
         /// Main constructor
         /// </summary>
@@ -202,6 +205,15 @@ namespace Scripts.Model.Characters {
             get {
                 return isPortraitAvailableFunc();
             }
+        }
+
+        public bool CanAffordCost(ICostable cost, int amount) {
+            return cost.CanAfford(amount, this);
+        }
+
+        public void ConsumeCosts(ICostable cost, int amount) {
+            Util.Assert(CanAffordCost(cost, amount));
+            cost.DeductCostFromCharacter(amount, this);
         }
 
         /// <summary>

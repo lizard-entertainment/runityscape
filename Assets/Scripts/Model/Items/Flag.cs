@@ -7,6 +7,7 @@ namespace Scripts.Model.Items {
     /// </summary>
     public enum Flag {
         OCCUPIES_SPACE,
-        ESSENTIAL
+        ESSENTIAL,
+        USABLE_OUT_OF_COMBAT
     }
 }

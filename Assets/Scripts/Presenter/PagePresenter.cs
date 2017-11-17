@@ -26,7 +26,7 @@ namespace Scripts.Presenter {
     /// </summary>
     public class PagePresenter {
         private Page page;
-        private Grid overrideGrid;
+        private SubGrid overrideGrid;
 
         private TextBoxHolderView textBoxHolder;
         private ActionGridView actionGrid;
@@ -75,7 +75,7 @@ namespace Scripts.Presenter {
         /// <value>
         /// The override.
         /// </value>
-        public Grid Override {
+        public SubGrid Override {
             set {
                 actionGrid.ClearAll();
                 this.overrideGrid = value;
@@ -105,7 +105,7 @@ namespace Scripts.Presenter {
         /// Initializes the functions.
         /// </summary>
         private void InitializeFunctions() {
-            Grid.ChangeGridFunc = (a => {
+            SubGrid.ChangeGridFunc = (a => {
                 Page.Actions = a;
             }
             );
@@ -257,7 +257,7 @@ namespace Scripts.Presenter {
         }
 
         private bool IsRevealedCalculation(Stats stats, int contributionFromFlags) {
-            return (stats.ResourceVisibility + contributionFromFlags) > 0;
+            return Util.IS_DEBUG || (stats.ResourceVisibility + contributionFromFlags) > 0;
         }
     }
 }

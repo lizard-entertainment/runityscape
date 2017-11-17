@@ -30,6 +30,9 @@ namespace Scripts.Model.Buffs {
             this.Caster = caster;
             this.CasterId = casterId;
         }
+
+        public BuffParams(Character caster) : this(caster.Stats, caster.Id) {
+        }
     }
 
     /// <summary>

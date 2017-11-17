@@ -50,6 +50,16 @@ namespace Scripts.Model.Characters {
             }
         }
 
+        public string SpellTextsDisplay {
+            get {
+                List<string> spells = new List<string>();
+                foreach (SpellBook sb in set) {
+                    spells.Add(sb.Name);
+                }
+                return "Spells:\n" + string.Join(", ", spells.ToArray());
+            }
+        }
+
         /// <summary>
         /// Gets the highest skill cost.
         /// </summary>
@@ -98,13 +108,16 @@ namespace Scripts.Model.Characters {
             return set.Contains(s);
         }
 
-        public bool HasResourcesToCast(Stats spellBooksOwner, SpellBook sb) {
+        public bool HasResourcesToCast(Characters.Stats spellBooksOwner, SpellBook sb) {
             // Can't use hasResources because Skill is = highest cost skill spell
             // Since character without spell starts with 0 Skill, they won't be able to learn anything
-            return sb.Costs.Keys.All(statType => spellBooksOwner.HasStat(statType));
+            return sb.Costs.Keys
+                .Where(cost => cost is StatType)
+                .Cast<StatType>()
+                .All(statType => spellBooksOwner.HasStat(statType));
         }
 
-        public bool CanLearnSpellBook(Stats spellBooksOwner, SpellBook sb) {
+        public bool CanLearnSpellBook(Characters.Stats spellBooksOwner, SpellBook sb) {
             return !HasSpellBook(sb) && HasResourcesToCast(spellBooksOwner, sb);
         }
 

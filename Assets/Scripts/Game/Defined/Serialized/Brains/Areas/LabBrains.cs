@@ -17,7 +17,7 @@ namespace Scripts.Game.Serialized.Brains {
         private static readonly SpellBook DEFEND = new SetupDefend();
 
         public override string StartOfRoundDialogue() {
-            if (CRUSHING_BLOW.IsMeetPreTargetRequirements(brainOwner.Stats)) {
+            if (CRUSHING_BLOW.IsMeetPreTargetRequirements(brainOwner)) {
                 return Util.PickRandom("Now it's over!/Taste vengeance!/Power!/Eliminate!");
             }
             return string.Empty;
@@ -54,7 +54,7 @@ namespace Scripts.Game.Serialized.Brains {
                 return Util.PickRandom("You will go no further!/Stop right there!");
             }
             if (DeadPartner != null
-                && REVIVE.IsCastable(brainOwner, new Character[] { DeadPartner })
+                && REVIVE.IsCastable(currentBattle, brainOwner, new Character[] { DeadPartner })
                 && !currentBattle.IsChargingSpell(brainOwner)) {
                 return string.Format("{0}! It is not yet your time!", DeadPartner.Look.Name);
             }

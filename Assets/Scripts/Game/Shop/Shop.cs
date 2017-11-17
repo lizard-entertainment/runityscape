@@ -51,6 +51,7 @@ namespace Scripts.Game.Shopkeeper {
             this.buys = new List<Buy>();
             Root.AddCharacters(Side.LEFT, party.Collection);
             Root.AddCharacters(Side.RIGHT, shopkeeper);
+            AddOnEnter(() => Root.AddText(party.Default.Inventory.WealthText));
             SetupMenus();
         }
 
@@ -157,7 +158,7 @@ namespace Scripts.Game.Shopkeeper {
 
         private void SetupMenus() {
             Page p = Get(ROOT_INDEX);
-            Grid main = new Grid("Shop Menu");
+            SubGrid main = new SubGrid("Shop Menu");
             main.OnEnter = () => {
                 main.List.Clear();
                 main.List.Add(SetupTalkMenu(main));
@@ -178,7 +179,7 @@ namespace Scripts.Game.Shopkeeper {
             Get(ROOT_INDEX).AddText(string.Format("{0}s: {0}", MONEY.Name, party.Shared.GetCount(MONEY)));
         }
 
-        private Grid SetupShopMenu<T>(
+        private SubGrid SetupShopMenu<T>(
             IButtonable previous,
             string name,
             string spriteLoc,
@@ -186,7 +187,7 @@ namespace Scripts.Game.Shopkeeper {
             IEnumerable<T> items,
             Func<T, Action, Process> conversion,
             Func<T, int> sorter = null) {
-            Grid grid = new Grid(name);
+            SubGrid grid = new SubGrid(name);
             grid.Icon = Util.GetSprite(spriteLoc);
             grid.Tooltip = tooltip;
             IEnumerable<T> itemsList = items.ToArray();
@@ -203,7 +204,7 @@ namespace Scripts.Game.Shopkeeper {
             return grid;
         }
 
-        private Grid SetupBuyMenu(IButtonable previous) {
+        private SubGrid SetupBuyMenu(IButtonable previous) {
             return SetupShopMenu<Buy>(previous, "Buy", "buy-card", string.Format("Buy items with {0}s.", MONEY.Name), buys, (b, a) => GetBuyProcess(b, a), b => b.BasePrice);
         }
 
@@ -231,7 +232,7 @@ namespace Scripts.Game.Shopkeeper {
                 );
         }
 
-        private Grid SetupSellMenu(IButtonable previous) {
+        private SubGrid SetupSellMenu(IButtonable previous) {
             return SetupShopMenu<Item>(previous, "Sell", "sell-card", string.Format("Sell items for {0}s.", MONEY.Name), party.Shared, (i, a) => GetSellProcess(i, a));
         }
 
@@ -261,7 +262,7 @@ namespace Scripts.Game.Shopkeeper {
                 );
         }
 
-        private Grid SetupTalkMenu(IButtonable previous) {
+        private SubGrid SetupTalkMenu(IButtonable previous) {
             return SetupShopMenu<Talk>(previous, "Talk", "talk", "Talk to the shopkeeper about something.", talks, (t, a) => GetTalkProcess(t, a));
         }
 

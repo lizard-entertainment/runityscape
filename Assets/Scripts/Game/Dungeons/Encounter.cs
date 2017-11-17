@@ -6,7 +6,7 @@ namespace Scripts.Game.Dungeons {
 
     public struct Encounter {
         public readonly Character[] Enemies;
-        public readonly Music Music;
+        public Music Music;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Encounter"/> struct.

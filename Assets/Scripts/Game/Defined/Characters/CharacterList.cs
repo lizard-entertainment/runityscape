@@ -37,11 +37,22 @@ namespace Scripts.Game.Defined.Characters {
             }
         }
 
+        /// <summary>
+        /// Restores the stats of a target.
+        /// This is to ensure enemies with equipment, resource stats, and buffs
+        /// start out with max stats.
+        /// </summary>
+        /// <param name="target">The target.</param>
+        private static void RestoreStats(this Character target) {
+            target.Stats.Update(target);
+            target.Stats.RestoreResourcesByMissingPercentage(1);
+        }
+
         public static Character StandardEnemy(Stats stats, Look look, Brain brain) {
             Character enemy = new Character(stats, look, brain);
             enemy.AddFlag(Model.Characters.Flag.DROPS_ITEMS);
             enemy.AddFlag(Model.Characters.Flag.GIVES_EXPERIENCE);
-            stats.AddToStat(StatType.MANA, Stats.Set.MOD, stats.GetStatCount(Stats.Get.TOTAL, StatType.MANA));
+            enemy.RestoreStats();
             return enemy;
         }
 
@@ -49,6 +60,7 @@ namespace Scripts.Game.Defined.Characters {
             foreach (Stat stat in stats) {
                 c.Stats.AddStat(stat);
             }
+            c.RestoreStats();
             return c;
         }
 
@@ -99,6 +111,7 @@ namespace Scripts.Game.Defined.Characters {
                 dummy.ForceAdd(equip);
                 c.Equipment.AddEquip(dummy, new Model.Buffs.BuffParams(c.Stats, c.Id), equip);
             }
+            c.RestoreStats();
             return c;
         }
 
@@ -108,15 +121,18 @@ namespace Scripts.Game.Defined.Characters {
                 dummy.ForceAdd(equip);
                 c.Equipment.AddEquip(dummy, new Model.Buffs.BuffParams(c.Stats, c.Id), equip);
             }
+            c.RestoreStats();
             return c;
         }
 
         public static Character AddEquip(this Character c, EquippableItem equip, float chanceToHave) {
+            c.RestoreStats();
             return c.AddEquip(equip, Util.IsChance(chanceToHave));
         }
 
         public static Character AddBuff(this Character c, Buff buff) {
             c.Buffs.AddBuff(buff, c);
+            c.RestoreStats();
             return c;
         }
     }
@@ -135,7 +151,8 @@ namespace Scripts.Game.Defined.Characters {
                 new Player())
                 .AddFlags(Model.Characters.Flag.PLAYER, Model.Characters.Flag.PERSISTS_AFTER_DEFEAT, Model.Characters.Flag.HERO)
                 .AddStats(new Experience())
-                .AddStats(new Mana());
+                .AddStats(new Mana())
+                .AddSpells(new Check());
         }
 
         public static Character Partner(string name) {
@@ -150,7 +167,8 @@ namespace Scripts.Game.Defined.Characters {
                 new Player())
                 .AddFlags(Model.Characters.Flag.PLAYER, Model.Characters.Flag.PERSISTS_AFTER_DEFEAT, Model.Characters.Flag.PARTNER)
                 .AddStats(new Experience())
-                .AddStats(new Skill());
+                .AddStats(new Skill())
+                .AddSpells(new QuickAttack());
         }
 
         public static Character TestEnemy() {

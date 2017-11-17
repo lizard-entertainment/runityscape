@@ -58,19 +58,23 @@ namespace Scripts.Game.Stages {
         protected void OnStageClear(int areaTotalStageCount, AreaType type, Flags flags, int stageIndex) {
             if (!flags.IsStageCleared(stageIndex, type)) {
                 // Not the last stage in an area
-                if (stageIndex < areaTotalStageCount) {
-                    flags.LastClearedStage++;
+                if (stageIndex < (areaTotalStageCount - 1)) {
+                    flags.LastClearedStage = stageIndex;
 
-                    // is the last stage in an area
-                } else {
+                    // is the last stage in an area, but ISN'T the final one ever
+                } else if (!IsLastStageInTheGame(stageIndex, areaTotalStageCount, type)) {
                     AreaType[] types = Util.EnumAsArray<AreaType>();
                     AreaType nextArea = types[((int)type + 1) % types.Length];
                     flags.CurrentArea = nextArea;
-
                     flags.LastClearedArea = type;
-                    flags.LastClearedStage = 0;
+                    flags.LastClearedStage = Flags.NO_STAGES_CLEARED;
                 }
             }
+        }
+
+        private bool IsLastStageInTheGame(int stageIndex, int areaTotalStageCount, AreaType area) {
+            AreaType[] areas = Util.EnumAsArray<AreaType>();
+            return stageIndex == (areaTotalStageCount - 1) && (area == areas[areas.Length - 1]);
         }
     }
 }

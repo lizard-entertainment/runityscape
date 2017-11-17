@@ -27,7 +27,7 @@ namespace Scripts.Game.Shopkeeper {
     public class Trainer : PageGroup {
 
         public Trainer(Page previous, Party party, Character trainerPerson, params PurchasedSpell[] spells) : base(new Page("Spell Trainer")) {
-            Grid main = new Grid("Main");
+            SubGrid main = new SubGrid("Main");
             main.List.Add(PageUtil.GenerateBack(previous));
             Array.Sort(spells);
             foreach (PurchasedSpell spell in spells) {
@@ -40,18 +40,18 @@ namespace Scripts.Game.Shopkeeper {
             Root.AddCharacters(Side.RIGHT, trainerPerson);
             Root.Actions = main.List;
             Root.OnEnter = () => {
-                string.Format(party.Shared.WealthText);
+                Root.AddText(string.Format(party.Shared.WealthText));
             };
         }
 
-        private Process GetSpellPurchaseProcess(PurchasedSpell spell, Party party, Grid previous) {
+        private Process GetSpellPurchaseProcess(PurchasedSpell spell, Party party, SubGrid previous) {
             SpellBook book = spell.Book();
             return new Process(
                     string.Format("{0} - {1}", book.Name, spell.Price),
                     book.Icon,
                     string.Format("Purchase {0} for {1} {2}s\n<color=cyan>{0}</color>\n{3}", book.Name, spell.Price, Money.NAME, book.TextboxTooltip.Text),
                     () => {
-                        Grid grid = new Grid("Choice");
+                        SubGrid grid = new SubGrid("Choice");
                         grid.List.Add(PageUtil.GenerateBack(previous));
                         foreach (Character partyMember in party) {
                             grid.List.Add(GetSpellTeachChoiceProcess(previous, book, spell.Price, partyMember));
@@ -62,7 +62,7 @@ namespace Scripts.Game.Shopkeeper {
                 );
         }
 
-        private Process GetSpellTeachChoiceProcess(Grid main, SpellBook bookToLearn, int price, Character partyMember) {
+        private Process GetSpellTeachChoiceProcess(SubGrid main, SpellBook bookToLearn, int price, Character partyMember) {
             return new Process(
                 partyMember.Look.DisplayName,
                 partyMember.Look.Sprite,

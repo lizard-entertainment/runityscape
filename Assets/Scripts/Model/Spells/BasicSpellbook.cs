@@ -1,4 +1,6 @@
 ﻿using Scripts.Model.Characters;
+using Scripts.Model.Interfaces;
+using Scripts.Model.Pages;
 using UnityEngine;
 
 namespace Scripts.Model.Spells {
@@ -42,7 +44,7 @@ namespace Scripts.Model.Spells {
             this.canTargetDead = canTargetDead;
         }
 
-        protected sealed override bool IsMeetOtherCastRequirements(Character caster, Character target) {
+        protected sealed override bool IsMeetOtherCastRequirements(IPage current, Character caster, Character target) {
             return (canTargetDead || target.Stats.State == Characters.State.ALIVE) && IsMeetCastRequirements(caster, target);
         }
 

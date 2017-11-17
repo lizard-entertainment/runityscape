@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Scripts.Model.Characters;
+using Scripts.Model.Interfaces;
 
 namespace Scripts.Model.Spells {
 
@@ -17,16 +18,9 @@ namespace Scripts.Model.Spells {
         /// Initializes a new instance of the <see cref="ItemSpellBook"/> class.
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <param name="verb">The verb. Caster [Verb] ItemName on Target!</param>
-        public ItemSpellBook(Item item, string verb) : this(item, item.Name, verb) { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ItemSpellBook"/> class.
-        /// </summary>
-        /// <param name="item">The item.</param>
         /// <param name="name">The item name.</param>
         /// <param name="verb">The verb. Caster [Verb] ItemName on Target!</param>
-        public ItemSpellBook(Item item, string name, string verb) : base(name, item.Icon, item.Target, SpellType.ITEM, PriorityType.ITEM, verb) {
+        public ItemSpellBook(Item item, TargetType target, string name, string verb) : base(name, item.Icon, target, SpellType.ITEM, PriorityType.ITEM, verb) {
             this.item = item;
             flags.Remove(Flag.CASTER_REQUIRES_SPELL);
         }
@@ -41,7 +35,7 @@ namespace Scripts.Model.Spells {
             int count = caster.Inventory.GetCount(item);
 
             Color color = Color.white;
-            if (!IsMeetPreTargetRequirements(caster.Stats)) {
+            if (!IsMeetPreTargetRequirements(caster)) {
                 color = Color.grey;
             }
 
@@ -60,8 +54,10 @@ namespace Scripts.Model.Spells {
         /// <returns>
         ///   <c>true</c> if [is meet other cast requirements] [the specified caster]; otherwise, <c>false</c>.
         /// </returns>
-        protected override bool IsMeetOtherCastRequirements(Character caster, Character target) {
-            return item.IsUsable(caster, target) && IsMeetItemCastRequirements(caster, target);
+        protected override sealed bool IsMeetOtherCastRequirements(IPage current, Character caster, Character target) {
+            return
+                (item.IsUsable(caster, target) || IsOverride())
+                && IsMeetItemCastRequirements(caster, target);
         }
 
         /// <summary>
@@ -74,6 +70,10 @@ namespace Scripts.Model.Spells {
         /// </returns>
         protected virtual bool IsMeetItemCastRequirements(Character caster, Character target) {
             return true;
+        }
+
+        protected virtual bool IsOverride() {
+            return false;
         }
     }
 }

@@ -165,14 +165,5 @@ namespace Scripts.Game.Serialized.Brains {
         protected override Spell GetSpell() {
             return this.CastOnRandom(ATTACK);
         }
-
-        public override string ReactToSpell(SingleSpell spell) {
-            if (spell.SpellBook.SpellType == SpellType.OFFENSE && spell.ResultType.IsSuccessfulType && spell.Result.IsDealDamage) {
-                return
-                    Util.PickRandom(
-                        "One step closer to death./Do you feel the end coming?/Madness does not die./You slay merely a simulacrum of myself./Merely a replication of my true self./Once again you've fallen for a clone./Maddening, is it not?");
-            }
-            return string.Empty;
-        }
     }
 }

@@ -28,8 +28,12 @@ namespace Scripts.Model.Spells {
             SpellBook book,
             Result result,
             Character caster,
-            Character target)
-            : base(book, caster) {
+            Character target,
+            Page current)
+            : base(
+                  book,
+                  caster,
+                  current) {
             this.result = result;
             this.target = target;
         }
@@ -54,7 +58,7 @@ namespace Scripts.Model.Spells {
 
         public override bool IsCastable {
             get {
-                return book.IsCastableIgnoreResources(caster, new Character[] { target });
+                return book.IsCastableIgnoreResources(current, caster, new Character[] { target });
             }
         }
 

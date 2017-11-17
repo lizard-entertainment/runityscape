@@ -6,6 +6,7 @@ using Scripts.View.Portraits;
 using System.Collections;
 using Scripts.Game.Defined.SFXs;
 using Scripts.Model.Pages;
+using System;
 
 namespace Scripts.Model.Items {
 
@@ -20,8 +21,9 @@ namespace Scripts.Model.Items {
         /// Initializes a new instance of the <see cref="CastEquipItem"/> class.
         /// </summary>
         /// <param name="itemToEquip">The item to equip.</param>
-        public CastEquipItem(EquippableItem itemToEquip) : base(itemToEquip, "Equip") {
+        public CastEquipItem(EquippableItem itemToEquip) : base(itemToEquip, itemToEquip.Target, itemToEquip.Name, "Equip") {
             this.equip = itemToEquip;
+            this.flags.Add(Spells.Flag.USABLE_OUT_OF_COMBAT);
         }
 
         /// <summary>
@@ -58,10 +60,11 @@ namespace Scripts.Model.Items {
         /// <param name="caster">The caster.</param>
         /// <param name="targetEquipment">The target's equipment.</param>
         /// <param name="item">The item.</param>
-        public CastUnequipItem(Inventory caster, Equipment targetEquipment, EquippableItem item) : base(item, "Unequip") {
+        public CastUnequipItem(Inventory caster, Equipment targetEquipment, EquippableItem item) : base(item, item.Target, item.Name, "Unequip") {
             this.caster = caster;
             this.targetEquipment = targetEquipment;
             this.item = item;
+            this.flags.Add(Spells.Flag.USABLE_OUT_OF_COMBAT);
         }
 
         /// <summary>
@@ -89,7 +92,7 @@ namespace Scripts.Model.Items {
     /// <seealso cref="Scripts.Model.Spells.ItemSpellBook" />
     public class Dummy : ItemSpellBook {
 
-        public Dummy(BasicItem basic) : base(basic, string.Empty) {
+        public Dummy(BasicItem basic) : base(basic, basic.Target, string.Empty, string.Empty) {
         }
 
         protected override string CreateDescriptionHelper() {
@@ -108,22 +111,18 @@ namespace Scripts.Model.Items {
     public class UseItem : ItemSpellBook {
         private readonly ConsumableItem consume;
 
-        public UseItem(ConsumableItem consume) : base(consume, "Use") {
+        public UseItem(ConsumableItem consume) : base(consume, consume.Target, consume.Name, "Use") {
             this.consume = consume;
+            if (consume.HasFlag(Flag.USABLE_OUT_OF_COMBAT)) {
+                this.flags.Add(Spells.Flag.USABLE_OUT_OF_COMBAT);
+            } else {
+                this.flags.Remove(Spells.Flag.USABLE_OUT_OF_COMBAT);
+            }
+            AddCost(consume, 1);
         }
 
         protected override IList<SpellEffect> GetHitEffects(Page page, Character caster, Character target) {
-            IList<SpellEffect> itemEffects = consume.GetEffects(page, caster, target);
-            SpellEffect[] allEffects = new SpellEffect[itemEffects.Count + 1];
-            allEffects[0] = new ConsumeItemEffect(consume, caster.Inventory);
-            for (int i = 0; i < itemEffects.Count; i++) {
-                allEffects[i + 1] = itemEffects[i];
-            }
-            return allEffects;
-        }
-
-        protected override bool IsMeetItemCastRequirements(Character caster, Character target) {
-            return caster.Inventory.HasItem(consume);
+            return consume.GetEffects(page, caster, target);
         }
 
         protected override IList<IEnumerator> GetHitSFX(Character caster, Character target) {
@@ -136,24 +135,25 @@ namespace Scripts.Model.Items {
     /// </summary>
     /// <seealso cref="Scripts.Model.Spells.ItemSpellBook" />
     public class TossItem : ItemSpellBook {
-        private Inventory inventory;
+        private readonly Inventory inventory;
 
-        public TossItem(Item item, Inventory inventory) : base(item, "Dispose") {
+        public TossItem(Item item, Inventory inventory) : base(item, TargetType.SELF, item.Name, "Dispose") {
+            flags.Add(Spells.Flag.USABLE_OUT_OF_COMBAT);
             this.inventory = inventory;
         }
 
-        protected override bool IsMeetOtherCastRequirements(Character caster, Character target) {
-            return true;
+        protected override IList<SpellEffect> GetHitEffects(Page page, Character caster, Character target) {
+            return new SpellEffect[] {
+                new RemoveItemEffect(item, target.Inventory)
+            };
         }
 
         protected override bool IsMeetItemCastRequirements(Character caster, Character target) {
             return caster.Inventory.HasItem(item);
         }
 
-        protected override IList<SpellEffect> GetHitEffects(Page page, Character caster, Character target) {
-            return new SpellEffect[] {
-                new ConsumeItemEffect(item, inventory)
-            };
+        protected sealed override bool IsOverride() {
+            return true;
         }
     }
 }

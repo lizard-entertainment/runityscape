@@ -12,6 +12,7 @@ using Scripts.Model.SaveLoad.SaveObjects;
 using Scripts.Model.Characters;
 using Scripts.Model.Processes;
 using Scripts.Model.Pages;
+using Scripts.Model.Interfaces;
 
 namespace Scripts.Model.Items {
 
@@ -110,14 +111,17 @@ namespace Scripts.Model.Items {
             return book;
         }
 
-        public Process GetSelfTargetProcess(Page current, Character caster, Action<Spell> spellHandler) {
+        public Process GetSelfTargetProcess(IButtonable previous, Page current, Character caster, Action<Spell> spellHandler) {
             SpellBook spellbook = this.GetSpellBook();
             return new Process(
                 spellbook.Name,
                 spellbook.Icon,
                 spellbook.CreateTargetDescription(caster.Look.DisplayName),
-                () => spellHandler(caster.Spells.CreateSpell(current, spellbook, caster, caster)),
-                () => this.GetSpellBook().IsCastable(caster, new Character[] { caster })
+                () => {
+                    spellHandler(caster.Spells.CreateSpell(current, spellbook, caster, caster));
+                    previous.Invoke();
+                },
+                () => this.GetSpellBook().IsCastable(current, caster, new Character[] { caster })
                 );
         }
 

@@ -259,10 +259,10 @@ namespace Scripts.Game.Defined.Spells {
     }
 
     /// <summary>
-    /// Consumes an item
+    /// Removes an item
     /// </summary>
     /// <seealso cref="Scripts.Model.Spells.SpellEffect" />
-    public class ConsumeItemEffect : SpellEffect {
+    public class RemoveItemEffect : SpellEffect {
 
         /// <summary>
         /// The caster
@@ -275,11 +275,11 @@ namespace Scripts.Game.Defined.Spells {
         private Item item;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConsumeItemEffect"/> class.
+        /// Initializes a new instance of the <see cref="RemoveItemEffect"/> class.
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="caster">The caster.</param>
-        public ConsumeItemEffect(Item item, Inventory caster) : base(1) {
+        public RemoveItemEffect(Item item, Inventory caster) : base(1) {
             this.caster = caster;
             this.item = item;
         }

@@ -18,8 +18,8 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
         public FlamingArmor()
             : base(
                   Util.GetSprite("fire"),
-                  "Flaming armor",
-                  String.Format("Attacks on this unit have a {0}% chance of igniting the attacker", IGNITION_CHANCE)
+                  "Flame Body",
+                  String.Format("Basic attacks on this unit have a {0}% chance of igniting the attacker", IGNITION_CHANCE)
                   ) {
         }
 
@@ -27,7 +27,7 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
             return incomingSpell.Target.Stats == ownerOfThisBuff
                 && incomingSpell.SpellBook is Attack
                 && incomingSpell.Result.IsDealDamage
-                && Util.IsChance(IGNITION_CHANCE/100.0f);
+                && Util.IsChance(IGNITION_CHANCE / 100.0f);
         }
 
         protected override void ReactHelper(SingleSpell spellCast, Stats ownerOfThisBuff) {
@@ -97,13 +97,13 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
 
     public class FishShook : PermanentBuff {
         private const float FISHY_TARGET_MULTIPLIER = 2;
-        private const float OTHER_TARGET_MULTIPLIER = 0.25f;
+        private const float OTHER_TARGET_MULTIPLIER = 0.5f;
 
         public FishShook()
             : base(Util.GetSprite("fish"),
                   "Fish-Shook",
                   string.Format(
-                      "Basic attacks do {0}x damage on fishy targets and {1} damage on non-fish.", FISHY_TARGET_MULTIPLIER, OTHER_TARGET_MULTIPLIER)) {
+                      "Basic attacks do {0}x damage on fishy targets and {1}x damage on non-fish.", FISHY_TARGET_MULTIPLIER, OTHER_TARGET_MULTIPLIER)) {
         }
 
         public override bool IsReact(SingleSpell spellToReactTo, Stats owner) {
@@ -135,7 +135,7 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
     }
 
     public class DamageResist : PermanentBuff {
-        private const float DAMAGE_MULTIPLIER = 0.7f;
+        private const float DAMAGE_MULTIPLIER = 0.8f;
 
         public DamageResist()
             : base(Util.GetSprite("round-shield"),
@@ -164,9 +164,9 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
     }
 
     public class SuperIgnited : AbstractIgnited {
-        private const int DURATION = 3;
+        private const int DURATION = 5;
 
-        public SuperIgnited() : base(DURATION, 5, 40) {
+        public SuperIgnited() : base(DURATION, 2, 40) {
         }
     }
 
@@ -211,10 +211,10 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
         private const int AGILITY_REDUCTION = 10;
 
         public SuperCheck()
-            : base(10,
+            : base(20,
                   Util.GetSprite("magnifying-glass"),
                   "Checked",
-                  string.Format("Resource visibility increased. {0} reduced by {1}%.", StatType.AGILITY, AGILITY_REDUCTION),
+                  string.Format("Resource bar visibility increased. {0} reduced by {1}%.", StatType.AGILITY, AGILITY_REDUCTION),
                   true) {
             AddMultiplicativeStatBonus(StatType.AGILITY, -AGILITY_REDUCTION);
         }
@@ -230,7 +230,7 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
 
     public class BasicChecked : Buff {
 
-        public BasicChecked() : base(5, Util.GetSprite("magnifying-glass"), "Checked", "Resource visibility increased.", true) {
+        public BasicChecked() : base(10, Util.GetSprite("magnifying-glass"), "Checked", "Resource bar visibility increased.", true) {
         }
 
         protected override IList<SpellEffect> OnApplyHelper(Stats owner) { // TODO UNSTACKABLE
@@ -316,15 +316,15 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
         }
     }
 
-    public class RegenerateLotsOfMana : StatRegen {
+    public class HighManaRegeneration : StatRegen {
 
-        public RegenerateLotsOfMana() : base(StatType.MANA, 10) {
+        public HighManaRegeneration() : base(StatType.MANA, 5) {
         }
     }
 
-    public class RegenerateLotsOfSkill : StatRegen {
+    public class SkillRegeneration : StatRegen {
 
-        public RegenerateLotsOfSkill() : base(StatType.SKILL, 2) {
+        public SkillRegeneration() : base(StatType.SKILL, 1) {
         }
     }
 
@@ -384,6 +384,12 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
             AddMultiplicativeStatBonus(StatType.STRENGTH, STRENGTH_INCREASE_AMOUNT);
         }
     }
+
+    public class RoughSkin : Thorns {
+
+        public RoughSkin() : base(1, "Rough Skin") {
+        }
+    }
 }
 
 namespace Scripts.Game.Defined.Unserialized.Buffs {
@@ -402,7 +408,7 @@ namespace Scripts.Game.Defined.Unserialized.Buffs {
         }
     }
 
-    public abstract class Thorns : Buff {
+    public abstract class Thorns : PermanentBuff {
         private readonly int damageToReturn;
 
         public Thorns(int damageToReturn, string name)
@@ -411,8 +417,7 @@ namespace Scripts.Game.Defined.Unserialized.Buffs {
                   name,
                   string.Format("Successful basic attacks on this unit cause the attacker to take {0} damage.",
                       damageToReturn
-                      ),
-                  false
+                      )
                   ) {
             this.damageToReturn = damageToReturn;
         }
@@ -539,7 +544,7 @@ namespace Scripts.Game.Defined.Unserialized.Buffs {
         private const int INTERCEPTION_DAMAGE = 2;
 
         // TODO add sprite
-        public Interceptor() : base(Util.GetSprite("shark"), "Interceptor", "Unit will intercept attacks on its summoner.", false) { }
+        public Interceptor() : base(Util.GetSprite("suckered-tentacle"), "Interceptor", "Unit will intercept attacks on its summoner.", false) { }
 
         public override bool IsReact(SingleSpell incomingSpell, Stats statsOfTheCharacterTheBuffIsOn) {
             bool isDealDamageToBuffCaster = false;
@@ -615,22 +620,19 @@ namespace Scripts.Game.Defined.Unserialized.Buffs {
         }
     }
 
-    public class OverwhelmingPower : Buff {
-        private const int STRENGTH_INCREASE = 1337;
-        private const int AGILITY_REDUCTION = 100;
+    public class Evasion : Buff {
+        private const int AGILITY_INCREASE = 1337;
 
-        public OverwhelmingPower()
+        public Evasion()
             : base(
-                  Util.GetSprite("fist"),
-                  "Overwhelming Power",
-                  string.Format("{0} boosted by {1}%. {2} reduced by {3}%.",
-                      StatType.STRENGTH.ColoredName,
-                      STRENGTH_INCREASE,
-                      StatType.AGILITY.ColoredName,
-                      AGILITY_REDUCTION),
+                  10,
+                  Util.GetSprite("power-lightning"),
+                  "Evasion",
+                  string.Format("{0} boosted by {1}%.",
+                      StatType.AGILITY,
+                      AGILITY_INCREASE),
                   true) {
-            AddMultiplicativeStatBonus(StatType.STRENGTH, STRENGTH_INCREASE);
-            AddMultiplicativeStatBonus(StatType.AGILITY, AGILITY_REDUCTION);
+            AddMultiplicativeStatBonus(StatType.STRENGTH, AGILITY_INCREASE);
         }
     }
 
@@ -681,12 +683,6 @@ namespace Scripts.Game.Defined.Unserialized.Buffs {
         }
     }
 
-    public class RoughSkin : Thorns {
-
-        public RoughSkin() : base(1, "Rough Skin") {
-        }
-    }
-
     public class RougherSkin : Thorns {
 
         public RougherSkin() : base(3, "Rougher Skin") {
@@ -714,20 +710,21 @@ namespace Scripts.Game.Defined.Unserialized.Buffs {
     }
 
     public abstract class Countdown : Buff {
-        private const int STRENGTH_BOOST = 1000;
+        private const int STAT_BOOST = 1000;
 
         public Countdown(int turnsUntilEnrage)
             : base(
                   turnsUntilEnrage,
                   Util.GetSprite("dragon-head"),
                   "Countdown",
-                  string.Format("On expiration, unit gains {0}% increased {1}.", STRENGTH_BOOST, StatType.STRENGTH),
+                  string.Format("On expiration, unit gains {0}% increased {1} and {2}.", STAT_BOOST, StatType.STRENGTH, StatType.INTELLECT),
                   false) {
         }
 
         protected override IList<SpellEffect> OnTimeOutHelper(Stats ownerOfThisBuff) {
             return new SpellEffect[] {
-                new AddToModStat(ownerOfThisBuff, StatType.STRENGTH, STRENGTH_BOOST)
+                new AddToModStat(ownerOfThisBuff, StatType.STRENGTH, STAT_BOOST),
+                new AddToModStat(ownerOfThisBuff, StatType.INTELLECT, STAT_BOOST)
             };
         }
     }

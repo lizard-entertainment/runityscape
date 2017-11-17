@@ -34,12 +34,13 @@ namespace Scripts.Game.Stages {
         public override Page GetPage(int dungeonIndex, int areaTotalStageCount, Flags flags, IEnumerable<Character> party, Page camp, Page quests, AreaType type) {
             return new Dungeon(
                     party,
+                    AreaList.AREA_MUSIC[type],
                     camp,
                     quests,
                     camp,
                     StageName,
                     string.Format("Selected stage {0} of {1}:\n{2}.\n\nEnter?",
-                        (int)type,
+                        dungeonIndex,
                         type.GetDescription(),
                         StageName
                         ),

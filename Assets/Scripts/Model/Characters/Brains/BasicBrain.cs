@@ -66,7 +66,7 @@ namespace Scripts.Model.Characters {
                 spellToCast
                 .TargetType
                 .GetTargets(brainOwner, currentBattle)
-                .Where(c => spellToCast.IsCastable(brainOwner, new Character[] { c }) && isCharacterMeetCondition(c)).ToArray();
+                .Where(c => spellToCast.IsCastable(currentBattle, brainOwner, new Character[] { c }) && isCharacterMeetCondition(c)).ToArray();
             possibleTargets.Shuffle();
             return GetSpellOrDefault(possibleTargets.FirstOrDefault(), spellToCast, DEFAULT_SPELL);
         }
@@ -94,7 +94,7 @@ namespace Scripts.Model.Characters {
                 spellToCast
                 .TargetType
                 .GetTargets(brainOwner, currentBattle)
-                .Where(c => spellToCast.IsCastable(brainOwner, new Character[] { c })).ToArray();
+                .Where(c => spellToCast.IsCastable(currentBattle, brainOwner, new Character[] { c })).ToArray();
             possibleTargets.Shuffle();
 
             return GetSpellOrDefault(singleCharacterChooser(possibleTargets), spellToCast, defaultSpell);
@@ -103,7 +103,7 @@ namespace Scripts.Model.Characters {
         // multitarget version
         private Spell GetSpellOrDefault(SpellBook spellBookToCastFrom, SpellBook defaultSpell) {
             Spell spellToCast = null;
-            if (spellBookToCastFrom.IsCastable(brainOwner, spellBookToCastFrom.TargetType.GetTargets(brainOwner, currentBattle))) {
+            if (spellBookToCastFrom.IsCastable(currentBattle, brainOwner, spellBookToCastFrom.TargetType.GetTargets(brainOwner, currentBattle))) {
                 spellToCast = brainOwner.Spells.CreateSpell(currentBattle, spellBookToCastFrom, brainOwner);
             } else {
                 spellToCast = brainOwner.Spells.CreateSpell(currentBattle, defaultSpell, brainOwner, brainOwner);
@@ -115,7 +115,7 @@ namespace Scripts.Model.Characters {
             // If spell is not castable, default to waiting.
             if (specificTarget != null) {
                 SpellBook castableSpell = null;
-                if (spellToCast.IsCastable(brainOwner, new Character[] { specificTarget })) {
+                if (spellToCast.IsCastable(currentBattle, brainOwner, new Character[] { specificTarget })) {
                     castableSpell = spellToCast;
                 } else {
                     castableSpell = defaultSpell;

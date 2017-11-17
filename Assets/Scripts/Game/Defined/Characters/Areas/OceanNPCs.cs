@@ -8,6 +8,7 @@ using Scripts.Game.Serialized;
 using Scripts.Game.Serialized.Brains;
 using Scripts.Game.Shopkeeper;
 using Scripts.Model.Characters;
+using Scripts.Model.Items;
 using Scripts.Model.Pages;
 
 namespace Scripts.Game.Defined.Characters {
@@ -24,13 +25,13 @@ namespace Scripts.Game.Defined.Characters {
                 1f,
                 Shark())
                 .AddBuys(
-                    new FishHook(),
+                    new GrayWater(),
+                    new Rocktail(),
+                    new Dynamite(),
                     new Cleansing(),
-                    new VitalityTrinket(),
-                    new IntellectTrinket(),
-                    new StrengthTrinket(),
                     new SharkBait(),
-                    new AgilityTrinket()
+                    new ShellArmor(),
+                    new FishHook()
                 );
         }
 
@@ -39,10 +40,10 @@ namespace Scripts.Game.Defined.Characters {
                 previous,
                 party,
                 Siren(),
-                    new PurchasedSpell(100, new Purge()),
-                    new PurchasedSpell(100, new CrushingBlow()),
-                    new PurchasedSpell(200, new MassCheck()),
-                    new PurchasedSpell(200, new Multistrike())
+                    new PurchasedSpell(50, new Purge()),
+                    new PurchasedSpell(50, new CrushingBlow()),
+                    new PurchasedSpell(100, new MassCheck()),
+                    new PurchasedSpell(100, new Multistrike())
                 );
         }
 
@@ -52,14 +53,14 @@ namespace Scripts.Game.Defined.Characters {
                 party,
                 Siren(),
                 6,
-                10,
+                8,
                 200
                 );
         }
 
         public static Character Shark() {
             return CharacterUtil.StandardEnemy(
-                new Stats(5, 5, 6, 8, 35),
+                new Stats(5, 6, 6, 8, 35),
                 new Look(
                     "Shark",
                     "shark",
@@ -68,36 +69,32 @@ namespace Scripts.Game.Defined.Characters {
                     ),
                 new SharkAttacker())
                 .AddBuff(new RoughSkin())
-                .AddItem(new SharkFin(), Util.IsChance(.50f))
-                .AddItem(new Money(), Util.RandomRange(50, 100));
-        }
-
-        public static Character SharkPirate() {
-            return CharacterUtil.StandardEnemy(
-                new Stats(10, 8, 6, 8, 40),
-                new Look(
-                    "Cap'n Selach",
-                    "shark-pirate",
-                    "Fierce captain of shark crew.",
-                    Breed.FISH
-                    ),
-                new SharkPirate())
-                .AddBuff(new RougherSkin())
-                .AddItem(new SharkFin(), Util.IsChance(.75f))
-                .AddSpells(new SummonSeaCreatures(), new OneShotKill(), new CastDelayedDeath(), new GiveOverwhelmingPower());
+                .AddItem(new CrackedSharkTooth(), .25f)
+                .AddItem(new SharkBlood(), .25f)
+                .AddItem(new SharkTooth(), .02f)
+                .AddItem(new SharkFin(), .02f)
+                .AddItem(new SharkSkin(), .02f)
+                .AddMoney(10);
         }
 
         public static Character Siren() {
             return CharacterUtil.StandardEnemy(
-                    new Stats(6, 4, 10, 10, 20),
+                    new Stats(6, 4, 12, 10, 20),
                     new Look(
                         "Siren",
                         "siren",
-                        "Sings a mean tune.",
+                        "Has the power to sing people to death.",
                         Breed.FISH
                     ),
                     new Siren()
-                ).AddSpells(Game.Serialized.Brains.Siren.DEBUFF_LIST);
+                )
+                .AddSpells(Game.Serialized.Brains.Siren.DEBUFF_LIST)
+                .AddItem(new BlackWater(), 75f)
+                .AddItem(new GrayWater(), .25f)
+                .AddItem(new CrackedOrb(), .25f)
+                .AddItem(new Cleansing(), .50f)
+                .AddItem(new SirenNote(), .10f)
+                .AddMoney(10);
         }
 
         public static Character Tentacle() {
@@ -106,27 +103,52 @@ namespace Scripts.Game.Defined.Characters {
                     new Look(
                         "Tentacle",
                         "tentacle",
-                        "Tentacle belonging to a Kraken.",
+                        "Tentacle belonging to a creature of the deep.",
                         Breed.FISH
                         ),
                     new Attacker()
-                );
+                )
+                .AddItem(new OctopusLeg());
         }
 
         public static Character Kraken() {
             return CharacterUtil.StandardEnemy(
-                    new Stats(8, 5, 10, 20, 100),
+                    new Stats(8, 10, 16, 10, 100),
                     new Look(
-                        "Kracko",
+                        "Krackle",
                         "kraken",
-                        "Giant squid thing. Commonly mistaken for a cloud.",
+                        "You gotta be squidding me!",
                         Breed.FISH
                         ),
                     new Kraken()
                 )
                 .AddSpells(new SpawnTentacles())
                 .AddSpells(new CrushingBlow())
-                .AddStats(new Skill());
+                .AddStats(new Skill())
+                .AddItem(
+                    new Item[] {
+                        new VitalityTrinket(),
+                        new AgilityTrinket(),
+                        new IntellectTrinket(),
+                        new StrengthTrinket()
+                    }.ChooseRandom()
+                )
+                .AddMoney(20);
+        }
+
+        public static Character Swarm() {
+            return CharacterUtil.StandardEnemy(
+                new Stats(9, 3, 50, 2, 5),
+                new Look(
+                    "Swarm",
+                    "swarm",
+                    "Questionable member of the sea that travels in schools.",
+                    Breed.FISH
+                    ),
+                new Swarm())
+                .AddBuff(new RoughSkin())
+                .AddSpells(new EnemyHeal())
+                .AddMoney(2);
         }
 
         public static Character BlackShuck() {
@@ -145,59 +167,82 @@ namespace Scripts.Game.Defined.Characters {
 
         public static Character Elemental() {
             return CharacterUtil.StandardEnemy(
-                new Stats(9, 5, 20, 15, 20),
+                new Stats(9, 1, 30, 10, 50),
                 new Look(
                     "Elemental",
-                    "villager",
+                    "elemental",
                     "Sea elemental.",
                     Breed.FISH
                     ),
                 new Elemental()
                 )
                 .AddStats(new Mana())
-                .AddSpells(new WaterboltSingle(), new WaterboltMulti())
-                .AddBuff(new Insight())
-                .AddItem(new Cleansing(), Util.IsChance(.25f));
+                .AddSpells(new WaterboltSingle(),
+                    new WaterboltMulti())
+                .AddItem(new Cleansing(), Util.IsChance(.50f))
+                .AddItem(new PureWater(), .20f)
+                .AddMoney(50);
         }
 
-        public static Character DreadSinger() {
+        public static Character Shuck() {
             return CharacterUtil.StandardEnemy(
-                    new Stats(10, 5, 20, 20, 25),
+                    new Stats(9, 5, 20, 20, 30),
                     new Look(
-                        "Sea Witch",
-                        "siren",
-                        "Singer of the voices of death.",
+                        "Shuck",
+                        "shuck",
+                        "Cursed coastal canine.",
                         Breed.FISH
                         ),
                     new DreadSinger())
                     .AddSpells(new CastDelayedDeath())
-                    .AddItem(new Cleansing(), 1);
-        }
-
-        public static Character Swarm() {
-            return CharacterUtil.StandardEnemy(
-                new Stats(5, 3, 10, 2, 15),
-                new Look(
-                    "Swarm",
-                    "angler-fish",
-                    "Questionable member of the sea that travels in schools.",
-                    Breed.FISH
-                    ),
-                new Swarm())
-                .AddSpells(new EnemyHeal())
-                .AddItem(new Money(), Util.RandomRange(5, 10));
+                    .AddItem(new GrayWater(), .50f)
+                    .AddItem(new Cleansing(), 1)
+                    .AddItem(new WaterOrb(), .05f)
+                    .AddEquip(new Spear(), .10f)
+                    .AddMoney(20);
         }
 
         public static Character SharkBaitDecoy() {
             return CharacterUtil.StandardEnemy(
-                new Stats(1, 666, 1, 1, 1),
+                new Stats(1, 0, 0, 0, 1),
                 new Look(
                     "Shark Bait",
-                    "food-chain",
-                    "Local sharks just find this irresistable.",
-                    Breed.SHARK_BAIT    
+                    "villager",
+                    "No villagers were harmed in the making of this product.",
+                    Breed.SHARK_BAIT
                     ),
                 new DoNothing());
+        }
+
+        public static Character SharkPirate() {
+            return CharacterUtil.StandardEnemy(
+                new Stats(10, 10, 5, 18, 150),
+                new Look(
+                    "Cap'n Selach",
+                    "shark-pirate",
+                    "Fierce captain of shark crew.",
+                    Breed.FISH
+                    ),
+                new SharkPirate())
+                .AddBuff(new RougherSkin())
+                .AddMoney(30)
+                .AddSpells(
+                    new SummonSeaCreatures(),
+                    new OneShotKill(),
+                    new CastDelayedEternalDeath(),
+                    new GiveEvasion(),
+                    new SetupCounter(),
+                    new ReflectiveClone())
+                .AddItem(new SharkFin())
+                .AddItem(new SharkBlood())
+                .AddItem(new ToothNecklace(), .25f)
+                .AddItem(new SharkTooth(), .25f)
+                .AddItem(new Item[] {
+                    new Trident(),
+                    new Hammer(),
+                    new ScaledArmor()
+                    }.ChooseRandom()
+                );
         }
     }
 }

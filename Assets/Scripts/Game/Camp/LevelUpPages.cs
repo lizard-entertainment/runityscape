@@ -55,6 +55,7 @@ namespace Scripts.Game.Pages {
                     actions.Add(ExpHack(characterToViewStatsOf));
                 }
                 DisplayStats(p, characterToViewStatsOf);
+                p.AddText(characterToViewStatsOf.Spells.SpellTextsDisplay);
                 LevelUpPage(characterToViewStatsOf, p);
                 p.Actions = actions.ToArray();
             };

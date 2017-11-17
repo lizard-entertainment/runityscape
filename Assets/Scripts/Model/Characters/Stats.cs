@@ -359,9 +359,7 @@ namespace Scripts.Model.Characters {
         ///   <c>true</c> if the specified stat type has stat; otherwise, <c>false</c>.
         /// </returns>
         public bool HasStat(StatType statType) {
-            Stat stat;
-            baseStats.TryGetValue(statType, out stat);
-            return stat != null;
+            return baseStats.ContainsKey(statType);
         }
 
         /// <summary>

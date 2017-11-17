@@ -62,7 +62,7 @@ public static class Util {
     }
 
     public static IButtonable[] GetArray(params Tuple[] indicies) {
-        return GetArray(indicies, Grid.DEFAULT_BUTTON_COUNT);
+        return GetArray(indicies, SubGrid.DEFAULT_BUTTON_COUNT);
     }
 
     private static IButtonable[] GetArray(Tuple[] indices, int smallestAllowedSize = 0) {

@@ -4,11 +4,12 @@ using UnityEngine;
 using System.Collections.Generic;
 
 namespace Scripts.Model.Processes {
+
     /// <summary>
     /// A grid is an ActionGrid, independant of any page.
     /// </summary>
     /// <seealso cref="Scripts.Model.Interfaces.IButtonable" />
-    public class Grid : IButtonable {
+    public class SubGrid : IButtonable {
         public const int DEFAULT_BUTTON_COUNT = 16;
 
         public static Action<IList<IButtonable>> ChangeGridFunc {
@@ -16,38 +17,44 @@ namespace Scripts.Model.Processes {
                 changeGridFunc = value;
             }
         }
+
         private static Action<IList<IButtonable>> changeGridFunc;
 
         /// <summary>
         /// The name on the grid button
         /// </summary>
         public string Name;
+
         /// <summary>
         /// The tooltip on the grid button
         /// </summary>
         public string Tooltip;
+
         /// <summary>
         /// The icon seen on the grid button
         /// </summary>
         public Sprite Icon;
+
         /// <summary>
         /// The condition for the grid to be usable.
         /// </summary>
         public Func<bool> Condition;
+
         /// <summary>
         /// Called on entering the grid
         /// </summary>
         public Action OnEnter;
+
         /// <summary>
         /// The list of buttons on the grid.
         /// </summary>
         public IList<IButtonable> List;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Grid"/> class.
+        /// Initializes a new instance of the <see cref="SubGrid"/> class.
         /// </summary>
         /// <param name="name">The name of the grid.</param>
-        public Grid(string name) {
+        public SubGrid(string name) {
             this.Name = name;
             this.Tooltip = "";
             this.Icon = null;
@@ -91,7 +98,7 @@ namespace Scripts.Model.Processes {
         /// </summary>
         /// <param name="condition">The condition.</param>
         /// <returns></returns>
-        public Grid SetCondition(Func<bool> condition) {
+        public SubGrid SetCondition(Func<bool> condition) {
             this.Condition = condition;
             return this;
         }

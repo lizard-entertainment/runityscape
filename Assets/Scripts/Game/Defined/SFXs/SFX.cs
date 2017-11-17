@@ -76,10 +76,8 @@ namespace Scripts.Game.Defined.SFXs {
             // Move mover to upper layer so it is on top of all elements
             int index = mover.RectTransform.GetSiblingIndex();
             GameObject parent = mover.RectTransform.parent.gameObject;
-
-            Util.Parent(mover.RectTransform.gameObject, EffectsManager.Instance.Foreground);
-
             Vector2 moverOriginalPos = mover.RectTransform.position;
+            Util.Parent(mover.RectTransform.gameObject, EffectsManager.Instance.Foreground);
             yield return MoveTowards(mover.RectTransform, destination.RectTransform, duration / 3);
             Presenter.Main.Instance.Sound.PlaySound(soundLoc);
             yield return Shake(destination.RectTransform, 100, duration / 3);
@@ -88,7 +86,6 @@ namespace Scripts.Game.Defined.SFXs {
                 yield return DoStarEffect(destination);
             }
             Util.Parent(mover.RectTransform.gameObject, parent);
-
             mover.RectTransform.SetSiblingIndex(index);
         }
 
@@ -126,8 +123,9 @@ namespace Scripts.Game.Defined.SFXs {
             ev.Color = color;
             portrait.ParentToEffects(ev.gameObject);
             yield return new WaitUntil(() => portrait.RectTransform != null);
-            Main.Instance.StartCoroutine(Shake(portrait.RectTransform, 100, 0.5f));
-            yield return new WaitUntil(() => ev.IsDone);
+            bool isShakeDone = false;
+            Main.Instance.StartCoroutine(Shake(portrait.RectTransform, 100, 0.5f, () => isShakeDone = true));
+            yield return new WaitUntil(() => ev.IsDone && isShakeDone);
             ObjectPoolManager.Instance.Return(ev);
         }
 
@@ -169,8 +167,10 @@ namespace Scripts.Game.Defined.SFXs {
         /// <param name="maxIntensity">The maximum intensity.</param>
         /// <param name="duration">The duration.</param>
         /// <returns></returns>
-        private static IEnumerator Shake(Transform item, float maxIntensity, float duration) {
+        private static IEnumerator Shake(RectTransform item, float maxIntensity, float duration, Action callback = null) {
+            callback = callback ?? (() => { });
             Vector2 original = item.position;
+            Vector2 originalAnchor = item.anchoredPosition;
             float timer = 0;
             while ((timer += Time.deltaTime) < duration) {
                 float intensity = Mathf.SmoothStep(maxIntensity, 0, timer / duration);
@@ -178,6 +178,8 @@ namespace Scripts.Game.Defined.SFXs {
                 yield return null;
             }
             item.position = original;
+            item.anchoredPosition = originalAnchor;
+            callback();
         }
 
         /// <summary>

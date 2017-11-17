@@ -509,12 +509,12 @@ public class BasicTests {
             Character slow = CharacterList.TestEnemy();
             Battle dummy = new Battle(new Page("dummy"), new Page("dummy"), Music.NORMAL, "Dummy", new Character[] { fast }, new Character[] { slow });
 
-            Spell lowPriorityWithSlowCaster = new SingleSpell(new Scripts.Game.Defined.Unserialized.Spells.ReflectiveClone(), new Result(), slow, fast);
-            Spell lowPriorityWithFastCaster = new SingleSpell(new Scripts.Game.Defined.Unserialized.Spells.ReflectiveClone(), new Result(), fast, slow);
-            Spell normalPriorityWithSlowCaster = new SingleSpell(new Attack(), new Result(), slow, fast);
-            Spell normalPriorityWithFastCaster = new SingleSpell(new Attack(), new Result(), fast, slow);
-            Spell highPriorityWithSlowCaster = new SingleSpell(new Scripts.Game.Defined.Unserialized.Spells.EnemyHeal(), new Result(), slow, slow);
-            Spell highPriorityWithFastCaster = new SingleSpell(new Scripts.Game.Defined.Unserialized.Spells.EnemyHeal(), new Result(), fast, slow);
+            Spell lowPriorityWithSlowCaster = new SingleSpell(new Scripts.Game.Defined.Unserialized.Spells.ReflectiveClone(), new Result(), slow, fast, dummy);
+            Spell lowPriorityWithFastCaster = new SingleSpell(new Scripts.Game.Defined.Unserialized.Spells.ReflectiveClone(), new Result(), fast, slow, dummy);
+            Spell normalPriorityWithSlowCaster = new SingleSpell(new Attack(), new Result(), slow, fast, dummy);
+            Spell normalPriorityWithFastCaster = new SingleSpell(new Attack(), new Result(), fast, slow, dummy);
+            Spell highPriorityWithSlowCaster = new SingleSpell(new Scripts.Game.Defined.Unserialized.Spells.EnemyHeal(), new Result(), slow, slow, dummy);
+            Spell highPriorityWithFastCaster = new SingleSpell(new Scripts.Game.Defined.Unserialized.Spells.EnemyHeal(), new Result(), fast, slow, dummy);
 
             Spell[] expectedOrder = new Spell[] {
                 highPriorityWithFastCaster,

@@ -23,6 +23,7 @@ namespace Scripts.Game.Serialized.Brains {
     }
 
     public class DoNothing : PriorityBrain {
+
         protected override IList<Spell> GetPriorityPlays() {
             return new Spell[] {
                     CastOnRandom(new Wait())
@@ -155,14 +156,18 @@ namespace Scripts.Game.Serialized.Brains {
         private const int TURNS_BETWEEN_PHASE_TWO_SPECIAL_SPELLS = 5;
         private static readonly SpellBook SUMMONING = new SummonSeaCreatures();
         private static readonly SpellBook ONE_SHOT_KILL = new OneShotKill();
-        private static readonly SpellBook DEATH_CURSE = new CastDelayedDeath();
-        private static readonly SpellBook SELF_STRENGTH_BUFF = new GiveOverwhelmingPower();
+        private static readonly SpellBook DEATH_CURSE = new CastDelayedEternalDeath();
+        private static readonly SpellBook EVASION_BUFF = new GiveEvasion();
+        private static readonly SpellBook COUNTER = new SetupCounter();
+        private static readonly SpellBook CLONE = new ReflectiveClone();
         private static readonly SpellBook ATTACK = new Attack();
 
         private static readonly SpellBook[] PHASE_TWO_SPELLS = new SpellBook[] {
             ONE_SHOT_KILL,
             DEATH_CURSE,
-            SELF_STRENGTH_BUFF
+            EVASION_BUFF,
+            COUNTER,
+            CLONE
         };
 
         private bool isAnnounceSecondPhase;

@@ -6,18 +6,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
+using Scripts.Model.Characters;
 
 namespace Scripts.Model.Stats {
 
     /// <summary>
     /// Type-safe enum representing the various stat types in the game.
     /// </summary>
-    public sealed class StatType : IComparable<StatType>, INameable, ISaveable<StatTypeSave> {
+    public sealed class StatType : IComparable<StatType>, INameable, ISaveable<StatTypeSave>, ICostable {
         private static readonly HashSet<StatType> allTypes = new HashSet<StatType>(new IdentityEqualityComparer<StatType>());
 
         private static readonly IDictionary<BoundType, Bounds> attributeBounds = new Dictionary<BoundType, Bounds>() {
             { BoundType.RESOURCE, new Bounds(0, int.MaxValue) },
-            { BoundType.ASSIGNABLE, new Bounds(0, 100) },
+            { BoundType.ASSIGNABLE, new Bounds(0, 9999) },
         };
 
         public static readonly StatType STRENGTH = new StatType(
@@ -203,6 +204,20 @@ namespace Scripts.Model.Stats {
 
         public void InitFromSaveObject(StatTypeSave saveObject) {
             // Nothing
+        }
+
+        public bool CanAfford(int amount, Character characterToCheck) {
+            Util.Assert(amount > 0, "Amount must be nonnegative.");
+            return characterToCheck.Stats.GetStatCount(Characters.Stats.Get.MOD, this) >= amount;
+        }
+
+        public void DeductCostFromCharacter(int amount, Character unitToDeductFrom) {
+            Util.Assert(CanAfford(amount, unitToDeductFrom));
+            unitToDeductFrom.Stats.AddToStat(this, Characters.Stats.Set.MOD, -amount);
+        }
+
+        public string GetName() {
+            return this.ColoredName;
         }
     }
 }

@@ -38,14 +38,17 @@ namespace Scripts.Model.Spells {
 
         private int turnsUntilCast;
 
+        protected readonly Page current;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Spell"/> class.
         /// </summary>
         /// <param name="book">The book.</param>
         /// <param name="caster">The caster.</param>
-        public Spell(SpellBook book, Character caster) {
+        public Spell(SpellBook book, Character caster, Page current) {
             this.book = book;
             this.caster = caster;
+            this.current = current;
             this.turnsUntilCast = book.TurnsToCharge;
         }
 

@@ -10,6 +10,7 @@ using Scripts.Game.Serialized;
 using System;
 
 namespace Scripts.Game.Pages {
+
     public class SavePages : PageGroup {
 
         public SavePages(Page previous, Party party, Flags flags) : base(new Page("Save")) {
@@ -62,7 +63,7 @@ namespace Scripts.Game.Pages {
             world.InitFromSaveObject(currentSaveInTheSlot);
             Party party = world.Party;
             Flags flags = world.Flags;
-            string saveName = SaveLoad.GetSaveFileDisplay(world.Flags.LastClearedArea.GetDescription(), world.Flags.LastClearedStage);
+            string saveName = world.FileName;
 
             Page page = PageUtil.GetConfirmationPage(
                 previous,

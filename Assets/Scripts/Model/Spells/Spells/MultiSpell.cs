@@ -13,11 +13,9 @@ namespace Scripts.Model.Spells {
     /// </summary>
     public class MultiSpell : Spell {
         private readonly Func<Page, Character, Character, Spell> spellBuilder;
-        private readonly Page current;
 
-        public MultiSpell(SpellBook book, Character caster, Page current, Func<Page, Character, Character, Spell> spellBuilder) : base(book, caster) {
+        public MultiSpell(SpellBook book, Character caster, Page current, Func<Page, Character, Character, Spell> spellBuilder) : base(book, caster, current) {
             this.spellBuilder = spellBuilder;
-            this.current = current;
         }
 
         public override ResultType ResultType {
@@ -28,7 +26,7 @@ namespace Scripts.Model.Spells {
 
         public override bool IsCastable {
             get {
-                return book.TargetType.GetTargets(caster, current).Any(target => book.IsCastableIgnoreResources(caster, new Character[] { target }));
+                return book.TargetType.GetTargets(caster, current).Any(target => book.IsCastableIgnoreResources(current, caster, new Character[] { target }));
             }
         }
 

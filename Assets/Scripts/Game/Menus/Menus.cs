@@ -19,6 +19,7 @@ using Scripts.Game.Defined.Serialized.Statistics;
 using Scripts.Game.Serialized;
 using Scripts.Game.Serialization;
 using Scripts.Model.SaveLoad;
+using UnityEngine.SceneManagement;
 
 namespace Scripts.Game.Pages {
 
@@ -29,14 +30,15 @@ namespace Scripts.Game.Pages {
     public class Menus : PageGroup {
         public const int DEBUGGING = 1;
         public const int NEW_GAME = 2;
-        public const int HOTKEY_TUTORIAL = 3;
+        public const int UI_TUTORIAL = 3;
+        private const string SECRET_PASSWORD = "hello";
 
         private string name;
 
         public Menus() : base(new Page("Main Menu")) {
             Register(DEBUGGING, new Page("Debug"));
             Register(NEW_GAME, new Page("New Game"));
-            Register(HOTKEY_TUTORIAL, new Page("Some buttons have hotkeys!"));
+            Register(UI_TUTORIAL, new Page("UI Tutorial"));
             StartPage();
             DebugPage();
             NewGameNameInputPage();
@@ -54,8 +56,8 @@ namespace Scripts.Game.Pages {
             start.OnEnter = () => {
                 List<IButtonable> buttons = new List<IButtonable>() {
                     Get(NEW_GAME),
-                    new  CreditsPages(Root),
                     new LoadPages(start),
+                    new Process("Back", "Return to Start Page.", () => SceneManager.LoadScene("Start"))
                 };
                 if (Util.IS_DEBUG) {
                     buttons.Add(Get(DEBUGGING));
@@ -66,8 +68,8 @@ namespace Scripts.Game.Pages {
 
         private void DebugPage() {
             Page debug = Get(DEBUGGING);
-            Grid submenu = new Grid("Go to submenu");
-            Grid mainDebug = new Grid("Return to main menu");
+            SubGrid submenu = new SubGrid("Go to submenu");
+            SubGrid mainDebug = new SubGrid("Return to main menu");
 
             Character kitsune = CharacterList.TestEnemy();
             debug.AddCharacters(Side.LEFT, kitsune);
@@ -108,8 +110,8 @@ namespace Scripts.Game.Pages {
                 "Confirm",
                 () => {
                     this.name = Get(NEW_GAME).Input;
-                    HotkeyTutorialPage(name);
-                    Get(HOTKEY_TUTORIAL).Invoke();
+                    TutorialPage(name);
+                    Get(UI_TUTORIAL).Invoke();
                 },
                 () => 2 <= Get(NEW_GAME).Input.Length && Get(NEW_GAME).Input.Length <= 10)
                 );
@@ -118,14 +120,27 @@ namespace Scripts.Game.Pages {
             page.HasInputField = true;
         }
 
-        private void HotkeyTutorialPage(string name) {
-            Page hotkeys = Get(HOTKEY_TUTORIAL);
-            hotkeys.OnEnter = (() => Main.Instance.IsCursorEnabled = false);
-            hotkeys.Body = "Oh no! Your cursor has vanished!\n(Hint: Use your keyboard.)";
+        private void TutorialPage(string name) {
+            Page hotkeys = Get(UI_TUTORIAL);
+            hotkeys.HasInputField = true;
+            hotkeys.Body = "BUTTON INPUT\nUse the mouse or keyboard to interact with buttons! You will see a character near the bottom right of a button if you can use hotkeys.\n\nTOOLTIPS\nJust about everything you can see in this game has a tooltip (including some textboxes)! Hover your mouse over an element to learn more about the element.";
+            hotkeys.OnEnter = () => {
+                hotkeys.AddText(
+                    new TextBox("Hover over this tooltip to figure out what to type into the input to advance! In battle, you can hover over these to figure out the details of a spell that you don't own.",
+                    new Model.Tooltips.TooltipBundle(Util.GetSprite("talk"), "The password is...",
+                    SECRET_PASSWORD
+                    )));
+            };
             hotkeys.Actions = new IButtonable[] {
-                new Process("Advance!", () => {
-                        Main.Instance.IsCursorEnabled = true;
-                        new IntroPages(name).Invoke();
+                new Process("Advance!",
+                    "Here is another tooltip!",
+                    () => {
+                            new IntroPages(name).Invoke();
+                        },
+                    () => hotkeys.Input.Equals(SECRET_PASSWORD)),
+                new Process("Back",
+                    () => {
+                            Get(NEW_GAME).Invoke();
                     })
             };
         }

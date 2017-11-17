@@ -16,15 +16,18 @@ namespace Scripts.Model.Pages {
     /// A page is the basic "scene" of this game.
     /// </summary>
     /// <seealso cref="Scripts.Model.Interfaces.IButtonable" />
-    public class Page : IButtonable {
+    public class Page : IButtonable, IPage {
+
         /// <summary>
         /// The change page function
         /// </summary>
         public static Action<Page> ChangePageFunc;
+
         /// <summary>
         /// The update grid UI function
         /// </summary>
         public static Action<Page> UpdateGridUI;
+
         /// <summary>
         /// The function that allows for typing text.
         /// </summary>
@@ -90,14 +93,13 @@ namespace Scripts.Model.Pages {
         /// </summary>
         private IButtonable[] grid;
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Page"/> class.
         /// </summary>
         /// <param name="location">The location.</param>
         public Page(string location) {
             this.Location = location;
-            this.grid = new IButtonable[Grid.DEFAULT_BUTTON_COUNT];
+            this.grid = new IButtonable[SubGrid.DEFAULT_BUTTON_COUNT];
             this.left = new HashList<Character>(new IdNumberEqualityComparer<Character>());
             this.right = new HashList<Character>(new IdNumberEqualityComparer<Character>());
             this.OnEnter = () => { };
@@ -115,8 +117,8 @@ namespace Scripts.Model.Pages {
         public IList<IButtonable> Actions {
             set {
                 IButtonable[] set = null;
-                if (value.Count < Grid.DEFAULT_BUTTON_COUNT) {
-                    set = new IButtonable[Grid.DEFAULT_BUTTON_COUNT];
+                if (value.Count < SubGrid.DEFAULT_BUTTON_COUNT) {
+                    set = new IButtonable[SubGrid.DEFAULT_BUTTON_COUNT];
                     Array.Copy(value.ToArray(), set, value.Count);
                 } else {
                     set = value.ToArray();
@@ -214,6 +216,12 @@ namespace Scripts.Model.Pages {
             }
         }
 
+        public virtual bool IsInBattle {
+            get {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Sets the tooltip.
         /// </summary>
@@ -262,7 +270,7 @@ namespace Scripts.Model.Pages {
         /// Clears the action grid.
         /// </summary>
         public void ClearActionGrid() {
-            Actions = new IButtonable[Grid.DEFAULT_BUTTON_COUNT];
+            Actions = new IButtonable[SubGrid.DEFAULT_BUTTON_COUNT];
         }
 
         /// <summary>

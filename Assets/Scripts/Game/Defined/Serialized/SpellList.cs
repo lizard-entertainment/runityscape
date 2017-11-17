@@ -87,10 +87,10 @@ namespace Scripts.Game.Defined.Serialized.Spells {
     }
 
     public class MagicMissile : BasicSpellbook {
-        private const float INTELLECT_RATIO = 1.5f;
+        private const float INTELLECT_RATIO = 1f;
 
         public MagicMissile() : base("Magic Missile", Util.GetSprite("water-bolt"), TargetType.ONE_FOE, SpellType.OFFENSE) {
-            AddCost(StatType.MANA, 5);
+            AddCost(StatType.MANA, 10);
         }
 
         protected override string CreateDescriptionHelper() {
@@ -118,11 +118,11 @@ namespace Scripts.Game.Defined.Serialized.Spells {
 
         public SelfHeal() : base("Meditate", Util.GetSprite("prayer"), TargetType.SELF, SpellType.DEFENSE) {
             AddCost(StatType.SKILL, SKILL_COST);
-            isUsableOutOfCombat = true;
+            flags.Add(Model.Spells.Flag.USABLE_OUT_OF_COMBAT);
         }
 
         protected override string CreateDescriptionHelper() {
-            return string.Format("Restore {0} of your missing {1}.", MISSING_HEALTH_HEAL_AMOUNT, StatType.HEALTH);
+            return string.Format("Restore {0}% of your missing {1}.", MISSING_HEALTH_HEAL_AMOUNT, StatType.HEALTH);
         }
 
         protected override IList<SpellEffect> GetHitEffects(Page page, Character caster, Character target) {
@@ -197,7 +197,7 @@ namespace Scripts.Game.Defined.Serialized.Spells {
 
         public Purge() : base("Purge", Util.GetSprite("beams-aura"), TargetType.ANY, SpellType.DEFENSE) {
             AddCost(StatType.MANA, 10);
-            isUsableOutOfCombat = true;
+            flags.Add(Model.Spells.Flag.USABLE_OUT_OF_COMBAT);
         }
 
         protected override string CreateDescriptionHelper() {
@@ -257,7 +257,7 @@ namespace Scripts.Game.Defined.Serialized.Spells {
 
         public Revive() : base("Revive", Util.GetSprite("beams-aura"), TargetType.ONE_ALLY, SpellType.BOOST, PriorityType.LOW, true) {
             AddCost(StatType.MANA, MANA_COST);
-            isUsableOutOfCombat = true;
+            flags.Add(Model.Spells.Flag.USABLE_OUT_OF_COMBAT);
         }
 
         protected override string CreateDescriptionHelper() {
@@ -277,7 +277,7 @@ namespace Scripts.Game.Defined.Serialized.Spells {
 
         public Inspire() : base("Inspire", Util.GetSprite("fire"), TargetType.ONE_ALLY, SpellType.BOOST) {
             AddCost(StatType.SKILL, SKILL_COST);
-            isUsableOutOfCombat = true;
+            flags.Add(Model.Spells.Flag.USABLE_OUT_OF_COMBAT);
         }
 
         protected override string CreateDescriptionHelper() {
@@ -302,7 +302,7 @@ namespace Scripts.Game.Defined.Serialized.Spells {
 
         public PlayerHeal() : base("Heal", Util.GetSprite("health-normal"), TargetType.ONE_ALLY, SpellType.BOOST) {
             AddCost(StatType.MANA, 20);
-            isUsableOutOfCombat = true;
+            flags.Add(Model.Spells.Flag.USABLE_OUT_OF_COMBAT);
         }
 
         protected override string CreateDescriptionHelper() {
@@ -678,30 +678,27 @@ namespace Scripts.Game.Defined.Unserialized.Spells {
     }
 
     public class WaterboltSingle : WaterboltAbstract {
-        private const string SINGLE_TARGET_DESCRIPTION = "A burst of boiling water that has a chance to inflict\n<color=cyan>{0}</color>\n{1}";
 
-        public WaterboltSingle() : base(TargetType.ONE_FOE, "Scald", SINGLE_TARGET_DESCRIPTION) {
+        public WaterboltSingle() : base(TargetType.ONE_FOE, "Scald") {
         }
     }
 
     public class WaterboltMulti : WaterboltAbstract {
-        private const int MANA_COST = 10;
-        private const string MULTI_TARGET_DESCRIPTION = "Bursts of boiling water that have a chance to inflict\n<color=cyan>{0}</color>\n{1}";
+        private const int MANA_COST = 25;
 
-        public WaterboltMulti() : base(TargetType.ALL_FOE, "Multi Scald", MULTI_TARGET_DESCRIPTION) {
+        public WaterboltMulti() : base(TargetType.ALL_FOE, "Multi Scald") {
             AddCost(StatType.MANA, MANA_COST);
         }
     }
 
     public abstract class WaterboltAbstract : BasicSpellbook {
-        private const float CHANCE_OF_CRITICAL = 0.30f;
         private static readonly Buff IGNITE_BUFF = new TempIgnited();
 
         private readonly string description;
 
-        public WaterboltAbstract(TargetType targetType, string name, string description) : base(name, Util.GetSprite("water-bolt"), targetType, SpellType.OFFENSE) {
-            this.TurnsToCharge = 1;
-            this.description = description;
+        public WaterboltAbstract(TargetType targetType, string name) : base(name, Util.GetSprite("water-bolt"), targetType, SpellType.OFFENSE) {
+            this.TurnsToCharge = 3;
+            this.description = "A blast of boiling water. If target is not Guarding, inflicts <color=cyan<{0}</color>\n{1}";
         }
 
         protected override string CreateDescriptionHelper() {
@@ -712,7 +709,7 @@ namespace Scripts.Game.Defined.Unserialized.Spells {
         }
 
         protected override bool IsCritical(Character caster, Character target) {
-            return Util.IsChance(CHANCE_OF_CRITICAL);
+            return !target.Buffs.HasBuff<Defend>();
         }
 
         protected override IList<SpellEffect> GetCriticalEffects(Page page, Character caster, Character target) {
@@ -757,7 +754,7 @@ namespace Scripts.Game.Defined.Unserialized.Spells {
         private int NUMBER_OF_SUMMON_PICKS = 2;
 
         private static readonly IDictionary<Func<Character>, int> POSSIBLE_SUMMONS = new Dictionary<Func<Character>, int> {
-            { () => OceanNPCs.DreadSinger(), 1 },
+            { () => OceanNPCs.Shuck(), 1 },
             { () => OceanNPCs.Elemental(), 1 },
             { () => OceanNPCs.Shark(), 2 },
             { () => OceanNPCs.Siren(), 1 },
@@ -789,7 +786,7 @@ namespace Scripts.Game.Defined.Unserialized.Spells {
     public class OneShotKill : BasicSpellbook {
         private const int HIGH_DAMAGE = 1337;
 
-        public OneShotKill() : base("Death Strike", Util.GetSprite("skull-crack"), TargetType.ONE_ALLY, SpellType.OFFENSE) {
+        public OneShotKill() : base("Death Strike", Util.GetSprite("skull-crack"), TargetType.ONE_FOE, SpellType.OFFENSE) {
             this.TurnsToCharge = 1;
         }
 
@@ -808,9 +805,9 @@ namespace Scripts.Game.Defined.Unserialized.Spells {
         }
     }
 
-    public class GiveOverwhelmingPower : BuffAdder<OverwhelmingPower> {
+    public class GiveEvasion : BuffAdder<Evasion> {
 
-        public GiveOverwhelmingPower() : base(TargetType.SELF, SpellType.BOOST, PriorityType.LOW) {
+        public GiveEvasion() : base(TargetType.SELF, SpellType.BOOST, PriorityType.LOW) {
         }
     }
 
@@ -821,6 +818,7 @@ namespace Scripts.Game.Defined.Unserialized.Spells {
     }
 
     public class SuperBurn : BuffAdder<SuperIgnited> {
+
         public SuperBurn() : base(TargetType.ONE_FOE, SpellType.OFFENSE, PriorityType.NORMAL) {
         }
     }

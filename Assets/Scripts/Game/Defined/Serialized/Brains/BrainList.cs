@@ -26,7 +26,7 @@ namespace Scripts.Game.Defined.Serialized.Brains {
         /// Wait for an action to be chosen.
         /// </summary>
         public override void DetermineAction() {
-            Grid main = new Grid("Main");
+            SubGrid main = new SubGrid("Main");
 
             main.List = new IButtonable[] {
                 PageUtil.GenerateTargets(currentBattle, main, brainOwner, ATTACK, GetAttackSprite(brainOwner.Equipment), spellHandler),

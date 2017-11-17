@@ -33,6 +33,7 @@ namespace Scripts.Game.Serialization {
         /// The configuration folder name
         /// </summary>
         private const string CONFIG_FOLDER_NAME = "Config";
+
         /// <summary>
         ///
         /// The configuration file name
@@ -168,16 +169,6 @@ namespace Scripts.Game.Serialization {
                 return;
             }
             PostMessage(string.Format("Save file {0} was deleted.", index));
-        }
-
-        /// <summary>
-        /// Gets the save file display.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="level">The level.</param>
-        /// <returns></returns>
-        public static string GetSaveFileDisplay(string lastAreaName, int lastStage) {
-            return string.Format("{0}-{1}", lastAreaName, lastStage);
         }
 
         /// <summary>

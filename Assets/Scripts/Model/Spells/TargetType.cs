@@ -60,7 +60,7 @@ namespace Scripts.Model.Spells {
                 spellbook.TargetType.Name,
                 Util.GetSprite(MULTI_TARGET_ICON),
                 () => spellHandler(caster.Spells.CreateSpell(current, spellbook, caster)),
-                () => spellbook.IsCastable(caster, spellbook.TargetType.GetTargets(caster, current))
+                () => spellbook.IsCastable(current, caster, spellbook.TargetType.GetTargets(caster, current))
                 );
         }
 
@@ -71,7 +71,7 @@ namespace Scripts.Model.Spells {
                 target.Look.Sprite,
                 spell.CreateTargetDescription(target.Look.DisplayName),
                 () => spellHandler(caster.Spells.CreateSpell(current, spell, caster, target)),
-                () => spell.IsCastable(caster, targets)
+                () => spell.IsCastable(current, caster, targets)
                 );
         }
     }

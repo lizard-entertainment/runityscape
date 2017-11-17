@@ -25,6 +25,7 @@ namespace Scripts.Model.Items {
         public UseableItem(Sprite sprite, int basePrice, TargetType target, string name, string description)
             : base(sprite, basePrice, target, name, description) {
             flags.Add(Flag.OCCUPIES_SPACE);
+            flags.Add(Flag.USABLE_OUT_OF_COMBAT);
         }
     }
 }

@@ -3,8 +3,8 @@ using Scripts.Game.Serialized;
 using Scripts.Model.Characters;
 using Scripts.Model.Pages;
 using Scripts.Game.Areas;
-using System;
 using Scripts.Model.Acts;
+using System.Linq;
 
 namespace Scripts.Game.Stages {
 
@@ -22,7 +22,12 @@ namespace Scripts.Game.Stages {
                 ActUtil.SetupScene(
                     acts,
                     () => OnStageClear(areaTotalStageCount, type, flags, stageIndex), // Do this first incase if a scene is the last stage area
-                    () => camp.Invoke());
+                    () => {
+                        // Probably a better solution than this? TODO
+                        if (!acts.Any(a => a is PageChangeAct)) {
+                            camp.Invoke();
+                        }
+                    });
             return page;
         }
     }

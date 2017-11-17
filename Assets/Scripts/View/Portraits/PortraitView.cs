@@ -32,6 +32,8 @@ namespace Scripts.View.Portraits {
         [SerializeField]
         private Tooltip.Tip tip;
 
+        private Vector3 startingPosition;
+
         /// <summary>
         /// Gets the effects holder. Effects are children of this!
         /// </summary>
@@ -83,6 +85,10 @@ namespace Scripts.View.Portraits {
             }
         }
 
+        private void Start() {
+            this.startingPosition = iconImage.GetComponent<RectTransform>().anchoredPosition;
+        }
+
         /// <summary>
         /// Setups the specified sprite.
         /// </summary>
@@ -114,6 +120,7 @@ namespace Scripts.View.Portraits {
             PortraitText.color = Color.white;
             Image.color = Color.white;
             Image.enabled = true;
+            Image.GetComponent<RectTransform>().anchoredPosition = startingPosition;
             tip.Reset();
 
             this.StopAllCoroutines();
@@ -123,6 +130,9 @@ namespace Scripts.View.Portraits {
             for (int i = 0; i < ces.Length; i++) {
                 ObjectPoolManager.Instance.Return(ces[i]);
             }
+        }
+
+        private void Update() {
         }
     }
 }

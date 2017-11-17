@@ -49,8 +49,6 @@ namespace Scripts.Model.Spells {
         /// </summary>
         public readonly TargetType TargetType;
 
-        protected bool isUsableOutOfCombat;
-
         /// <summary>
         /// The verb
         /// </summary>
@@ -64,9 +62,9 @@ namespace Scripts.Model.Spells {
         /// <summary>
         /// The costs
         /// </summary>
-        private readonly IDictionary<StatType, int> costs;
+        private readonly IDictionary<ICostable, int> costs;
 
-        private ReadOnlyDictionary<StatType, int> roCosts;
+        private ReadOnlyDictionary<ICostable, int> roCosts;
 
         /// <summary>
         /// Number of turns it takes to charge this spell.
@@ -99,7 +97,7 @@ namespace Scripts.Model.Spells {
         public SpellBook(string spellName, Sprite sprite, TargetType target, SpellType spell, PriorityType priority, string verb) {
             this.Name = spellName;
             this.Icon = sprite;
-            this.costs = new Dictionary<StatType, int>();
+            this.costs = new Dictionary<ICostable, int>();
             this.TargetType = target;
             this.SpellType = spell;
             this.flags = new HashSet<Flag>() { Flag.CASTER_REQUIRES_SPELL };
@@ -125,15 +123,20 @@ namespace Scripts.Model.Spells {
         /// <value>
         /// The costs.
         /// </value>
-        public IDictionary<StatType, int> Costs {
+        public IDictionary<ICostable, int> Costs {
             get {
-                return roCosts ?? (roCosts = new ReadOnlyDictionary<StatType, int>(costs));
+                return roCosts ?? (roCosts = new ReadOnlyDictionary<ICostable, int>(costs));
             }
         }
 
-        public bool IsUsableOutOfCombat {
+        public string NameAndDescription {
             get {
-                return isUsableOutOfCombat;
+                return string.Format(
+                    "{0} ({1}) - {2}",
+                        Name,
+                        GetCommaSeparatedCosts(),
+                        CreateDescriptionHelper()
+                    );
             }
         }
 
@@ -176,17 +179,17 @@ namespace Scripts.Model.Spells {
         /// <returns></returns>
         public Spell BuildSpell(Page page, Character caster, ICollection<Character> targets) {
             Util.Assert(
-                IsCastable(caster, targets),
+                IsCastable(page, caster, targets),
                 string.Format(
                 "Attempted to cast {0} without requirements fulfilled. Resources={1}, OtherRequirements={2}.",
                 this.Name,
-                CasterHasResources(caster.Stats),
-                targets.Any(target => IsMeetOtherCastRequirements(caster, target))
+                CasterHasResources(caster),
+                targets.Any(target => IsMeetOtherCastRequirements(page, caster, target))
                 ));
 
             // Consume resources
-            foreach (KeyValuePair<StatType, int> pair in Costs) {
-                caster.Stats.AddToStat(pair.Key, Characters.Stats.Set.MOD, -pair.Value);
+            foreach (KeyValuePair<ICostable, int> pair in Costs) {
+                caster.ConsumeCosts(pair.Key, pair.Value);
             }
 
             Spell spellToReturn = null;
@@ -204,8 +207,8 @@ namespace Scripts.Model.Spells {
         /// <param name="stat">The stat.</param>
         /// <param name="caster">The caster.</param>
         /// <returns></returns>
-        public bool CasterHasResource(StatType stat, Characters.Stats caster) {
-            return caster.GetStatCount(Characters.Stats.Get.MOD, stat) >= Costs[stat];
+        public bool CasterHasResource(ICostable cost, int amount, Character caster) {
+            return caster.CanAffordCost(cost, amount);
         }
 
         /// <summary>
@@ -213,9 +216,9 @@ namespace Scripts.Model.Spells {
         /// </summary>
         /// <param name="caster">The caster.</param>
         /// <returns></returns>
-        public bool CasterHasResources(Characters.Stats caster) {
-            foreach (KeyValuePair<StatType, int> stat in Costs) {
-                if (caster.GetStatCount(Characters.Stats.Get.MOD, stat.Key) < stat.Value) {
+        public bool CasterHasResources(Character caster) {
+            foreach (KeyValuePair<ICostable, int> cost in Costs) {
+                if (!caster.CanAffordCost(cost.Key, cost.Value)) {
                     return false;
                 }
             }
@@ -229,10 +232,10 @@ namespace Scripts.Model.Spells {
         /// <returns></returns>
         public string CreateDescription(Character caster) {
             return string.Format("{0}{1}{2}{3}{4}",
-                CasterHasResources(caster.Stats) ? string.Empty : Util.ColorString("Insufficient resource.\n", Color.red),
+                CasterHasResources(caster) ? string.Empty : Util.ColorString("Insufficient resource.\n", Color.red),
                 TurnsToCharge == 0 ? string.Empty : string.Format("<color=yellow>{0}</color> turn charge\n", TurnsToCharge),
                 Priority == 0 ? string.Empty : string.Format("{0} priority\n", Priority.GetDescription()),
-                Costs.Count == 0 ? string.Empty : string.Format("Costs {0}\n", GetCommaSeparatedCosts(caster.Stats)),
+                Costs.Count == 0 ? string.Empty : string.Format("Costs {0}\n", GetCommaSeparatedCosts(caster)),
                 CreateDescriptionHelper()
                 );
         }
@@ -282,7 +285,7 @@ namespace Scripts.Model.Spells {
         /// <param name="caster">The caster.</param>
         /// <returns></returns>
         public virtual string GetDetailedName(Character caster) {
-            return Util.ColorString(string.Format("{0}", Name), CasterHasResources(caster.Stats));
+            return Util.ColorString(string.Format("{0}", Name), CasterHasResources(caster));
         }
 
         /// <summary>
@@ -340,16 +343,16 @@ namespace Scripts.Model.Spells {
         /// <returns>
         ///   <c>true</c> if the specified caster is castable; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsCastable(Character caster, ICollection<Character> targets) {
+        public bool IsCastable(IPage page, Character caster, ICollection<Character> targets) {
             return
-                CasterHasResources(caster.Stats)
-                && IsCastableIgnoreResources(caster, targets);
+                CasterHasResources(caster)
+                && IsCastableIgnoreResources(page, caster, targets);
         }
 
-        public bool IsCastableIgnoreResources(Character caster, ICollection<Character> targets) {
+        public bool IsCastableIgnoreResources(IPage page, Character caster, ICollection<Character> targets) {
             return
                 IsNumberOfTargetsValid(targets.Count)
-                && targets.Any(t => IsCastableIgnoreResources(caster, t));
+                && targets.Any(t => IsCastableIgnoreResources(page, caster, t));
         }
 
         /// <summary>
@@ -373,7 +376,7 @@ namespace Scripts.Model.Spells {
         /// <returns>
         ///   <c>true</c> if [is meet pre target requirements] [the specified caster]; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsMeetPreTargetRequirements(Characters.Stats caster) {
+        public bool IsMeetPreTargetRequirements(Character caster) {
             return CasterHasResources(caster)
                 && IsMeetOtherPreTargetRequirements();
         }
@@ -393,9 +396,9 @@ namespace Scripts.Model.Spells {
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="cost">The cost.</param>
-        protected void AddCost(StatType type, int cost) {
-            Util.Assert(cost > 0, "Cost must be positive.");
-            costs.Add(type, cost);
+        protected void AddCost(ICostable cost, int amount) {
+            Util.Assert(amount > 0, "Amount must be positive.");
+            costs.Add(cost, amount);
         }
 
         /// <summary>
@@ -484,7 +487,7 @@ namespace Scripts.Model.Spells {
         /// <returns>
         ///   <c>true</c> if [is meet other cast requirements] [the specified caster]; otherwise, <c>false</c>.
         /// </returns>
-        protected virtual bool IsMeetOtherCastRequirements(Character caster, Character target) {
+        protected virtual bool IsMeetOtherCastRequirements(IPage current, Character caster, Character target) {
             return true;
         }
 
@@ -539,7 +542,7 @@ namespace Scripts.Model.Spells {
                 res.AddEffects(GetMissEffects(current, caster, target));
             }
 
-            return new SingleSpell(this, res, caster, target);
+            return new SingleSpell(this, res, caster, target, current);
         }
 
         /// <summary>
@@ -547,14 +550,14 @@ namespace Scripts.Model.Spells {
         /// </summary>
         /// <param name="caster">The caster.</param>
         /// <returns></returns>
-        private string GetCommaSeparatedCosts(Characters.Stats caster = null) {
+        private string GetCommaSeparatedCosts(Character caster = null) {
             string[] arr = new string[Costs.Count];
 
             int index = 0;
-            foreach (KeyValuePair<StatType, int> pair in Costs) {
+            foreach (KeyValuePair<ICostable, int> pair in Costs) {
                 arr[index++] = string.Format("{0} {1}",
-                    Util.ColorString(pair.Value.ToString(), caster == null || CasterHasResource(pair.Key, caster)),
-                    Util.ColorString(pair.Key.Name, pair.Key.Color));
+                    Util.ColorString(pair.Value.ToString(), caster == null || CasterHasResource(pair.Key, pair.Value, caster)),
+                    pair.Key.GetName());
             }
             return string.Join(", ", arr);
         }
@@ -567,9 +570,14 @@ namespace Scripts.Model.Spells {
         /// <returns>
         ///   <c>true</c> if [is castable ignore resources] [the specified caster]; otherwise, <c>false</c>.
         /// </returns>
-        private bool IsCastableIgnoreResources(Character caster, Character target) {
-            return caster.Stats.State == State.ALIVE
-                && IsMeetOtherCastRequirements(caster, target)
+        private bool IsCastableIgnoreResources(IPage page, Character caster, Character target) {
+            Util.Log(this.Name + (page.IsInBattle || HasFlag(Flag.USABLE_OUT_OF_COMBAT)));
+            Util.Log(":" + IsMeetOtherCastRequirements(page, caster, target));
+            Util.Log(":" + (caster.Spells.HasSpellBook(this) || !flags.Contains(Flag.CASTER_REQUIRES_SPELL)));
+            return
+                caster.Stats.State == State.ALIVE
+                && (page.IsInBattle || HasFlag(Flag.USABLE_OUT_OF_COMBAT))
+                && IsMeetOtherCastRequirements(page, caster, target)
                 && (caster.Spells.HasSpellBook(this) || !flags.Contains(Flag.CASTER_REQUIRES_SPELL));
         }
     }

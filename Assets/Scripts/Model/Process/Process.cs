@@ -16,6 +16,7 @@ namespace Scripts.Model.Processes {
         private string name;
         private Func<bool> condition;
         private bool isVisibleOnDisable;
+        private string disabledDescription;
 
         /// <summary>
         /// Descriptionless constructor
@@ -38,7 +39,6 @@ namespace Scripts.Model.Processes {
                         Sprite sprite,
                         Action action,
                         Func<bool> condition = null) : this(name, sprite, null, action, condition) { }
-
 
         /// <summary>
         /// Dummy Process for indicating something
@@ -141,7 +141,13 @@ namespace Scripts.Model.Processes {
         /// </value>
         public string TooltipText {
             get {
-                return description;
+                string message = string.Empty;
+                if (!condition() && !string.IsNullOrEmpty(disabledDescription)) {
+                    message = disabledDescription;
+                } else {
+                    message = description;
+                }
+                return message;
             }
         }
 
@@ -196,6 +202,11 @@ namespace Scripts.Model.Processes {
         public Process SetCondition(Func<bool> condition) {
             Util.Assert(condition != null, "Condition cannot be null");
             this.condition = condition;
+            return this;
+        }
+
+        public Process AddDisabledText(string message) {
+            this.disabledDescription = message;
             return this;
         }
 

@@ -125,7 +125,7 @@ namespace Scripts.Game.Defined.Characters {
                     new Stats(15, 15, 10, 10, 120),
                     new Look(
                         name,
-                        sprite
+                        sprite,
                         "One of a pair of knights filled with DETERMINATION",
                         Breed.SPIRIT
                         ),

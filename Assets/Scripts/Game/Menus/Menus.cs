@@ -123,13 +123,13 @@ namespace Scripts.Game.Pages {
         private void TutorialPage(string name) {
             Page hotkeys = Get(UI_TUTORIAL);
             hotkeys.HasInputField = true;
-            hotkeys.Body = "BUTTON INPUT\nUse the mouse or keyboard to interact with buttons! See the character next to the button? That's the key to press! (You can't see any hotkeys here because there is an input box.)\n\nTOOLTIPS\nJust about everything you can see in this game has a tooltip (including some textboxes)! Hover your mouse over an element to learn more about the element.";
+            hotkeys.Body = "BUTTON INPUT\nUse the mouse or keyboard to interact with buttons! You will see a character near the bottom right of a button if you can use hotkeys.\n\nTOOLTIPS\nJust about everything you can see in this game has a tooltip (including some textboxes)! Hover your mouse over an element to learn more about the element.";
             hotkeys.OnEnter = () => {
                 hotkeys.AddText(
                     new TextBox("Hover over this tooltip to figure out what to type into the input to advance! In battle, you can hover over these to figure out the details of a spell that you don't own.",
-                    new Model.Tooltips.TooltipBundle(Util.GetSprite("talk"), "Hello",
-                    string.Format("The password is: {0}", SECRET_PASSWORD)))
-                    );
+                    new Model.Tooltips.TooltipBundle(Util.GetSprite("talk"), "The password is...",
+                    SECRET_PASSWORD
+                    )));
             };
             hotkeys.Actions = new IButtonable[] {
                 new Process("Advance!",
@@ -141,8 +141,7 @@ namespace Scripts.Game.Pages {
                 new Process("Back",
                     () => {
                             Get(NEW_GAME).Invoke();
-                        },
-                    () => hotkeys.Input.Equals(SECRET_PASSWORD))
+                    })
             };
         }
     }

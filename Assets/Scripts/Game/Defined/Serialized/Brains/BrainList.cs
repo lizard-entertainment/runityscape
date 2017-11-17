@@ -97,7 +97,7 @@ namespace Scripts.Game.Defined.Unserialized.Brains {
                     break;
 
                 case Status.TOOLTIPS:
-                    dialog = string.Format("If an enemy uses a spell that you don't know, just hover over the textbox to learn about it! I will now self-destruct.");
+                    dialog = "If an enemy uses a spell that you don't know, just hover over the textbox to learn about it! Also, see that buff just below my portrait? There's a tooltip for that, too! Please excuse me while I self-destruct.";
                     state = Status.SUICIDE;
                     break;
             }

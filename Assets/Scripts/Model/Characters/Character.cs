@@ -318,6 +318,10 @@ namespace Scripts.Model.Characters {
             // Buffs and inventory must be setup in Party!
         }
 
+        public override string ToString() {
+            return Look.DisplayName;
+        }
+
         public void ParentToEffects(GameObject go) {
             parentToEffectsFunc(go);
         }

@@ -52,6 +52,7 @@ namespace Scripts.Game.Areas {
             return new Area(
                 AreaType.RUINS,
                     new Stage[] {
+                        SceneList.RuinsIntro(party, "Welcome to the Crypt"),
                         new BattleStage(
                             "Start of adventure",
                             () => new Encounter[] {
@@ -70,6 +71,7 @@ namespace Scripts.Game.Areas {
                                 new Encounter(RuinsNPCs.Healer(), RuinsNPCs.Healer()),
                                 new Encounter(RuinsNPCs.Healer(), RuinsNPCs.Knight())
                             }),
+                        SceneList.RuinsMidboss(party, "A Bigger Foe"),
                         new BattleStage(
                             "Bigger monsters",
                             () => new Encounter[] {
@@ -98,11 +100,13 @@ namespace Scripts.Game.Areas {
                                 new Encounter(RuinsNPCs.Villager()),
                                 new Encounter(RuinsNPCs.BigKnight(), RuinsNPCs.BigKnight(), RuinsNPCs.Wizard(), RuinsNPCs.Wizard())
                             }),
+                        SceneList.RuinsBoss(party, "Descent into Madness"),
                         new BattleStage(
                             "The Replicant",
                             () => new Encounter[] {
                                 new Encounter(Music.CREEPY, RuinsNPCs.Healer(), RuinsNPCs.Replicant(), RuinsNPCs.Healer())
-                            })
+                            }),
+                        SceneList.RuinsOutro(party, "To the Ocean!")
                     },
                     new PageGroup[] { RuinsNPCs.RuinsShop(camp, flags, party), RuinsNPCs.RuinsTrainer(camp, party), RuinsNPCs.RuinsMaster(camp, party) }
                 );
@@ -112,13 +116,14 @@ namespace Scripts.Game.Areas {
             return new Area(
                     AreaType.SEA_WORLD,
                     new Stage[] {
+                        SceneList.SeaIntro(party, "A Watery Grave"),
                         new BattleStage(
-                            "Welcome to the ocean",
+                            "Welcome to the Ocean",
                             () => new Encounter[] {
                                 new Encounter(OceanNPCs.Shark())
                             }),
                         new BattleStage(
-                            "Sinister singers",
+                            "Sinister Singers",
                             () => new Encounter[] {
                                 new Encounter(OceanNPCs.Siren()),
                                 new Encounter(OceanNPCs.Siren(), OceanNPCs.Shark())
@@ -129,8 +134,9 @@ namespace Scripts.Game.Areas {
                                 new Encounter(OceanNPCs.Shark(), OceanNPCs.Siren()),
                                 new Encounter(OceanNPCs.Shark(), OceanNPCs.Siren(), OceanNPCs.Shark(), OceanNPCs.Siren())
                             }),
+                        SceneList.SeaMidboss(party, "Horrors from the Deep"),
                         new BattleStage(
-                            "GitKraken",
+                            "The Kraken",
                             () => new Encounter [] {
                                 new Encounter(Music.BOSS, OceanNPCs.Kraken())
                             }),
@@ -155,11 +161,13 @@ namespace Scripts.Game.Areas {
                                 new Encounter(OceanNPCs.Elemental(), OceanNPCs.Siren(), OceanNPCs.Shark(), OceanNPCs.Shuck()),
                                 new Encounter(OceanNPCs.Swarm(), OceanNPCs.Swarm(), OceanNPCs.Swarm(), OceanNPCs.Elemental(), OceanNPCs.Siren(), OceanNPCs.Shark(), OceanNPCs.Shuck())
                             }),
+                        SceneList.SeaBoss(party, "The Captain"),
                         new BattleStage(
-                            "The Captain",
+                            "VS " + OceanNPCs.SharkPirate().Look.DisplayName,
                             () => new Encounter[] {
                                 new Encounter(Music.BOSS, OceanNPCs.SharkPirate())
                             }),
+                        SceneList.SeaOutro(party, "The Labs")
                     },
                     new PageGroup[] { OceanNPCs.OceanShop(camp, flags, party), OceanNPCs.OceanTrainer(camp, party), OceanNPCs.OceanMaster(camp, party) }
                 );
@@ -223,6 +231,7 @@ namespace Scripts.Game.Areas {
                             new Encounter(LabNPCs.Ocean.Shark(), LabNPCs.Ocean.Shark(), LabNPCs.Ocean.Shark(), LabNPCs.Ocean.Swarm(), LabNPCs.Ocean.Swarm(), LabNPCs.Ocean.Swarm()),
                             new Encounter(LabNPCs.Ocean.Siren(), LabNPCs.Ocean.Siren(), LabNPCs.Ocean.DreadSinger(), LabNPCs.Ocean.Elemental())
                         }),
+                    SceneList.LabBoss(party, "Duality"),
                     new BattleStage(
                         "System's Exit",
                         () => new Encounter[] {
@@ -230,20 +239,10 @@ namespace Scripts.Game.Areas {
                             new Encounter(Music.FINAL_STAGE, LabNPCs.Final.PartnerClone()),
                             new Encounter(Music.FINAL_BOSS, LabNPCs.Final.HeroClone(), LabNPCs.Final.PartnerClone())
                         }),
-                    Ending()
+                    SceneList.Ending(party, flags, "An Ending")
                 },
                 new PageGroup[] { LabNPCs.Trainer(camp, party) }
                 );
-        }
-
-        private static SceneStage Ending() {
-            Page ending = new Page("An Ending");
-            SceneStage stage = new SceneStage(ending, "Ending",
-                new TextAct("Wow really, this is the ending?"),
-                new TextAct("Umm, okay. Here's the credits. Just kidding, I know that you didn't save."),
-                new TextAct("Just go to the credits on your own time, OK?")
-                );
-            return stage;
         }
     }
 }

@@ -24,6 +24,8 @@ namespace Scripts.Game.Shopkeeper {
             this.minCapacityNeededToUpgrade = minCapacityNeededToUpgrade;
             this.pricePerUpgrade = pricePerUpgrade;
 
+            Root.Icon = Util.GetSprite("knapsack");
+            Root.SetTooltip("Inventory Masters can increase the maximum number of items you can store in your inventory.");
             Root.AddCharacters(Side.LEFT, party);
             Root.AddCharacters(Side.RIGHT, person);
             Root.Actions = new IButtonable[] {

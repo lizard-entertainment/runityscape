@@ -714,7 +714,7 @@ namespace Scripts.Game.Defined.Unserialized.Spells {
 
         public WaterboltAbstract(TargetType targetType, string name) : base(name, Util.GetSprite("water-bolt"), targetType, SpellType.OFFENSE) {
             this.TurnsToCharge = 3;
-            this.description = "A blast of boiling water. If target is not Guarding, inflicts <color=cyan<{0}</color>\n{1}";
+            this.description = "A blast of boiling water. If target is not Guarding, inflicts <color=cyan>{0}</color>\n{1}";
         }
 
         protected override string CreateDescriptionHelper() {

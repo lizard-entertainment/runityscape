@@ -19,7 +19,7 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
             : base(
                   Util.GetSprite("fire"),
                   "Flame Body",
-                  String.Format("Basic attacks on this unit have a {0}% chance of igniting the attacker", IGNITION_CHANCE)
+                  String.Format("Basic attacks on this unit have a {0}% chance of igniting the attacker.", IGNITION_CHANCE)
                   ) {
         }
 

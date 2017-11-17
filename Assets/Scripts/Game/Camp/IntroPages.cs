@@ -44,7 +44,7 @@ namespace Scripts.Game.Pages {
 
             page.OnEnter = () => {
                 ActUtil.SetupScene(
-                         YourVoice(string.Format("My name is {0}.", name)),
+                         YourVoice("(Where am I)"),
                          PartnerVoice(string.Format("My name is...")),
                          new InputAct("What is their name?", (s) =>
                                 ActUtil.SetupScene(
@@ -63,7 +63,7 @@ namespace Scripts.Game.Pages {
         }
 
         private TextAct YourVoice(string message) {
-            return new TextAct(new AvatarBox(Side.RIGHT, hero, Color.white, message));
+            return new TextAct(new AvatarBox(Side.LEFT, hero, Color.white, message));
         }
     }
 }

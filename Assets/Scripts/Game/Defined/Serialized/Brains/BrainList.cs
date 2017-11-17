@@ -64,6 +64,9 @@ namespace Scripts.Game.Defined.Serialized.Brains {
             //addPlay(Spells.CreateSpell(Attack, Owner, foes.PickRandom()));
         }
     }
+}
+
+namespace Scripts.Game.Defined.Unserialized.Brains {
 
     public class DummyBrain : BasicBrain {
         private static readonly Wait WAIT = new Wait();

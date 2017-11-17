@@ -133,7 +133,7 @@ namespace Scripts.Game.Pages {
             };
             hotkeys.Actions = new IButtonable[] {
                 new Process("Advance!",
-                    "Here is another tooltip!",
+                    "This button will become enabled when you type the password into the input field. Did you check the textbox?",
                     () => {
                             new IntroPages(name).Invoke();
                         },

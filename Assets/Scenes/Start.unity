@@ -197,12 +197,12 @@ Prefab:
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -155.21008
+      value: -156.55511
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -216.17844
+      value: -61.706116
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
@@ -465,12 +465,12 @@ Prefab:
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -155.21008
+      value: -156.55511
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -76.17844
+      value: -61.706116
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
@@ -1141,7 +1141,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 804625188}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 159.86508, y: 63.811203, z: 0}
+  m_LocalPosition: {x: 159.86508, y: 63.81122, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 327898576}
@@ -1440,12 +1440,12 @@ Prefab:
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -155.21008
+      value: -156.55511
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -6.1784363
+      value: -79.206116
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
@@ -1679,12 +1679,12 @@ Prefab:
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -155.21008
+      value: -156.55511
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 28.821564
+      value: -96.706116
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
@@ -1992,7 +1992,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1182467702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2234,12 +2234,12 @@ Prefab:
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -155.21008
+      value: -156.55511
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -146.17844
+      value: -61.706116
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
@@ -2419,12 +2419,12 @@ Prefab:
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -155.21008
+      value: -156.55511
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -41.178436
+      value: -61.706116
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
@@ -2618,7 +2618,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1285323637}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 9.598427, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 994890564}
@@ -2677,12 +2677,12 @@ Prefab:
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -155.21008
+      value: -156.55511
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -111.17844
+      value: -61.706116
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
@@ -2867,12 +2867,12 @@ Prefab:
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -155.21008
+      value: -156.55511
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -181.17844
+      value: -61.706116
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
@@ -6588,12 +6588,12 @@ Prefab:
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -155.21008
+      value: -156.55511
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 63.821564
+      value: -114.206116
       objectReference: {fileID: 0}
     - target: {fileID: 224715621138849214, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}

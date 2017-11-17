@@ -111,6 +111,7 @@ namespace Scripts.Game.Pages {
         /// <returns></returns>
         private Page LevelUpPage(Character characterToDoAllocationsFor, Page previous) {
             Page p = new Page(string.Format("{0}'s stat allocation", characterToDoAllocationsFor.Look.DisplayName));
+            p.Body = "Choose a stat to increase. You must rest afterwards to gain the benefit of the stat.";
             p.AddCharacters(Side.LEFT, characterToDoAllocationsFor);
             p.OnEnter = () => {
                 LetUserSelectAStatToIncrease(previous, p, characterToDoAllocationsFor);

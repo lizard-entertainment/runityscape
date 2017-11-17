@@ -133,11 +133,16 @@ namespace Scripts.Game.Pages {
             };
             hotkeys.Actions = new IButtonable[] {
                 new Process("Advance!",
-                "Here is another tooltip!",
-                () => {
-                        new IntroPages(name).Invoke();
-                    },
-                () => hotkeys.Input.Equals(SECRET_PASSWORD))
+                    "Here is another tooltip!",
+                    () => {
+                            new IntroPages(name).Invoke();
+                        },
+                    () => hotkeys.Input.Equals(SECRET_PASSWORD)),
+                new Process("Back",
+                    () => {
+                            Get(NEW_GAME).Invoke();
+                        },
+                    () => hotkeys.Input.Equals(SECRET_PASSWORD))
             };
         }
     }

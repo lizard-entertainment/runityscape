@@ -771,7 +771,7 @@ Prefab:
     - target: {fileID: 224187333634198690, guid: a6e90bed1a1f3c1438512738c3a7d398,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -55
+      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 224187333634198690, guid: a6e90bed1a1f3c1438512738c3a7d398,
         type: 2}
@@ -1834,7 +1834,7 @@ Prefab:
     - target: {fileID: 114409892001238380, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
       propertyPath: m_Text
-      value: Programming, Quality Assurance, Writing
+      value: Programming, QA, Writing
       objectReference: {fileID: 0}
     - target: {fileID: 224490052957339862, guid: 333f317a5e320a245ba237b0c9c3ddcf,
         type: 2}
@@ -2026,7 +2026,7 @@ Prefab:
     - target: {fileID: 224187333634198690, guid: a6e90bed1a1f3c1438512738c3a7d398,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 224187333634198690, guid: a6e90bed1a1f3c1438512738c3a7d398,
         type: 2}
@@ -3062,7 +3062,7 @@ Prefab:
     - target: {fileID: 224187333634198690, guid: a6e90bed1a1f3c1438512738c3a7d398,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 55
+      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 224187333634198690, guid: a6e90bed1a1f3c1438512738c3a7d398,
         type: 2}

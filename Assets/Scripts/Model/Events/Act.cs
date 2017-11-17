@@ -123,7 +123,7 @@ namespace Scripts.Model.Acts {
 
                 // If not the last act, allow for stepping to the next one.
                 grid.List = new IButtonable[] {
-                        new Process("Step", string.Empty, () => isStepped = true),
+                        new Process("Next", string.Empty, () => isStepped = true),
                         new Process("Skip All", string.Empty, () => isSkipAll = true)
                     };
                 yield return new WaitUntil(() => isStepped || isSkipAll || !act.IsSkippable);

@@ -54,13 +54,13 @@ namespace Scripts.Game.Areas {
                     new Stage[] {
                         SceneList.RuinsIntro(party, "Welcome to the Crypt"),
                         new BattleStage(
-                            "Start of adventure",
+                            "Start of Adventure",
                             () => new Encounter[] {
                                 new Encounter(RuinsNPCs.Villager()),
                                 new Encounter(RuinsNPCs.Villager(), RuinsNPCs.Villager())
                             }),
                         new BattleStage(
-                            "Stronger monsters",
+                            "Stronger Monsters",
                             () => new Encounter[] {
                                 new Encounter(RuinsNPCs.Villager(), RuinsNPCs.Villager()),
                                 new Encounter(RuinsNPCs.Villager(), RuinsNPCs.Knight())
@@ -73,7 +73,7 @@ namespace Scripts.Game.Areas {
                             }),
                         SceneList.RuinsMidboss(party, "A Bigger Foe"),
                         new BattleStage(
-                            "Bigger monsters",
+                            "Bigger Monsters",
                             () => new Encounter[] {
                                 new Encounter(Music.BOSS, RuinsNPCs.Healer(), RuinsNPCs.BigKnight(), RuinsNPCs.Healer())
                             }),
@@ -148,7 +148,7 @@ namespace Scripts.Game.Areas {
                                 new Encounter(OceanNPCs.Swarm(), OceanNPCs.Swarm(), OceanNPCs.Swarm(), OceanNPCs.Swarm(), OceanNPCs.Swarm()),
                             }),
                         new BattleStage(
-                            "Nearing the end",
+                            "Nearing the End",
                             () => new Encounter[] {
                                 new Encounter(OceanNPCs.Shuck()),
                                 new Encounter(OceanNPCs.Elemental()),

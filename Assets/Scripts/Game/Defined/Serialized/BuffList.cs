@@ -390,6 +390,18 @@ namespace Scripts.Game.Defined.Serialized.Buffs {
         public RoughSkin() : base(1, "Rough Skin") {
         }
     }
+
+    public class RougherSkin : Thorns {
+
+        public RougherSkin() : base(3, "Rougher Skin") {
+        }
+    }
+
+    public class RoughestSkin : Thorns {
+
+        public RoughestSkin() : base(10, "Roughest Skin") {
+        }
+    }
 }
 
 namespace Scripts.Game.Defined.Unserialized.Buffs {
@@ -680,18 +692,6 @@ namespace Scripts.Game.Defined.Unserialized.Buffs {
             return new SpellEffect[] {
                 new AddToModStat(owner, StatType.HEALTH, -damagePerTurn)
             };
-        }
-    }
-
-    public class RougherSkin : Thorns {
-
-        public RougherSkin() : base(3, "Rougher Skin") {
-        }
-    }
-
-    public class RoughestSkin : Thorns {
-
-        public RoughestSkin() : base(10, "Roughest Skin") {
         }
     }
 

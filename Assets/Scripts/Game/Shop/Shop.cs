@@ -163,7 +163,7 @@ namespace Scripts.Game.Shopkeeper {
             SubGrid main = new SubGrid("Shop Menu");
             main.OnEnter = () => {
                 main.List.Clear();
-                //main.List.Add(SetupTalkMenu(main)); TODO : not in use for the demo
+                main.List.Add(SetupTalkMenu(main));
                 main.List.Add(SetupSellMenu(main));
                 main.List.Add(SetupBuyMenu(main));
                 main.List.Add(null);

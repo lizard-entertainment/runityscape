@@ -103,9 +103,13 @@ namespace Scripts.Game.Defined.Serialized.Items {
     }
 
     public class SharkBlood : ConsumableItem {
-        private int HEALING_RANGE = 20;
+        private const int HEALING_RANGE = 50;
 
-        public SharkBlood() : base("water-drop", 10, TargetType.ONE_ALLY, "Shark Blood", "Blood from a questionable source. Can heal or harm the consumer.") {
+        public SharkBlood() : base(
+            "water-drop", 10,
+            TargetType.ONE_ALLY,
+            "Shark Blood",
+            string.Format("Blood from a questionable source. Can heal or harm the consumer for a random amount between [-{0}, {0}].", HEALING_RANGE)) {
         }
 
         public override IList<SpellEffect> GetEffects(Page page, Character caster, Character target) {

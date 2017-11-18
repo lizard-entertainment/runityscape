@@ -223,6 +223,7 @@ namespace Scripts.Model.SaveLoad {
             Add<HighManaRegeneration>("regenerateLotsOfMana");
             Add<SkillRegeneration>("regenerateLotsOfSkill");
             Add<RoughSkin>("roughSkin");
+            Add<RougherSkin>("rougherSkin");
             Add<FlamingArmor>("flameBody");
         }
 

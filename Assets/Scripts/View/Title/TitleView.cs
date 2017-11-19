@@ -13,7 +13,7 @@ namespace Scripts.View.Title {
     public class TitleView : MonoBehaviour {
 
         [SerializeField]
-        private Image background;
+        private Image[] backgrounds;
 
         [SerializeField]
         private Image image;
@@ -36,7 +36,9 @@ namespace Scripts.View.Title {
 
         private float alpha {
             set {
-                Util.SetImageAlpha(background, value);
+                foreach (Image i in backgrounds) {
+                    Util.SetImageAlpha(i, value);
+                }
                 Util.SetImageAlpha(image, value);
                 Util.SetTextAlpha(text, value);
             }

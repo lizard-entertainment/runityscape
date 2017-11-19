@@ -57,6 +57,7 @@ namespace Scripts.Presenter {
         /// </summary>
         private void SetupFuncs() {
             character.GetIconRectFunc = () => IconRect;
+            character.GetIconOriginalPosFunc = () => portrait.OriginalIconPos;
             character.ParentToEffectsFunc = (go) => ParentToEffects(go);
 
             character.Stats.AddSplat = (sd => AddHitsplat(sd));

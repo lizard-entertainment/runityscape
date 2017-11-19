@@ -21,6 +21,9 @@ namespace Scripts.View.Portraits {
         private Image iconImage;
 
         [SerializeField]
+        private RectTransform iconPosition;
+
+        [SerializeField]
         private Text portraitName;
 
         [SerializeField]
@@ -31,6 +34,8 @@ namespace Scripts.View.Portraits {
 
         [SerializeField]
         private Tooltip.Tip tip;
+
+        private Vector3 startingAnchor;
 
         private Vector3 startingPosition;
 
@@ -52,6 +57,12 @@ namespace Scripts.View.Portraits {
             }
             set {
                 iconImage = value;
+            }
+        }
+
+        public RectTransform OriginalIconPos {
+            get {
+                return iconPosition;
             }
         }
 
@@ -86,7 +97,7 @@ namespace Scripts.View.Portraits {
         }
 
         private void Start() {
-            this.startingPosition = iconImage.GetComponent<RectTransform>().anchoredPosition;
+            this.startingAnchor = iconImage.GetComponent<RectTransform>().anchoredPosition;
         }
 
         /// <summary>
@@ -120,7 +131,7 @@ namespace Scripts.View.Portraits {
             PortraitText.color = Color.white;
             Image.color = Color.white;
             Image.enabled = true;
-            Image.GetComponent<RectTransform>().anchoredPosition = startingPosition;
+            Image.GetComponent<RectTransform>().anchoredPosition = startingAnchor;
             tip.Reset();
 
             this.StopAllCoroutines();

@@ -16,6 +16,7 @@ namespace Scripts.Game.Defined.SFXs {
     /// Various special effects for battle
     /// </summary>
     public static class SFX {
+        public static readonly Vector3 DEFAULT_PORTRAIT_POS = new Vector3(0, -45, 0);
 
         /// <summary>
         /// Creates a hitsplat.
@@ -76,11 +77,11 @@ namespace Scripts.Game.Defined.SFXs {
             // Move mover to upper layer so it is on top of all elements
             int index = mover.RectTransform.GetSiblingIndex();
             GameObject parent = mover.RectTransform.parent.gameObject;
-            Vector2 moverOriginalPos = mover.RectTransform.position;
             Util.Parent(mover.RectTransform.gameObject, EffectsManager.Instance.Foreground);
             yield return MoveTowards(mover.RectTransform, destination.RectTransform, duration / 3);
             Presenter.Main.Instance.Sound.PlaySound(soundLoc);
             yield return Shake(destination.RectTransform, 100, duration / 3);
+            Vector2 moverOriginalPos = mover.OriginalPos.position;
             yield return MoveBack(mover.RectTransform, moverOriginalPos, duration / 3);
             if (isHaveStars) {
                 yield return DoStarEffect(destination);

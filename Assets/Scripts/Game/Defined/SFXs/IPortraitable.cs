@@ -8,6 +8,10 @@ namespace Scripts.Game.Defined.SFXs {
             get;
         }
 
+        RectTransform OriginalPos {
+            get;
+        }
+
         void ParentToEffects(GameObject go);
     }
 }

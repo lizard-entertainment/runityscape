@@ -126,7 +126,7 @@ namespace Scripts.Game.Defined.Characters {
                     new Look(
                         name,
                         sprite,
-                        "One of a pair of knights filled with DETERMINATION",
+                        "One of a pair of knights filled with DETERMINATION.",
                         Breed.SPIRIT
                         ),
                     new LabBigKnight()

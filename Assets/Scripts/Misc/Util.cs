@@ -16,7 +16,7 @@ using UnityEngine.UI;
 /// This class holds various helper methods that don't fit anywhere else
 /// </summary>
 public static class Util {
-    public static readonly bool IS_DEBUG = false && Application.isEditor;
+    public static readonly bool IS_DEBUG = true && Application.isEditor;
     private static char RANDOM_STRING_DELIMITER = '/';
 
     public static string PickRandom(string big) {

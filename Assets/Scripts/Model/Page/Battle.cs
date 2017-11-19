@@ -396,7 +396,8 @@ namespace Scripts.Model.Pages {
                         ObjectPoolManager.Instance.Return(textbox); // Remove "What will X do?" textbox, reduce clutter
                     }
 
-                    if (brainIsPlayer) {
+                    // Contains check again because they can do a charge move this turn
+                    if (brainIsPlayer && !charactersChargingSpells.ContainsKey(c)) {
                         Spell playerMadePlay = plays[plays.Count - 1];
                         declarations.Add(AddText(
                             playerMadePlay.DeclareText

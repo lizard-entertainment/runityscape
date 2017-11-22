@@ -8,8 +8,12 @@ namespace Scripts.View.StartScreen {
         [SerializeField]
         private PanelManager credits;
 
+        [SerializeField]
+        private PanelManager volume;
+
         private void Start() {
             credits.gameObject.SetActive(true);
+            volume.gameObject.SetActive(true);
         }
 
         public void GoToMain() {
@@ -18,6 +22,10 @@ namespace Scripts.View.StartScreen {
 
         public void GoToCredits() {
             credits.OpenPanel();
+        }
+
+        public void GoToVolume() {
+            volume.OpenPanel();
         }
 
         public void QuitGame() {

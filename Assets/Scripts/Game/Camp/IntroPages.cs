@@ -40,30 +40,35 @@ namespace Scripts.Game.Pages {
             Character partner = CharacterList.Partner("???");
 
             page.AddCharacters(Side.LEFT, you);
-            page.AddCharacters(Side.RIGHT, partner);
 
             page.OnEnter = () => {
                 ActUtil.SetupScene(
-                         YourVoice(string.Format("My name is {0}.", name)),
-                         PartnerVoice(string.Format("My name is...")),
+                         YourVoice("(Where am I?)"),
+                         YourVoice("(Is this a dream...?)"),
+                         YourVoice("..."),
+                         YourVoice("(Last thing I remember, I was working on that VGDev game...)"),
+                         new ActionAct(() => page.AddCharacters(Side.RIGHT, partner)),
+                         PartnerVoice(string.Format("{0}! There is no time to waste! The twin demons must be destroyed!", name)),
+                         YourVoice("(Their sprite... That's the main character for the game I'm working on!)"),
+                         YourVoice("(What name did I give them again?)"),
                          new InputAct("What is their name?", (s) =>
                                 ActUtil.SetupScene(
-                                    PartnerVoice("My name is " + s),
                                     new ActionAct(() => partner.Look.Name = s),
-                                    new ActionAct(() => GoToCamp(you, partner)
-                                    )
+                                    YourVoice(string.Format("{0}! I don't think you understand! I'm not supposed to be here!", s)),
+                                    PartnerVoice("An anomaly surely caused by those foul demons! Let us make haste and carve out a pathway to them!"),
+                                    YourVoice("(Are they talking about the final boss? Maybe if I can escape this system if we beat the game...)"),
+                                    YourVoice("(I'll play along for now.)"),
+                                    YourVoice(string.Format("Lead the way, brave knight {0}.", s)),
+                                    PartnerVoice("Let us approach our camp of operations."),
+                                    new ActionAct(() => GoToCamp(you, partner))
                                 )
                         )
                     );
             };
         }
 
-        private TextAct UnknownVoice(string message) {
-            return new TextAct(new AvatarBox(Side.RIGHT, Util.GetSprite("question-mark"), Color.grey, message));
-        }
-
         private TextAct YourVoice(string message) {
-            return new TextAct(new AvatarBox(Side.RIGHT, hero, Color.white, message));
+            return new TextAct(new AvatarBox(Side.LEFT, hero, Color.white, message));
         }
     }
 }

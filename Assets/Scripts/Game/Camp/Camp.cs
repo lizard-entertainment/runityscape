@@ -72,19 +72,29 @@ namespace Scripts.Game.Pages {
 
                 root.AddCharacters(Side.LEFT, party.Collection);
                 root.Actions = new IButtonable[] {
-                dungeonSelectionPage,
-                new PlacePages(root, flags, party),
-                new WorldPages(root, flags, party),
-                new LevelUpPages(Root, party),
-                PageUtil.GenerateGroupSpellBooks(root, root, party.Collection),
-                new InventoryPages(root, party),
-                new EquipmentPages(root, party),
-                RestProcess(root),
-                new SavePages(root, party, flags)
+                    SubPageWrapper(dungeonSelectionPage, "Visit the stages for this World. When all stages are completed, the next World is unlocked."),
+                    SubPageWrapper(new PlacePages(root, flags, party), "Visit a place in this World. Places are unique to a world and can offer you a place to spend your wealth."),
+                    SubPageWrapper(new WorldPages(root, flags, party), "Return to a previously unlocked World. Worlds consist of unique Stages and Places."),
+                    SubPageWrapper(new LevelUpPages(Root, party), "View party member stats and distribute stat points."),
+                    PageUtil.GenerateGroupSpellBooks(root, root, party.Collection),
+                    SubPageWrapper(new InventoryPages(root, party), "View the party's shared inventory and use items."),
+                    SubPageWrapper(new EquipmentPages(root, party), "View and manage the equipment of your party members."),
+                    RestProcess(root),
+                    SubPageWrapper(new SavePages(root, party, flags), "Save and exit the game.")
                 };
 
                 PostTime(root);
             };
+        }
+
+        private Process SubPageWrapper(PageGroup pg, string description) {
+            return new Process(
+                    pg.ButtonText,
+                    pg.Sprite,
+                    description,
+                    () => pg.Invoke(),
+                    () => pg.IsInvokable
+                );
         }
 
         /// <summary>

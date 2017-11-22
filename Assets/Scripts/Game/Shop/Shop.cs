@@ -41,6 +41,8 @@ namespace Scripts.Game.Shopkeeper {
         /// <param name="buyPriceMultiplier">The buy price modifier.</param>
         /// <param name="shopkeeper">The shopkeeper.</param>
         public Shop(Page previous, string name, Flags flags, Party party, float sellPriceMultiplier, float buyPriceMultiplier, Character shopkeeper) : base(new Page(name)) {
+            Root.SetTooltip("Items can be purchased and sold at shops.");
+            Root.Icon = Util.GetSprite("battle-gear");
             this.previous = previous;
             this.flags = flags;
             this.party = party;

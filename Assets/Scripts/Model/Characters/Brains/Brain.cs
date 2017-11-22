@@ -56,9 +56,9 @@ namespace Scripts.Model.Characters {
         /// <summary>
         /// Reaction to a spell targeting this character.
         /// </summary>
-        /// <param name="spellThatTargetsThisCharacter"></param>
+        /// <param name="spellTargetingUs"></param>
         /// <returns>String that is converted into an avatarbox.</returns>
-        public virtual string ReactToSpell(SingleSpell spellThatTargetsThisCharacter) {
+        public virtual string ReactToSpell(SingleSpell spellTargetingUs) {
             return string.Empty;
         }
 

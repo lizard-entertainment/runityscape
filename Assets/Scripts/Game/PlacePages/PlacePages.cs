@@ -56,6 +56,7 @@ namespace Scripts.Game.Pages {
         private Process GetPlaceProcess(Model.Pages.PageGroup pg) {
             return new Process(
                     pg.Root.Location,
+                    pg.Root.Sprite,
                     pg.Root.TooltipText,
                     () => {
                         pg.Root.Invoke();

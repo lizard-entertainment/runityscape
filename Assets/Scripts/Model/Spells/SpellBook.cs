@@ -388,7 +388,7 @@ namespace Scripts.Model.Spells {
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
         public override string ToString() {
-            return base.ToString();
+            return this.Name;
         }
 
         /// <summary>
@@ -571,9 +571,6 @@ namespace Scripts.Model.Spells {
         ///   <c>true</c> if [is castable ignore resources] [the specified caster]; otherwise, <c>false</c>.
         /// </returns>
         private bool IsCastableIgnoreResources(IPage page, Character caster, Character target) {
-            Util.Log(this.Name + (page.IsInBattle || HasFlag(Flag.USABLE_OUT_OF_COMBAT)));
-            Util.Log(":" + IsMeetOtherCastRequirements(page, caster, target));
-            Util.Log(":" + (caster.Spells.HasSpellBook(this) || !flags.Contains(Flag.CASTER_REQUIRES_SPELL)));
             return
                 caster.Stats.State == State.ALIVE
                 && (page.IsInBattle || HasFlag(Flag.USABLE_OUT_OF_COMBAT))

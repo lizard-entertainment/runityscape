@@ -18,7 +18,7 @@ PlayerSettings:
   m_SplashScreenBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
-  m_SplashScreenOverlayOpacity: 1
+  m_SplashScreenOverlayOpacity: 0.5
   m_SplashScreenAnimation: 0
   m_SplashScreenLogoStyle: 1
   m_SplashScreenDrawMode: 1
@@ -243,20 +243,20 @@ PlayerSettings:
     height: 180
     banner: {fileID: 0}
   androidGamepadSupportLevel: 0
-  resolutionDialogBanner: {fileID: 2800000, guid: fbeccf03be3a41c4896a369054b8fd84,
+  resolutionDialogBanner: {fileID: 2800000, guid: 7ddeb56cebae4fc4c94e0bc33f604107,
     type: 3}
   m_BuildTargetIcons:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: b560045e522c5f647b3c58ec7edb618d, type: 3}
+      m_Icon: {fileID: 2800000, guid: b4f74afb7f2471841a94e4ad474ed40a, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
   - m_BuildTarget: Standalone
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: fbeccf03be3a41c4896a369054b8fd84, type: 3}
+      m_Icon: {fileID: 0}
       m_Width: 1024
       m_Height: 1024
       m_Kind: 0
@@ -271,17 +271,17 @@ PlayerSettings:
       m_Height: 256
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 0}
+      m_Icon: {fileID: 2800000, guid: 7ddeb56cebae4fc4c94e0bc33f604107, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 0}
+      m_Icon: {fileID: 2800000, guid: b4f74afb7f2471841a94e4ad474ed40a, type: 3}
       m_Width: 48
       m_Height: 48
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 0}
+      m_Icon: {fileID: 2800000, guid: b4f74afb7f2471841a94e4ad474ed40a, type: 3}
       m_Width: 32
       m_Height: 32
       m_Kind: 0
@@ -619,7 +619,8 @@ PlayerSettings:
   webGLUseEmbeddedResources: 0
   webGLUseWasm: 0
   webGLCompressionFormat: 1
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    1: IconPos
   platformArchitecture:
     iOS: 2
   scriptingBackend:

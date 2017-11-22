@@ -3,6 +3,8 @@ using Scripts.Game.Defined.Serialized.Brains;
 using Scripts.Game.Defined.Serialized.Items;
 using Scripts.Game.Defined.Serialized.Spells;
 using Scripts.Game.Defined.Serialized.Statistics;
+using Scripts.Game.Defined.Unserialized.Brains;
+using Scripts.Game.Defined.Unserialized.Spells;
 using Scripts.Model.Buffs;
 using Scripts.Model.Characters;
 using Scripts.Model.Items;
@@ -192,6 +194,23 @@ namespace Scripts.Game.Defined.Characters {
 }
 
 namespace Scripts.Game.Undefined.Characters {
+
+    public static class Other {
+
+        public static Character TrainingDummy() {
+            return CharacterUtil.StandardEnemy(
+                new Stats(1, 0, 1000, 0, 10),
+                new Look(
+                    "Dummy",
+                    "villager",
+                    "Dummy!",
+                    Breed.DUMMY
+                    ),
+                new DummyBrain()
+                )
+                .AddSpells(new SelfDestruct());
+        }
+    }
 
     public class CreditsDummy : Character {
 

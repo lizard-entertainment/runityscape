@@ -24,6 +24,8 @@ namespace Scripts.Game.Shopkeeper {
             this.minCapacityNeededToUpgrade = minCapacityNeededToUpgrade;
             this.pricePerUpgrade = pricePerUpgrade;
 
+            Root.Icon = Util.GetSprite("knapsack");
+            Root.SetTooltip("Inventory Masters can increase the maximum number of items you can store in your inventory.");
             Root.AddCharacters(Side.LEFT, party);
             Root.AddCharacters(Side.RIGHT, person);
             Root.Actions = new IButtonable[] {
@@ -48,10 +50,10 @@ namespace Scripts.Game.Shopkeeper {
                 maxCapacityThatCanBeUpgradedTo),
                 () => {
                     inventory.Capacity += INVENTORY_UPGRADE_AMOUNT;
-                    current.AddText(string.Format("Inventory capacity upgraded to {0}.\n{1}", inventory.Capacity, inventory.WealthText));
                     if (!Util.IS_DEBUG) {
                         inventory.Remove(new Money(), pricePerUpgrade);
                     }
+                    current.AddText(string.Format("Inventory capacity upgraded to {0}.\n{1}", inventory.Capacity, inventory.WealthText));
                 },
                 () => IsInventoryUpgradable(inventory.Capacity) && (Util.IS_DEBUG || inventory.HasItem(new Money(), pricePerUpgrade))
                 );

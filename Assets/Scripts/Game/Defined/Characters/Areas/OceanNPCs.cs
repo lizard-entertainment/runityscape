@@ -60,7 +60,7 @@ namespace Scripts.Game.Defined.Characters {
 
         public static Character Shark() {
             return CharacterUtil.StandardEnemy(
-                new Stats(5, 6, 6, 8, 35),
+                new Stats(5, 10, 6, 8, 35),
                 new Look(
                     "Shark",
                     "shark",
@@ -79,7 +79,7 @@ namespace Scripts.Game.Defined.Characters {
 
         public static Character Siren() {
             return CharacterUtil.StandardEnemy(
-                    new Stats(6, 4, 12, 10, 20),
+                    new Stats(6, 6, 12, 10, 20),
                     new Look(
                         "Siren",
                         "siren",
@@ -99,7 +99,7 @@ namespace Scripts.Game.Defined.Characters {
 
         public static Character Tentacle() {
             return CharacterUtil.StandardEnemy(
-                    new Stats(7, 3, 5, 1, 5),
+                    new Stats(7, 6, 5, 1, 5),
                     new Look(
                         "Tentacle",
                         "tentacle",
@@ -113,7 +113,7 @@ namespace Scripts.Game.Defined.Characters {
 
         public static Character Kraken() {
             return CharacterUtil.StandardEnemy(
-                    new Stats(8, 10, 16, 10, 100),
+                    new Stats(8, 15, 16, 10, 120),
                     new Look(
                         "Krackle",
                         "kraken",
@@ -138,7 +138,7 @@ namespace Scripts.Game.Defined.Characters {
 
         public static Character Swarm() {
             return CharacterUtil.StandardEnemy(
-                new Stats(9, 3, 50, 2, 5),
+                new Stats(9, 5, 50, 2, 5),
                 new Look(
                     "Swarm",
                     "swarm",
@@ -151,23 +151,9 @@ namespace Scripts.Game.Defined.Characters {
                 .AddMoney(2);
         }
 
-        public static Character BlackShuck() {
-            return CharacterUtil.StandardEnemy(
-                new Stats(3, 10, 2, 2, 10),
-                new Look(
-                    "Black Shuck",
-                    "spectre",
-                    "Its growl sends a shiver down your spine",
-                    Breed.BEAST
-                    ),
-                new BlackShuck())
-                .AddStats(new Skill())
-                .AddSpells(new SetupCounter());
-        }
-
         public static Character Elemental() {
             return CharacterUtil.StandardEnemy(
-                new Stats(9, 1, 30, 10, 50),
+                new Stats(9, 1, 30, 15, 50),
                 new Look(
                     "Elemental",
                     "elemental",

@@ -77,6 +77,14 @@ namespace Scripts.Model.Characters {
 
         private Action<GameObject> parentToEffectsFunc;
 
+        public Func<RectTransform> GetIconOriginalPosFunc {
+            set {
+                getIconOriginalPosFunc = value;
+            }
+        }
+
+        private Func<RectTransform> getIconOriginalPosFunc;
+
         public Func<bool> IsPortraitAvailableFunc {
             set {
                 this.isPortraitAvailableFunc = value;
@@ -104,9 +112,6 @@ namespace Scripts.Model.Characters {
         /// The effects queue. Save SFX until the portrait shows up.
         /// </summary>
         private Queue<GameObject> effectsQueue;
-
-        private Vector2 originalPosition;
-        private bool isOriginalPositionSet;
 
         /// <summary>
         /// Main constructor
@@ -204,6 +209,12 @@ namespace Scripts.Model.Characters {
         public bool IsPortraitAvailable {
             get {
                 return isPortraitAvailableFunc();
+            }
+        }
+
+        public RectTransform OriginalPos {
+            get {
+                return getIconOriginalPosFunc();
             }
         }
 
@@ -316,6 +327,10 @@ namespace Scripts.Model.Characters {
             this.Brain = brain;
 
             // Buffs and inventory must be setup in Party!
+        }
+
+        public override string ToString() {
+            return Look.DisplayName;
         }
 
         public void ParentToEffects(GameObject go) {

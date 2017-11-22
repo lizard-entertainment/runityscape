@@ -26,7 +26,9 @@ namespace Scripts.Game.Shopkeeper {
 
     public class Trainer : PageGroup {
 
-        public Trainer(Page previous, Party party, Character trainerPerson, params PurchasedSpell[] spells) : base(new Page("Spell Trainer")) {
+        public Trainer(Page previous, Party party, Character trainerPerson, params PurchasedSpell[] spells) : base(new Page("Trainer")) {
+            Root.SetTooltip("Spell Trainers can teach party members new abilities... for a fee, of course.");
+            Root.Icon = Util.GetSprite("spell-book");
             SubGrid main = new SubGrid("Main");
             main.List.Add(PageUtil.GenerateBack(previous));
             Array.Sort(spells);
@@ -35,7 +37,6 @@ namespace Scripts.Game.Shopkeeper {
                     GetSpellPurchaseProcess(spell, party, main)
                     );
             }
-            Root.Icon = trainerPerson.Look.Sprite;
             Root.AddCharacters(Side.LEFT, party);
             Root.AddCharacters(Side.RIGHT, trainerPerson);
             Root.Actions = main.List;

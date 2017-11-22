@@ -184,6 +184,7 @@ namespace Scripts.Presenter {
         private void SetInputField(bool isEnabled) {
             if (isEnabled) {
                 InputBoxView ibv = textBoxHolder.AddInputBox();
+                ibv.Reset();
                 GetInputFunc = () => ibv.Input;
             } else {
                 GetInputFunc = () => string.Empty;

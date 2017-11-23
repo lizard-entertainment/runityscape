@@ -141,7 +141,7 @@ namespace Scripts.Game.Defined.Characters {
 
             public static Character Shark() {
                 return CharacterUtil.StandardEnemy(
-                    new Stats(5, 5, 6, 8, 60),
+                    new Stats(16, 10, 15, 20, 60),
                     new Look(
                         "Razor Shark",
                         "shark lab",
@@ -156,7 +156,7 @@ namespace Scripts.Game.Defined.Characters {
 
             public static Character Siren() {
                 return CharacterUtil.StandardEnemy(
-                        new Stats(6, 4, 10, 10, 40),
+                        new Stats(16, 10, 20, 30, 40),
                         new Look(
                             "Enthraller",
                             "siren lab",
@@ -170,7 +170,7 @@ namespace Scripts.Game.Defined.Characters {
 
             public static Character Tentacle() {
                 Character c = CharacterUtil.StandardEnemy(
-                        new Stats(7, 3, 25, 1, 20),
+                        new Stats(12, 3, 25, 1, 20),
                         new Look(
                             "Lasher",
                             "tentacle lab",
@@ -190,7 +190,7 @@ namespace Scripts.Game.Defined.Characters {
 
             public static Character Kraken() {
                 return CharacterUtil.StandardEnemy(
-                        new Stats(8, 10, 10, 20, 200),
+                        new Stats(20, 20, 20, 20, 200),
                         new Look(
                             "Leviathan",
                             "kraken lab",
@@ -208,7 +208,7 @@ namespace Scripts.Game.Defined.Characters {
 
             public static Character Elemental() {
                 return CharacterUtil.StandardEnemy(
-                    new Stats(9, 5, 20, 15, 20),
+                    new Stats(18, 15, 25, 25, 60),
                     new Look(
                         "Hellemental",
                         "elemental lab",
@@ -224,7 +224,7 @@ namespace Scripts.Game.Defined.Characters {
 
             public static Character DreadSinger() {
                 return CharacterUtil.StandardEnemy(
-                        new Stats(10, 5, 20, 20, 25),
+                        new Stats(18, 10, 20, 25, 55),
                         new Look(
                             "Hellhound",
                             "shuck lab",
@@ -240,7 +240,7 @@ namespace Scripts.Game.Defined.Characters {
 
             public static Character Swarm() {
                 return CharacterUtil.StandardEnemy(
-                    new Stats(2, 1, 5, 2, 15),
+                    new Stats(13, 6, 66, 6, 25),
                     new Look(
                         "Myriad",
                         "swarm lab",

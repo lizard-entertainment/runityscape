@@ -7,13 +7,13 @@ using Scripts.Model.Stats;
 namespace Scripts.Game.Defined.Serialized.Items {
 
     public static class Constants {
-        public const int BASIC_HEALING_PRICE = 50;
-        public const int ADVANCED_HEALING_PRICE = 100;
+        public const int BASIC_HEALING_PRICE = 250;
+        public const int ADVANCED_HEALING_PRICE = 750;
 
-        public const int ARMOR_PRICE = 750;
-        public const int WEAPON_PRICE = 500;
-        public const int OFFHAND_PRICE = 250;
-        public const int TRINKET_PRICE = 200;
+        public const int ARMOR_PRICE = 7500;
+        public const int WEAPON_PRICE = 5000;
+        public const int OFFHAND_PRICE = 2500;
+        public const int TRINKET_PRICE = 2000;
     }
 
     // Shop items
@@ -72,7 +72,7 @@ namespace Scripts.Game.Defined.Serialized.Items {
 
     public class FinalSword : EquippableItem {
 
-        public FinalSword() : base("relic-sword", EquipType.WEAPON, Constants.WEAPON_PRICE, "Whirlwind Sword", "A weightless sword that cuts like wind.") {
+        public FinalSword() : base("relic-blade", EquipType.WEAPON, Constants.WEAPON_PRICE, "Whirlwind Sword", "A weightless sword that cuts like wind.") {
             AddFlatStatBonus(StatType.AGILITY, 15);
             AddFlatStatBonus(StatType.STRENGTH, 10);
         }
@@ -94,9 +94,9 @@ namespace Scripts.Game.Defined.Serialized.Items {
         }
     }
 
-    public class FinalOffhand : EquippableItem {
+    public class FinalMeleeOffhand : EquippableItem {
 
-        public FinalOffhand() : base("bordered-shield", EquipType.OFFHAND, Constants.OFFHAND_PRICE, "Runic Bulwark", "A shield from an old time.") {
+        public FinalMeleeOffhand() : base("bordered-shield", EquipType.OFFHAND, Constants.OFFHAND_PRICE, "Runic Bulwark", "A shield from an old time.") {
             AddFlatStatBonus(StatType.VITALITY, 15);
         }
     }

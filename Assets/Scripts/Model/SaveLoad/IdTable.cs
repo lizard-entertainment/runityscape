@@ -187,7 +187,7 @@ namespace Scripts.Model.SaveLoad {
             Add<FinalSword>("finalSword");
             Add<FinalMeleeArmor>("finalMeleeArmor");
             Add<FinalMeleeTrinket>("finalMeleeTrinket");
-            Add<FinalOffhand>("finalOffhand");
+            Add<FinalMeleeOffhand>("finalOffhand");
             Add<FinalStaff>("finalStaff");
             Add<FinalCasterArmor>("finalCasterArmor");
             Add<FinalCasterOffhand>("finalCasterOffHand");
@@ -224,6 +224,7 @@ namespace Scripts.Model.SaveLoad {
             Add<SkillRegeneration>("regenerateLotsOfSkill");
             Add<RoughSkin>("roughSkin");
             Add<RougherSkin>("rougherSkin");
+            Add<RoughestSkin>("roughestSkin");
             Add<FlamingArmor>("flameBody");
         }
 

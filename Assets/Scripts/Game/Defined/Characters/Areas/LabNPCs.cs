@@ -19,10 +19,10 @@ namespace Scripts.Game.Defined.Characters {
                     previous,
                     party,
                     Ruins.Villager(),
-                    new PurchasedSpell(200, new Revive()),
-                    new PurchasedSpell(200, new Inspire()),
-                    new PurchasedSpell(500, new MagicMissile()),
-                    new PurchasedSpell(500, new SelfHeal())
+                    new PurchasedSpell(1000, new Revive()),
+                    new PurchasedSpell(1000, new Inspire()),
+                    new PurchasedSpell(2000, new MagicMissile()),
+                    new PurchasedSpell(2000, new SelfHeal())
                 );
         }
 
@@ -34,18 +34,33 @@ namespace Scripts.Game.Defined.Characters {
                 party,
                 .7f,
                 1,
-                Ruins.Villager()
-                );
+                Ruins.Enforcer()
+                )
+                .AddBuys(
+                new HealingPotion(),
+                new LifeGem(),
+                new ManaPotion(),
+                new ManaGem(),
+                new FinalCasterArmor(),
+                new FinalCasterOffhand(),
+                new FinalCasterTrinket(),
+                new FinalStaff(),
+                new FinalMeleeArmor(),
+                new FinalMeleeOffhand(),
+                new FinalMeleeTrinket(),
+                new FinalSword()
+                )
+                .AddTalks(new Talk("Why is everything so expensive?", "<a>The intent is to provide buyers with a sense of pride and accomplishment for purchasing different items."));
         }
 
         public static InventoryMaster LabMaster(Page previous, Party party) {
             return new InventoryMaster(
                 previous,
                 party,
-                Ruins.Villager(),
+                Ruins.Darkener(),
                 8,
                 10,
-                500
+                5000
                 );
         }
 

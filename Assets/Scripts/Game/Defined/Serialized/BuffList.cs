@@ -710,21 +710,21 @@ namespace Scripts.Game.Defined.Unserialized.Buffs {
     }
 
     public abstract class Countdown : Buff {
-        private const int STAT_BOOST = 1000;
+        private const int STAT_BOOST = 666;
 
         public Countdown(int turnsUntilEnrage)
             : base(
-                  turnsUntilEnrage,
+                  2,
                   Util.GetSprite("dragon-head"),
                   "Countdown",
-                  string.Format("On expiration, unit gains {0}% increased {1} and {2}.", STAT_BOOST, StatType.STRENGTH, StatType.INTELLECT),
+                  string.Format("On expiration, unit gains {0} increased {1} and {2}.", STAT_BOOST, StatType.STRENGTH, StatType.INTELLECT),
                   false) {
         }
 
         protected override IList<SpellEffect> OnTimeOutHelper(Stats ownerOfThisBuff) {
             return new SpellEffect[] {
-                new AddToModStat(ownerOfThisBuff, StatType.STRENGTH, STAT_BOOST),
-                new AddToModStat(ownerOfThisBuff, StatType.INTELLECT, STAT_BOOST)
+                new AddToModStat(ownerOfThisBuff, StatType.STRENGTH, STAT_BOOST, false),
+                new AddToModStat(ownerOfThisBuff, StatType.INTELLECT, STAT_BOOST, false)
             };
         }
     }

@@ -18,7 +18,7 @@ namespace Scripts.Model.Stats {
 
         private static readonly IDictionary<BoundType, Bounds> attributeBounds = new Dictionary<BoundType, Bounds>() {
             { BoundType.RESOURCE, new Bounds(0, int.MaxValue) },
-            { BoundType.ASSIGNABLE, new Bounds(0, 9999) },
+            { BoundType.ASSIGNABLE, new Bounds(-9999, 9999) },
         };
 
         public static readonly StatType STRENGTH = new StatType(
@@ -62,13 +62,13 @@ namespace Scripts.Model.Stats {
         public static readonly StatType SKILL = new StatType(BoundType.RESOURCE,
                                                                      "Skill",
                                                                      "concentration-orb",
-                                                                     "A spell resource that is replenished on basic attacks.",
+                                                                     "A spell resource that is replenished on basic attacks. This is always equal to one's highest skill costing spell.",
                                                                      Color.yellow);
 
         public static readonly StatType MANA = new StatType(BoundType.RESOURCE,
                                                                     "Mana",
                                                                     "water-drop",
-                                                                    "Magical resources.",
+                                                                    "Magical resources used to cast some spells.",
                                                                     Color.cyan);
 
         public static readonly StatType CHARGE = new StatType(BoundType.RESOURCE,

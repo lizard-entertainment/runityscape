@@ -13,9 +13,9 @@ namespace Scripts.View.Effects {
     public class HitsplatView : PooledBehaviour {
         private const float ACCEL_RATE = 3.0f;
 
-        private const float TIME_BEFORE_DECAY = .75f;
+        private const float TIME_BEFORE_DECAY = 0.75f;
 
-        private const float FADE_OUT_TIME = 0.5f;
+        private const float FADE_OUT_TIME = 0.75f;
 
         private const float TIME_UPSIZED = 1.0f;
 

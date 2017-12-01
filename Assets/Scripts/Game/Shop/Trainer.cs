@@ -26,7 +26,7 @@ namespace Scripts.Game.Shopkeeper {
 
     public class Trainer : PageGroup {
 
-        public Trainer(Page previous, Party party, Character trainerPerson, params PurchasedSpell[] spells) : base(new Page("Trainer")) {
+        public Trainer(Page previous, Party party, Character trainerPerson, params PurchasedSpell[] spells) : base(new Page("Spell Trainer")) {
             Root.SetTooltip("Spell Trainers can teach party members new abilities... for a fee, of course.");
             Root.Icon = Util.GetSprite("spell-book");
             SubGrid main = new SubGrid("Main");

@@ -46,7 +46,6 @@ namespace Scripts.Game.Defined.Serialized.Items {
             TargetType.ALL_FOE,
             "Dynamite",
             string.Format("Used for illegal blast fishing. Deals {0} damage to all foes.", DAMAGE)) {
-            Util.Log("removing usable");
             this.flags.Remove(Model.Items.Flag.USABLE_OUT_OF_COMBAT);
         }
 

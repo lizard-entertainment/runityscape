@@ -57,15 +57,18 @@ namespace Scripts.Game.Defined.Spells {
         /// </summary>
         private readonly Stats target;
 
+        private readonly bool isBound;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AddToModStat"/> class.
         /// </summary>
         /// <param name="target">The target.</param>
         /// <param name="affected">The affected.</param>
         /// <param name="value">The value.</param>
-        public AddToModStat(Stats target, StatType affected, int value) : base(value) {
+        public AddToModStat(Stats target, StatType affected, int value, bool isBound = true) : base(value) {
             this.affected = affected;
             this.target = target;
+            this.isBound = isBound;
         }
 
         /// <summary>
@@ -96,7 +99,7 @@ namespace Scripts.Game.Defined.Spells {
         /// Causes the effect.
         /// </summary>
         public override void CauseEffect() {
-            target.AddToStat(affected, Stats.Set.MOD, Value);
+            target.AddToStat(affected, isBound ? Stats.Set.MOD : Stats.Set.MOD_UNBOUND, Value);
         }
     }
 

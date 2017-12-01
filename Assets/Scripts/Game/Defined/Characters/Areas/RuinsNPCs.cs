@@ -24,7 +24,7 @@ namespace Scripts.Game.Defined.Characters {
                 party,
                 0.5f,
                 1f,
-                Villager())
+                Wizard())
                 .AddBuys(
                     new Apple(),
                     new IdentifyScroll(),
@@ -37,7 +37,7 @@ namespace Scripts.Game.Defined.Characters {
             return new Trainer(
                 previous,
                 party,
-                Villager(),
+                Knight(),
                 new PurchasedSpell(30, new SetupDefend()),
                 new PurchasedSpell(50, new PlayerHeal())
                 );
@@ -47,7 +47,7 @@ namespace Scripts.Game.Defined.Characters {
             return new InventoryMaster(
                     previous,
                     party,
-                    Villager(),
+                    Healer(),
                     Inventory.INITIAL_CAPACITY,
                     6,
                     100

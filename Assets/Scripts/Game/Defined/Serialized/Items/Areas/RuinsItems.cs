@@ -255,7 +255,7 @@ namespace Scripts.Game.Defined.Serialized.Items {
 
     public class RegenArmor : EquippableItem {
 
-        public RegenArmor() : base("chain-mail", EquipType.ARMOR, 500, "Flan's Mail", "A soothing mail that heals wounds. Smells like eggs.") {
+        public RegenArmor() : base("chain-mail", EquipType.ARMOR, 300, "Flan's Mail", "A soothing mail that heals wounds. Smells like eggs.") {
             AddFlatStatBonus(StatType.AGILITY, -5);
             AddFlatStatBonus(StatType.VITALITY, 5);
         }

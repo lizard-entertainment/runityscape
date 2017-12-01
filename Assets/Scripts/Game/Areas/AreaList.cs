@@ -241,7 +241,7 @@ namespace Scripts.Game.Areas {
                         }),
                     SceneList.Ending(party, flags, "An Ending")
                 },
-                new PageGroup[] { LabNPCs.Trainer(camp, party) }
+                new PageGroup[] { LabNPCs.Shop(camp, flags, party), LabNPCs.Trainer(camp, party), LabNPCs.LabMaster(camp, party) }
                 );
         }
     }

@@ -30,10 +30,13 @@ namespace Scripts.View.TextBoxes {
             inputField.text = "";
         }
 
-        private void Update() {
+        public void SetFocus() {
             //Force focus on InputField
             EventSystem.current.SetSelectedGameObject(inputField.gameObject, null);
             inputField.OnPointerClick(new PointerEventData(EventSystem.current));
+        }
+
+        private void Update() {
         }
     }
 }

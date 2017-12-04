@@ -231,8 +231,8 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/A/Documents/user.keystore
-  AndroidKeyaliasName: andrew
+  AndroidKeystoreName: C:/Users/A/Documents/Workbench/unnamed-rpg/user.keystore
+  AndroidKeyaliasName: andy
   AndroidTVCompatibility: 1
   AndroidIsGame: 1
   AndroidEnableTango: 0

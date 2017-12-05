@@ -714,7 +714,7 @@ namespace Scripts.Game.Defined.Unserialized.Buffs {
 
         public Countdown(int turnsUntilEnrage)
             : base(
-                  2,
+                  turnsUntilEnrage,
                   Util.GetSprite("dragon-head"),
                   "Countdown",
                   string.Format("On expiration, unit gains {0} increased {1} and {2}.", STAT_BOOST, StatType.STRENGTH, StatType.INTELLECT),

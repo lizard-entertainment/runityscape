@@ -87,7 +87,8 @@ namespace Scripts.Game.Defined.Characters {
                              Breed.SPIRIT),
                     new LabKnight()
                     )
-                    .AddSpells(new CrushingBlow())
+                    .AddStats(new Skill())
+                    .AddSpells(new CrushingBlow(), new SetupDefend())
                     .AddMoney(50);
             }
 
@@ -147,7 +148,8 @@ namespace Scripts.Game.Defined.Characters {
                     new LabBigKnight()
                     ).AddFlags(Flag.PERSISTS_AFTER_DEFEAT)
                     .AddBuff(new StandardCountdown())
-                    .AddSpells(new UnholyRevival())
+                    .AddSpells(new UnholyRevival(), new CrushingBlow(), new SetupCounter())
+                    .AddStats(new Skill())
                     .AddMoney(100);
             }
         }

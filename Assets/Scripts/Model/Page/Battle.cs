@@ -146,6 +146,7 @@ namespace Scripts.Model.Pages {
         private void SetupTempSpells() {
             AddTempSpell(new Flee(defeat, () => {
                 Main.Instance.StopAllCoroutines();
+                ClearAllTemporaryStats();
                 AddText("Fled from battle.");
             }
             ));
@@ -530,6 +531,7 @@ namespace Scripts.Model.Pages {
 
         private void PostBattle(PlayerPartyStatus status) {
             SubGrid postBattle = new SubGrid("Main");
+            ClearAllTemporaryStats();
             postBattle.OnEnter = () => {
                 postBattle.List.Clear();
 
@@ -643,6 +645,14 @@ namespace Scripts.Model.Pages {
             foreach (Character c in battlers) {
                 c.Brain.StartOfRoundSetup(this, c);
                 yield return CharacterDialogue(this, c, c.Brain.StartOfRoundDialogue());
+            }
+        }
+
+        private void ClearAllTemporaryStats() {
+            foreach (StatType temporary in StatType.CLEARED_ON_BATTLE_END) {
+                foreach (Character battler in GetAll()) {
+                    battler.Stats.SetToStat(temporary, Characters.Stats.Set.MOD, 0);
+                }
             }
         }
 

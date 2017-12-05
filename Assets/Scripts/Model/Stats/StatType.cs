@@ -89,6 +89,7 @@ namespace Scripts.Model.Stats {
                                                                     "Needed to level up.",
                                                                     Color.white);
 
+        public static readonly ReadOnlyCollection<StatType> CLEARED_ON_BATTLE_END = new ReadOnlyCollection<StatType>(new StatType[] { StatType.SKILL });
         public static readonly HashSet<StatType> RESOURCES = new HashSet<StatType>() { HEALTH, SKILL, MANA, CHARGE, CORRUPTION, EXPERIENCE };
         public static readonly HashSet<StatType> RESTORED = new HashSet<StatType>() { HEALTH, MANA, STRENGTH, AGILITY, INTELLECT, VITALITY };
 

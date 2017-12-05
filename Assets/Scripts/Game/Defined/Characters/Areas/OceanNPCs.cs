@@ -202,7 +202,7 @@ namespace Scripts.Game.Defined.Characters {
 
         public static Character SharkPirate() {
             return CharacterUtil.StandardEnemy(
-                new Stats(10, 10, 5, 18, 200),
+                new Stats(10, 10, 25, 18, 300),
                 new Look(
                     "Cap'n Selach",
                     "shark-pirate",

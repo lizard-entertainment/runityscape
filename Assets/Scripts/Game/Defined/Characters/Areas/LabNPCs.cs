@@ -216,8 +216,7 @@ namespace Scripts.Game.Defined.Characters {
                             ),
                         new Kraken()
                     )
-                    .AddSpells(new SpawnLashers())
-                    .AddSpells(new CrushingBlow())
+                    .AddSpells(new SpawnLashers(), new CrushingBlow())
                     .AddBuff(new StandardCountdown())
                     .AddStats(new Skill())
                     .AddMoney(200);

@@ -644,7 +644,7 @@ namespace Scripts.Game.Defined.Unserialized.Buffs {
                       StatType.AGILITY,
                       AGILITY_INCREASE),
                   true) {
-            AddMultiplicativeStatBonus(StatType.STRENGTH, AGILITY_INCREASE);
+            AddMultiplicativeStatBonus(StatType.AGILITY, AGILITY_INCREASE);
         }
     }
 

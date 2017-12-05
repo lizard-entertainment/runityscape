@@ -151,8 +151,8 @@ namespace Scripts.Game.Serialized.Brains {
     }
 
     public class SharkPirate : BasicBrain {
-        private const float PHASE_TWO_HEALTH_PERCENTAGE = 0.75f;
-        private const int TURNS_BETWEEN_SUMMONS = 10;
+        private const float PHASE_TWO_HEALTH_PERCENTAGE = 0.66f;
+        private const int TURNS_BETWEEN_SUMMONS = 5;
         private const int TURNS_BETWEEN_PHASE_TWO_SPECIAL_SPELLS = 5;
         private static readonly SpellBook SUMMONING = new SummonSeaCreatures();
         private static readonly SpellBook ONE_SHOT_KILL = new OneShotKill();
@@ -163,16 +163,17 @@ namespace Scripts.Game.Serialized.Brains {
         private static readonly SpellBook ATTACK = new Attack();
 
         private static readonly SpellBook[] PHASE_TWO_SPELLS = new SpellBook[] {
-            ONE_SHOT_KILL,
-            DEATH_CURSE,
             EVASION_BUFF,
             COUNTER,
-            CLONE
+            ONE_SHOT_KILL,
+            CLONE,
+            DEATH_CURSE,
         };
 
         private bool isAnnounceSecondPhase;
         private bool hasSummonedWithoutGivingImmunity;
         private int lastTurnCastSpecialSpellInPhaseTwo;
+        private int lastSpecialIndex;
 
         private bool IsFirstPhase {
             get {
@@ -206,9 +207,9 @@ namespace Scripts.Game.Serialized.Brains {
             } else { // phase 2
                 if (currentBattle.TurnCount - lastTurnCastSpecialSpellInPhaseTwo >= TURNS_BETWEEN_PHASE_TWO_SPECIAL_SPELLS) {
                     lastTurnCastSpecialSpellInPhaseTwo = currentBattle.TurnCount;
-                    while (chosenSpell == null) { // Guarentee a spell picked,
-                        chosenSpell = CastOnRandom(PHASE_TWO_SPELLS.ChooseRandom());
-                    }
+                    chosenSpell = CastOnRandom(PHASE_TWO_SPELLS[lastSpecialIndex]);
+                    lastSpecialIndex++;
+                    lastSpecialIndex %= PHASE_TWO_SPELLS.Length;
                 }
             }
             return chosenSpell ?? CastOnRandom(ATTACK);

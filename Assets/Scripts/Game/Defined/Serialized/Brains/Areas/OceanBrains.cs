@@ -43,7 +43,7 @@ namespace Scripts.Game.Serialized.Brains {
 
         protected override IList<Spell> GetPriorityPlays() {
             return new Spell[] {
-                    CastOnTargetMeetingCondition(HEAL, c => c != this.brainOwner && c.Stats.GetMissingStatCount(StatType.HEALTH) > 0),
+                    CastOnTargetMeetingCondition(HEAL, c => c.Brain is Swarm && c != this.brainOwner && c.Stats.GetMissingStatCount(StatType.HEALTH) > 0),
                     CastOnLeastTarget(ATTACK, SortByLowestHealth())
                 };
         }
@@ -151,7 +151,7 @@ namespace Scripts.Game.Serialized.Brains {
     }
 
     public class SharkPirate : BasicBrain {
-        private const float PHASE_TWO_HEALTH_PERCENTAGE = 0.50f;
+        private const float PHASE_TWO_HEALTH_PERCENTAGE = 0.75f;
         private const int TURNS_BETWEEN_SUMMONS = 10;
         private const int TURNS_BETWEEN_PHASE_TWO_SPECIAL_SPELLS = 5;
         private static readonly SpellBook SUMMONING = new SummonSeaCreatures();

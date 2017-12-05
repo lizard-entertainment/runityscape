@@ -38,7 +38,7 @@ namespace Scripts.Game.Serialized.Brains {
 
         private static readonly SpellBook[] SKILL_SPELLS = new SpellBook[] {
             new CrushingBlow(),
-            new SetupDefend()
+            new SetupCounter()
         };
 
         private SpellBook chosenSkillSpell;

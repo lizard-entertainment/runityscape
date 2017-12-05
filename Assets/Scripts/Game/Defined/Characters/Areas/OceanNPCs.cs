@@ -113,7 +113,7 @@ namespace Scripts.Game.Defined.Characters {
 
         public static Character Kraken() {
             return CharacterUtil.StandardEnemy(
-                    new Stats(8, 15, 16, 10, 120),
+                    new Stats(8, 15, 16, 10, 125),
                     new Look(
                         "Krackle",
                         "kraken",
@@ -138,7 +138,7 @@ namespace Scripts.Game.Defined.Characters {
 
         public static Character Swarm() {
             return CharacterUtil.StandardEnemy(
-                new Stats(9, 5, 50, 2, 5),
+                new Stats(9, 5, 50, 1, 5),
                 new Look(
                     "Swarm",
                     "swarm",
@@ -148,7 +148,7 @@ namespace Scripts.Game.Defined.Characters {
                 new Swarm())
                 .AddBuff(new RoughSkin())
                 .AddSpells(new EnemyHeal())
-                .AddMoney(2);
+                .AddMoney(20);
         }
 
         public static Character Elemental() {
@@ -202,7 +202,7 @@ namespace Scripts.Game.Defined.Characters {
 
         public static Character SharkPirate() {
             return CharacterUtil.StandardEnemy(
-                new Stats(10, 10, 5, 18, 150),
+                new Stats(10, 10, 5, 18, 200),
                 new Look(
                     "Cap'n Selach",
                     "shark-pirate",

@@ -57,7 +57,7 @@ namespace Scripts.Game.Defined.Serialized.Spells {
 
             return new SpellEffect[] {
                     new AddToModStat(target.Stats, StatType.HEALTH, damage),
-                    new AddToModStat(caster.Stats, StatType.SKILL, 1)
+                    new AddToModStat(caster.Stats, StatType.SKILL, SKILL_ON_HIT)
                 };
         }
 
@@ -66,8 +66,14 @@ namespace Scripts.Game.Defined.Serialized.Spells {
             int damage = -Util.Random(totalCasterStrength, CRITICAL_VARIANCE);
             return new SpellEffect[] {
                     new AddToModStat(target.Stats, StatType.HEALTH, damage),
-                    new AddToModStat(caster.Stats, StatType.SKILL, 2)
+                    new AddToModStat(caster.Stats, StatType.SKILL, SKILL_ON_CRIT)
                 };
+        }
+
+        protected override IList<SpellEffect> GetMissEffects(Page page, Character caster, Character target) {
+            return new SpellEffect[] {
+                new AddToModStat(caster.Stats, StatType.SKILL, SKILL_ON_HIT)
+            };
         }
     }
 
@@ -220,7 +226,7 @@ namespace Scripts.Game.Defined.Serialized.Spells {
     }
 
     public class CrushingBlow : BasicSpellbook {
-        private const float INTELLECT_TO_DAMAGE_RATIO = 3f;
+        private const float INTELLECT_TO_DAMAGE_RATIO = 2.5f;
         private const int SKILL_COST = 3;
 
         public CrushingBlow() : base("Crushing Blow", Util.GetSprite("fist"), TargetType.ONE_FOE, SpellType.OFFENSE, PriorityType.LOW) {
@@ -800,7 +806,7 @@ namespace Scripts.Game.Defined.Unserialized.Spells {
     }
 
     public class OneShotKill : BasicSpellbook {
-        private const int HIGH_DAMAGE = 1337;
+        private const int HIGH_DAMAGE_MULTIPLIER = 666;
 
         public OneShotKill() : base("Death Strike", Util.GetSprite("skull-crack"), TargetType.ONE_FOE, SpellType.OFFENSE) {
             this.TurnsToCharge = 1;
@@ -812,12 +818,12 @@ namespace Scripts.Game.Defined.Unserialized.Spells {
 
         protected override IList<SpellEffect> GetHitEffects(Page page, Character caster, Character target) {
             return new SpellEffect[] {
-                new AddToModStat(target.Stats, StatType.HEALTH, -HIGH_DAMAGE)
+                new AddToModStat(target.Stats, StatType.HEALTH, -(target.Stats.GetStatCount(Stats.Get.TOTAL, StatType.HEALTH) * HIGH_DAMAGE_MULTIPLIER))
             };
         }
 
         protected override bool IsHit(Character caster, Character target) {
-            return target.Buffs.HasBuff<Defend>();
+            return !target.Buffs.HasBuff<Defend>();
         }
     }
 

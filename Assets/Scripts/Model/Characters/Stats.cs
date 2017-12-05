@@ -315,15 +315,13 @@ namespace Scripts.Model.Characters {
         /// <param name="amount">The amount.</param>
         public void SetToStat(StatType statType, Set type, int amount) {
             if (HasStat(statType)) {
-                if (amount != 0) {
-                    Stat stat = baseStats[statType];
-                    if (type == Set.MOD) {
-                        stat.Mod = amount;
-                    } else if (type == Set.MAX) {
-                        stat.Max = amount;
-                    } else if (type == Set.MOD_UNBOUND) {
-                        stat.SetMod(amount, false);
-                    }
+                Stat stat = baseStats[statType];
+                if (type == Set.MOD) {
+                    stat.Mod = amount;
+                } else if (type == Set.MAX) {
+                    stat.Max = amount;
+                } else if (type == Set.MOD_UNBOUND) {
+                    stat.SetMod(amount, false);
                 }
                 AddSplat(new SplatDetails(statType.DetermineColor(amount), string.Format("={0}", amount), statType.Sprite));
             }

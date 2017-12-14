@@ -43,6 +43,14 @@ namespace Script.View.Tooltip {
         /// </summary>
         private int contentID;
 
+        private bool IsMeetTooltipCondition {
+            get {
+                return isOverTooltipContent
+                && Cursor.visible
+                && (Input.touchCount == 0 || Input.GetTouch(0).phase != TouchPhase.Ended);
+            }
+        }
+
         /// <summary>
         /// Updates this instance.
         /// </summary>
@@ -50,7 +58,7 @@ namespace Script.View.Tooltip {
             box.Pivot = CalculatePivot();
             box.Position = CalculatePosition();
             UpdateTooltip();
-            if (isOverTooltipContent && Cursor.visible) {
+            if (IsMeetTooltipCondition) {
                 StartCoroutine(DisplayTooltip(contentID));
             } else {
                 SetRenderers(false);

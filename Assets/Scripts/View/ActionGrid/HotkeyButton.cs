@@ -121,7 +121,7 @@ namespace Scripts.View.ActionGrid {
         /// </value>
         public bool IsHotkeyEnabled {
             set {
-                this.isHotkeyEnabled = value;
+                this.isHotkeyEnabled = (Application.platform != RuntimePlatform.Android) && value;
             }
         }
 

@@ -32,12 +32,6 @@ namespace Scripts.Model.Pages {
         FINAL_STAGE,
 
         [Description("Evil5 - Whispers From Beyond")]
-        CREEPY,
-
-        [Description("The Maw")]
-        LITERALLY_AMALGAMATE,
-
-        [Description("chiptune-police loop")]
-        LABS,
+        CREEPY
     }
 }

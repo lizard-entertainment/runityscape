@@ -13,7 +13,7 @@ namespace Scripts.View.StartScreen {
             foreach (GameObject go in credits) {
                 go.transform.SetParent(null);
             }
-            credits = credits.OrderBy(go => { Debug.Log(go.GetComponentInChildren<Text>().text); return go.GetComponentInChildren<Text>().text; }).ToArray();
+            credits = credits.OrderBy(go => go.GetComponentInChildren<Text>().text).ToArray();
             foreach (GameObject go in credits) {
                 go.transform.SetParent(this.gameObject.transform);
             }

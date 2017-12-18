@@ -53,10 +53,9 @@ namespace Script.View.Tooltip {
         }
 
         private void Start() {
-            //if (Application.isMobilePlatform) {
-            Debug.Log(Application.isMobilePlatform);
-            this.distanceMultiplier *= MOBILE_OFFSET_MULTIPLIER;
-            //}
+            if (Application.isMobilePlatform) {
+                this.distanceMultiplier *= MOBILE_OFFSET_MULTIPLIER;
+            }
         }
 
         /// <summary>

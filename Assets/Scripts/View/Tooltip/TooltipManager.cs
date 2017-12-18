@@ -14,7 +14,7 @@ namespace Script.View.Tooltip {
     /// </summary>
     /// <seealso cref="UnityEngine.MonoBehaviour" />
     public class TooltipManager : MonoBehaviour {
-        private const int MOBILE_OFFSET_MULTIPLIER = 2;
+        private const int MOBILE_OFFSET_MULTIPLIER = 3;
 
         /// <summary>
         /// The box
@@ -53,9 +53,10 @@ namespace Script.View.Tooltip {
         }
 
         private void Start() {
-            if (Application.isMobilePlatform) {
-                this.distanceMultiplier *= MOBILE_OFFSET_MULTIPLIER;
-            }
+            //if (Application.isMobilePlatform) {
+            Debug.Log(Application.isMobilePlatform);
+            this.distanceMultiplier *= MOBILE_OFFSET_MULTIPLIER;
+            //}
         }
 
         /// <summary>
